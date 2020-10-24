@@ -12,7 +12,7 @@ sap.ui.define([
 ],
       function(Controller, MessageToast,MessageBox, JSONModel, ResourceModel,Fragment,UIComponent, History, Filter, FilterOperator) {
          "use strict";
-
+         //김범수
          return Controller.extend("ExpenseManagement.controller.businessTrip.confirm.Confirm", {
 
             onInit : function() {
