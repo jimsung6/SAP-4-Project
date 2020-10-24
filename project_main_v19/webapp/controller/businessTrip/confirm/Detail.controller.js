@@ -12,7 +12,7 @@ sap.ui.define([
         // sap.ui.demo.walkthrough = name space
         return Controller.extend("ExpenseManagement.controller.businessTrip.confirm.detail", {
          onInit : function () {
-            // 
+            // 김범수
      this.getView().setModel(new JSONModel({
         
         

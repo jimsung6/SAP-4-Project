@@ -6,7 +6,7 @@ sap.ui.define([
 
 	return Controller.extend("ExpenseManagement.controller.businessTrip.confirm.Confirm_Home", {
 
-		
+		//김범수
 
 	});
 });
