@@ -1,0 +1,46 @@
+<mvc:View
+    controllerName="ExpenseManagement.controller.budget.ys.depBudget.TProjectList_YS"
+	xmlns="sap.m"
+    xmlns:table="sap.ui.table"
+   	displayBlock="true"
+    xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+               <table:Table
+            id="pTable"
+            title="부서 리스트"
+            rows="{/teamTableData}"
+            selectionBehavior="RowSelector"
+            selectionMode="Single"
+            rowSelectionChange=".onSelectionChange"
+            visibleRowCount="3"
+            threshold="10"
+            > 
+                      <table:columns>
+                <table:Column width="6%" hAlign="Center">
+                    <Label text="부서 코드" />
+                    <table:template>
+                        <Text text="{GCODE}"/>
+                    </table:template>
+                </table:Column>
+                <table:Column width="10%" hAlign="Center">
+                    <Label text="부서 이름" />
+                    <table:template>
+                        <Text text="{GNAME}" />
+                    </table:template>
+                </table:Column>
+                <table:Column width="6%" hAlign="Center">
+                    <Label text="부서 담당자" />
+                    <table:template>
+                        <Text text="{ENAME}" />
+                    </table:template>
+                </table:Column>
+                  <table:Column width="6%" hAlign="Center">
+                    <Label text="예산증액요청" />
+                    <table:template>
+                        <Button text="등록" width="100%" press=".onOpenDialog" />
+                    </table:template>
+                </table:Column>
+            </table:columns>
+        </table:Table>
+</mvc:View>
+

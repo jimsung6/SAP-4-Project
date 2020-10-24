@@ -1,0 +1,659 @@
+<mvc:View  
+	controllerName="ExpenseManagement.controller.expenseManagement.kyj.Approyj"
+    xmlns:l="sap.ui.layout"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+	xmlns="sap.m"
+	xmlns:table="sap.ui.table"
+	xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:t="sap.ui.table"> 
+	
+		<Page>
+			<!--검색-->
+		<l:VerticalLayout
+         width="100%"
+         class="gridWrapper">
+         <l:Grid
+            containerQuery="true"
+            defaultSpan="XL10 L10"
+            defaultIndent="XL1 L1"
+            hSpacing="0">
+
+
+	<OverflowToolbar>
+		
+					
+					<DatePicker
+						id="DP10"
+						width="150px"
+						dateValue="{/dateDate}"  
+						displayFormat="y-MM"
+						change="handleChange"/>
+		
+					
+					<ComboBox selectedKey="{/comboData}"
+					width="150px" selectionChange=".onComboChange"
+								>
+						<items>
+							<core:ListItem key="A" text="저장"/>
+							<core:ListItem key="B" text="승인요청"/>
+							<core:ListItem key="C" text="승인완료"/>
+							<core:ListItem key="D" text="반려(승인)"/>
+							<core:ListItem key="E" text="지급완료"/>
+							<core:ListItem key="F" text="반려(지급)"/>
+						</items>
+					</ComboBox>
+					
+					
+					<ToolbarSpacer></ToolbarSpacer>
+				<HBox justifyContent="End">
+		
+		
+				<Button visible="{/realvisi}" class="sapUiTinyMarginEnd" icon="sap-icon://add" press=".onRowAdd"></Button>
+				<Button visible="{/realvisi}" class="sapUiTinyMarginEnd" icon="sap-icon://less" press=".onRowde"></Button>
+				<Button class="sapUiTinyMarginEnd" icon="sap-icon://save" text="저장" press=".onSave"></Button>
+				<Button class="sapUiTinyMarginEnd" text="승인요청" press=".onReq"></Button>
+				<Button class="sapUiTinyMarginEnd" text="조회" press=".onDisplay"></Button>
+				</HBox>
+				</OverflowToolbar>
+
+         </l:Grid>
+      </l:VerticalLayout>
+      
+			<!--테이블-->
+			
+			<l:VerticalLayout
+				width="100%"
+				class="gridWrapper">
+			<l:Grid
+				defaultSpan="XL10 L12 M12 S12"
+				defaultIndent="XL1 L0 M0 S0"
+					containerQuery="true">
+
+			   	 <table:Table
+	            id="AppId"
+	            selectionMode="MultiToggle"
+	            rows="{/tableData}"
+	            visibleRowCount="{/tableRow}"
+	            rowSelectionChange=".rowSelection"
+	            app:flag="{CODHC}" >
+			   	
+	           <table:columns>
+	           	
+					<table:Column hAlign="Center" visible="{/input}" width="30%" autoResizable="true">
+		                <Label text="프로젝트" />
+		                <table:template>
+		                    	<MultiInput width="100%"
+									id="ProInput"
+									value="{PNAME}"
+									valueHelpRequest="ProValueHelp">
+								</MultiInput>
+		                </table:template>
+		            </table:Column>
+		            
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="30%">
+		                <Label text="프로젝트" />
+		                <table:template>
+		                     <Text text="{PNAME}" />
+		                </table:template>
+		            </table:Column>
+		       
+				<table:Column hAlign="Center" visible="{/input}" width="20%">
+		                <Label text="계정과목" />
+		                <table:template>
+		                   		<MultiInput width="100%"
+									id="CodeInput"
+									value="{CODDN}"
+									valueHelpRequest="CodeValueHelp">
+								</MultiInput>
+		                </table:template>
+		            </table:Column>
+		            
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="20%">
+		                <Label text="계정과목" />
+		                <table:template>
+		                     <Text text="{CODDN}" />
+		                </table:template>
+		            </table:Column>
+	
+		       
+		            <table:Column hAlign="Center" visible="{/input}" width="30%">
+		                <Label text="세부사항" />
+		                <table:template>
+		                    <Input value="{NOTE}" />
+		                </table:template>
+		            </table:Column>
+		            
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="30%">
+		                <Label text="세부사항" />
+		                <table:template>
+		                     <Text text="{NOTE}" />
+		                </table:template>
+		            </table:Column>
+		            
+		                		<table:Column hAlign="Center" visible="{/input}" width="20%">
+		                <Label text="결제방법" />
+		                <table:template>
+		                    <!--<Input value="{PAYWANA}" />-->
+		                    	<ComboBox  width="150px"  selectedKey="{PAYWA}">
+		                    <!--<ComboBox selectedItemId="PAYWA" width="150px" selectionChange=".onComboChange">-->
+						<items>
+							<core:ListItem key="A" text="카드"/>
+							<core:ListItem key="B" text="현금"/>
+							<core:ListItem key="C" text="상품권"/>
+						</items>
+					</ComboBox>
+		                </table:template>
+		            </table:Column>
+		            
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="20%">
+		                <Label text="결제방법" />
+		                <table:template>
+		                     <Text text="{PAYWANA}" />
+		                </table:template>
+		            </table:Column>
+		                
+		                
+		                		<table:Column hAlign="Center" visible="{/input}" width="30%">
+		                <Label text="금액" />
+		                <table:template>
+		                    <Input value="{PROPR}" />
+		                 
+		                </table:template>
+		            </table:Column>
+
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="30%">
+		                <Label text="금액" />
+		                <table:template>
+		                    	<u:Currency
+						value="{PROPR}" maxPrecision="0" useSymbol="false" currency="KRW"/>
+		                </table:template>
+		            </table:Column>
+		            
+		            		<table:Column hAlign="Center" visible="{/input}" width="37%">
+		                <Label text="영수증 발행일자" />
+		                <table:template>
+		                    <DatePicker
+						id="DP1" 
+						dateValue="{realDate}"
+						change="handleChange"
+						valueFormat="yyyy-MM-dd"
+					 />
+					 <!--	dateValue="{/realDate}"-->
+					 <!---->
+		                </table:template>
+		            </table:Column>
+		            
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="30%">
+		                <Label text="영수증 발행일자" />
+		                <table:template>
+		                     <Text text="{REDATE}" />
+		                </table:template>
+		            </table:Column>
+		        
+		        
+		        <table:Column hAlign="Center" visible="{/input}" width="20%">
+		                <Label text="영수증 첨부" />
+		                <table:template>
+		                    <Input value="{REPHO}" />
+		                </table:template>
+		            </table:Column>
+		            
+		               	
+					<table:Column hAlign="Center" visible="{/text}"  width="20%">
+		                <Label text="영수증 첨부" />
+		                <table:template>
+		                     <Text text="{REPHO}" />
+		                </table:template>
+		            </table:Column>
+		        
+		        	    <table:Column hAlign="Center" width="20%">
+		                <Label text="승인자" />
+		                <table:template>
+		                    <Text text="{ENAME}" />
+		                </table:template>
+		            </table:Column>
+		        
+				    <table:Column hAlign="Center" width="24%">
+		                <Label text="승인 요청일자" />
+		                <table:template>
+		                    <Text text="{APPDAT}" />
+		                </table:template>
+		            </table:Column>
+			
+		    	   <table:Column hAlign="Center" width="20%">
+		                <Label text="상태" />
+		                <table:template>
+		                    <Link text="{STCODNA}" press=".selDetail" app:flag="{CODHC}" />
+		                </table:template>
+		            </table:Column>
+				    <table:Column hAlign="Center" width="24%">
+		                <Label text="승인/반려 일자" />
+		                <table:template>
+		                    <Text text="{RDATE}" />
+		                </table:template>
+		            </table:Column>
+				    <table:Column hAlign="Center" width="20%">
+		                <Label text="반려 사유" />
+		                <table:template>
+		                    <Text text="{RETTEXT}" />
+		                </table:template>
+		            </table:Column>
+			  	   <table:Column hAlign="Center" width="20%">
+		                <Label text="지급 완료일" />
+		                <table:template>
+		                    <Text text="{ACDAT}" />
+		                </table:template>
+		            </table:Column>
+	    				
+						<!--	<t:Column>-->
+						<!--	<Label text="조회"></Label>-->
+						<!--	<t:template>-->
+						<!--	 <Button text="O" press=".selDetail" app:flag="{CODHC}"/>-->
+							  
+						<!--	</t:template>-->
+						<!--</t:Column>-->
+	
+	            </table:columns>
+	        </table:Table>
+		
+		
+			</l:Grid>
+		</l:VerticalLayout>
+
+
+
+
+
+		<l:VerticalLayout
+				width="100%"
+				class="gridWrapper">
+			<l:Grid
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S10"
+					defaultIndent="XL1 L1 M1 S1">
+				
+				<t:Table 
+					id="mainTableId"
+					rows="{/info}"
+					rowSelectionChange="onMainTableSelect"
+					visibleRowCount="{/tableRow2}">
+					<t:extension>
+						<HBox justifyContent="End">
+							<Button class="sapUiSmallMarginEnd" text="행추가" press="onRowAdd2"></Button>
+							<Button class="sapUiSmallMarginEnd" text="행삭제" press="onRowDel"></Button>
+							<Button text="저장" press="onsikSave"></Button>
+						</HBox>
+					</t:extension>
+					<t:columns>
+
+						<t:Column width="200px">
+							<Label text="전표번호"></Label>
+							<t:template>
+								<Text text="{JPNUM}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="80px">
+							<Label text="항목번호"></Label>
+							<t:template>
+								<Text text="{HANGN}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="80px">
+							<Label text="식수인원"></Label>
+							<t:template>
+								<Input value="{SIKSU}"> </Input>
+							</t:template>
+						</t:Column>
+
+					    
+						<t:Column width="200px">
+							<Label text="사원번호"></Label>
+							<t:template>
+
+								<MultiInput width="100%"
+									id="multiInput"
+									value="{EMPNO}"
+									valueHelpRequest="handleValueHelp">
+								</MultiInput>
+
+							</t:template>
+						</t:Column>
+
+						<t:Column width="150px">
+							<Label text="사원이름"></Label>
+							<t:template>
+								<Text text="{ENAME}" width="100%">
+								</Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column>
+							<Label text="비고"></Label>
+							<t:template>
+								<Input value="{REMARK}"> </Input>
+							</t:template>
+						</t:Column>
+					
+						
+						
+						
+					</t:columns>
+				</t:Table>
+
+			</l:Grid>
+		</l:VerticalLayout>
+
+		<!-- 유류대 아이템 뷰 -->
+    
+		<l:VerticalLayout
+				width="100%"
+				class="gridWrapper">
+			<l:Grid
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S10"
+					defaultIndent="XL1 L1 M1 S1">
+				
+				<t:Table 
+					id="ryuTableId"
+					rows="{/OilTable}"
+					rowSelectionChange="onMainTableSelect"
+					visibleRowCount="{/OTableRowData}"
+					selectionMode="None"
+					visible="{/OTable}">
+					<t:extension>
+						<HBox justifyContent="End">
+							<Button class="sapUiTinyMarginEnd" icon="sap-icon://add" press=".OTableRowAdd" visible="{/ryuButton}"/>
+							<Button class="sapUiTinyMarginEnd" icon="sap-icon://less" press=".OTableRowDel" visible="{/ryuButton}"/>
+							<Button text="저장" press=".onItemSave" visible="{/ryuButton}"></Button>
+						</HBox>
+					</t:extension>
+					<t:columns>
+
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+							<Label text="차종"></Label>
+							<t:template>
+								<!-- <Input value="{CARTY}"> </Input> -->
+								<ComboBox width="100%" placeholder="차종을 선택하세요" textAlign="Center" selectedKey="{CARTY}">
+									<items>
+										<core:ListItem key="소형" textAlign="Center" text="소형"/>
+										<core:ListItem key="중형" textAlign="Center" text="중형"/>
+										<core:ListItem key="대형" textAlign="Center" text="대형"/>
+									</items>
+								</ComboBox>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+							<Label text="차종"></Label>
+							<t:template>
+								<Text text="{CARTY}"> </Text>
+							</t:template>
+						</t:Column>
+
+
+
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+							<Label text="유류"></Label>
+							<t:template>
+								<!-- <Input value="{OILTY}"> </Input> -->
+								<ComboBox width="100%" placeholder="유종을 선택하세요" selectedKey="{OILTY}" textAlign="Center">
+									<items>
+										<core:ListItem key="휘발유" textAlign="Center" text="휘발유"/>
+										<core:ListItem key="경유" textAlign="Center" text="경유"/>
+										<core:ListItem key="LPG" textAlign="Center" text="LPG"/>
+									</items>
+								</ComboBox>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+							<Label text="유류"></Label>
+							<t:template>
+								<Text text="{OILTY}"> </Text>
+							</t:template>
+						</t:Column>
+
+
+
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+							<Label text="거리"></Label>
+							<t:template>
+								<Input value="{HOMET}" textAlign="Right"> </Input>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+							<Label text="거리"></Label>
+							<t:template Align="Right">
+								<Text text="{HOMET}" Align="Right"> </Text>
+							</t:template>
+						</t:Column>
+
+					    
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+							<Label text="금액"></Label>
+							<t:template>
+							<Input value="{PROPR}" textAlign="Right"> </Input>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+							<Label text="금액"></Label>
+							<t:template>
+								<Text text="{PROPR}" textAlign="Right"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="21.65rem" visible="{/Oinput}" hAlign="Center">
+							<Label text="비고"></Label>
+							<t:template>
+								<Input value="{BIGO}"> </Input>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="21.65rem" visible="{/Otext}" hAlign="Center">
+							<Label text="비고"></Label>
+							<t:template>
+								<Text text="{BIGO}" width="100%" textAlign="Center">
+								</Text>
+							</t:template>
+						</t:Column>
+
+
+
+
+						<t:Column width="5.8rem" visible="{/Oinput}" hAlign="Center">
+							<Label text="이미지"></Label>
+							<t:template>
+								<Button text="첨부" width="100%">
+								</Button>
+							</t:template>
+						</t:Column>
+
+							<t:Column width="5.8rem" visible="{/Otext}" hAlign="Center">
+							<Label text="이미지"></Label>
+							<t:template>
+								<Link text="첨부" width="100%"/>
+							</t:template>
+						</t:Column>
+					</t:columns>
+				</t:Table>
+
+			</l:Grid>
+		</l:VerticalLayout>
+
+
+
+    <!-- 교육훈련비 테이블 -->
+
+
+		<l:VerticalLayout
+				width="100%"
+				class="gridWrapper">
+			<l:Grid
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S10"
+					defaultIndent="XL1 L1 M1 S1">
+				
+				<t:Table 
+					id="kyoTableId"
+					rows="{/kyoinfo}"
+					rowSelectionChange="onMainTableSelect"
+					selectionMode="None"
+					visible="{/KTable}"
+					visibleRowCount="{/kyoinfoRowData}">
+					<t:extension>
+						<HBox justifyContent="End">
+							<Button class="sapUiTinyMarginEnd" icon="sap-icon://add" press=".KTableRowAdd" visible="{/ryuButton}"/>
+							<Button class="sapUiTinyMarginEnd" icon="sap-icon://less" press=".KTableRowDel" visible="{/ryuButton}"/>
+							<Button text="저장" press=".onkyoItemSave" visible="{/ryuButton}"></Button>
+						</HBox>
+					</t:extension>
+					<t:columns>
+
+					
+
+						<t:Column width="150px" visible="{/Oinput}" hAlign="Center">
+							<Label text="날짜(From)"></Label>
+							<t:template>
+								   <DatePicker
+									id="kyoDateF" 
+									dateValue="{FDATE}"
+									change="handleChangeF"
+									valueFormat= "yyyy-MM-dd"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="150px" visible="{/Oinput}" hAlign="Center">
+							<Label text="날짜(To)"></Label>
+							<t:template>
+								 <DatePicker
+									id="kyoDateT" 
+									dateValue="{TDATE}"
+									change="handleChangeT"
+									valueFormat= "yyyy-MM-dd"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+							<Label text="교육명"></Label>
+							<t:template>
+								<Input value="{EDUNA}"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+							<Label text="교육기관명"></Label>
+							<t:template>
+								<Input value="{EDUOR}"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="120px" visible="{/Oinput}" hAlign="Center">
+							<Label text="금액"></Label>
+							<t:template>
+								<Input value="{PROPR}" textAlign="Right"/>
+							</t:template>
+						</t:Column>
+						
+						<t:Column width="21.65rem" visible="{/Oinput}" hAlign="Center">
+							<Label text="비고"></Label>
+							<t:template>
+								<Input value="{BIGO}"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="4.6rem" visible="{/Oinput}" hAlign="Center">
+							<Label text="이미지"></Label>
+							<t:template>
+								<Button text="첨부" width="100%">
+								</Button>
+							</t:template>
+						</t:Column>
+
+
+
+			
+
+						
+						<t:Column width="150px" visible="{/Otext}" hAlign="Center">
+							<Label text="날짜(From)"></Label>
+							<t:template>
+								 <DatePicker
+									dateValue="{FDATE}"
+									textAlign="Center"
+									editable="false"
+									valueFormat= "yyyy-MM-dd"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="150px" visible="{/Otext}" hAlign="Center">
+							<Label text="날짜(To)"></Label>
+							<t:template>
+								 <DatePicker
+									dateValue="{TDATE}"
+									textAlign="Center"
+									editable="false"
+									valueFormat= "yyyy-MM-dd"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+							<Label text="교육명"></Label>
+							<t:template>
+								<Text text="{EDUNA}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+							<Label text="교육기관명"></Label>
+							<t:template>
+								<Text text="{EDUOR}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="120px" visible="{/Otext}" hAlign="Center">
+							<Label text="금액"></Label>
+							<t:template>
+								<Text text="{PROPR}"/>
+							</t:template>
+						</t:Column>
+						
+						<t:Column width="21.65rem" visible="{/Otext}" hAlign="Center">
+							<Label text="비고"></Label>
+							<t:template>
+								<Text text="{BIGO}"/>
+							</t:template>
+						</t:Column>
+
+						<t:Column width="4.6rem" visible="{/Otext}" hAlign="Center">
+							<Label text="이미지"></Label>
+							<t:template>
+								<Link text="첨부" width="100%"/>
+							</t:template>
+						</t:Column>
+
+
+					    
+	
+					</t:columns>
+				</t:Table>
+
+			</l:Grid>
+		</l:VerticalLayout>
+
+
+
+		</Page>
+</mvc:View>

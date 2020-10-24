@@ -1,0 +1,65 @@
+<mvc:View 
+	controllerName="ExpenseManagement.controller.expenseManagement.kmg.ExpenseInput" 
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified">
+	<Page>  
+		<content>
+			<Panel class="sapUiResponsiveMargin" width="auto">
+				<l:VerticalLayout
+						width="100%"
+						class="gridWrapper">
+					<l:Grid
+						containerQuery="true"
+						defaultSpan="XL10 L12 M12 S12"
+						defaultIndent="XL1">
+						<OverflowToolbar>
+							<HBox>
+								<DatePicker
+										id="DP10"
+										width="150px"
+										dateValue="{Project_MQ>/dateData}"  
+										displayFormat="y-MM"/>
+			
+								<ComboBox width="200px" class="sapUiTinyMarginBegin" selectedKey="{Project_MQ>/stcodComboData}">
+									<items>
+										<core:ListItem key="B" text="승인요청" />
+										<core:ListItem key="C" text="승인완료" />
+										<core:ListItem key="D" text="반려(승인)"/>
+										<core:ListItem key="E" text="지급(처리)"/>
+										<core:ListItem key="F" text="지급(반려)"/>
+									</items>
+								</ComboBox>
+								
+									<ComboBox	class="sapUiTinyMarginBegin"
+												selectedKey="{Project_MQ>/comboData}"
+												showSecondaryValues="true"
+												items="{Project_MQ>/oPcode}">
+										<items>
+											<core:ListItem key="{Project_MQ>PCODE}" text="{Project_MQ>PNAME}" additionalText = "{Project_MQ>PCODE}"/>
+										</items>
+									</ComboBox>
+									
+									<SearchField class="sapUiTinyMarginBegin" liveChange="onliveChange" value="{Project_MQ>/SearchFieldData}" placeholder="요청자 검색">
+									</SearchField>
+							</HBox>
+							<ToolbarSpacer></ToolbarSpacer>
+		
+							<HBox justifyContent="End">
+								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" text="조회" press=".onFiltering"></Button>
+								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" text="승인" press=".onSave"></Button>
+								<Button class="sapUiTinyMarginBegin" text="반려" press=".onReject"></Button>
+							</HBox>
+						</OverflowToolbar>
+						
+						<mvc:XMLView id="ProjectList_MQ" viewName="ExpenseManagement.view.expenseManagement.kmg.ProjectList_MQ"/>
+					</l:Grid>
+				</l:VerticalLayout>
+				
+			</Panel>
+		</content>
+	</Page>  
+</mvc:View>

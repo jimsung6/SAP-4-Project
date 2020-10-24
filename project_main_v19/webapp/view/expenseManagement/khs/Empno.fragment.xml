@@ -1,0 +1,90 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+      id="empnoDialog"
+      title="사원 조회"
+      contentHeight="60%"
+      contentWidth="60%">
+
+            <content>
+
+                <l:VerticalLayout
+                    width="100%"
+                    class="gridWrapper ">
+                    <l:Grid
+                        containerQuery="true"
+                        defaultSpan="XL12 L12 M12 S12">
+                            <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <HBox>
+                                <SearchField liveChange=".onSearchChange" value="{TEST>/nameSearch}" placeholder="사원검색" width ="200px"></SearchField>
+                                </HBox> 
+                                <ToolbarSpacer/> 
+                            </OverflowToolbar>
+
+                    </l:Grid>
+                </l:VerticalLayout>
+
+
+                <l:VerticalLayout
+                    width="100%"
+                    class="gridWrapper">
+                    <l:Grid
+                        containerQuery="true"
+                        defaultSpan="XL12 L12 M12 S12">
+                        <t:Table 
+                            id="fragTable"
+                            rowSelectionChange="onRowSelection"
+                            selectionMode="Single"
+                            selectionBehavior="Row"
+                            rows="{TEST>/oEmpno}"
+                            visibleRowCount="5">
+                            <t:columns>
+                                <t:Column>
+                                    <Label text="사원번호"></Label>
+                                    <t:template>
+                                        <Text text="{TEST>EMPNO}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="사원이름"></Label>
+                                    <t:template>
+                                        <Text text="{TEST>ENAME}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="직급"></Label>
+                                    <t:template>
+                                        <Text text="{TEST>JOB}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="전화번호"></Label> 
+                                    <t:template>
+                                        <Text text="{TEST>PNUM}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                            </t:columns>
+                        </t:Table>
+
+                    </l:Grid>
+                </l:VerticalLayout>
+
+            </content>
+
+            <buttons>
+                <Button text="추가" press=".onAddData"/>
+                <Button text="취소" press=".onCloseDialog"/>
+            </buttons>
+
+   </Dialog>
+
+</core:FragmentDefinition>

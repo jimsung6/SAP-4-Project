@@ -1,0 +1,277 @@
+<mvc:View
+	controllerName="ExpenseManagement.controller.report.PaymentRt"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:t="sap.ui.table"
+	xmlns:f="sap.f"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data">
+		<f:DynamicPage 
+			class="sapUiNoContentPadding" 
+			id="dynamicPageId" 
+			headerExpanded="{/headerExpanded}">
+			<!-- DynamicPage Title -->
+			<f:title>
+				<f:DynamicPageTitle
+					 backgroundDesign="Translucent">
+					 <f:heading>
+						<Title text="Report Page"/>
+					</f:heading>
+					<f:actions>
+						<ToolbarSpacer/>
+					</f:actions>
+				</f:DynamicPageTitle>
+			</f:title>
+			<!-- DynamicPage Header -->
+			<f:header>
+				<f:DynamicPageHeader pinnable="true">
+					<f:content>
+						<fb:FilterBar 
+							id="filterbar"
+							reset="onReset" 
+							search="onSearch" 
+							useToolbar="false"
+							showGoButton="false"
+							showFilterConfiguration="false"
+							showGoOnFB="true">
+							<fb:filterItems>
+
+								<fb:FilterItem 
+									name="startDatePicker" 
+									label="지급 월">
+									<fb:control>
+										<DateRangeSelection
+											id= "TDateSelect"
+											displayFormat="yyyy/MM"
+											dateValue="{PaymentRt>/startDate}"
+											secondDateValue="{PaymentRt>/endDate}"/>
+									</fb:control>				
+								</fb:FilterItem>
+
+								<fb:FilterItem 
+									name="depComboBoxField" 
+									label="부서 선택">
+									<fb:control>
+										<MultiComboBox
+											selectionChange="depSelectionChange"
+											selectionFinish="depSelectionFinish"
+											width="350px"
+											selectedKeys="{PaymentRt>/depfilterData}"
+											items="{PaymentRt>/depComboData}">
+											<core:Item key="{PaymentRt>GCODE}" text="{PaymentRt>GNAME}"/>
+										</MultiComboBox>
+									</fb:control>				
+								</fb:FilterItem>
+
+								<fb:FilterItem 
+									name="projComboBoxField" 
+									label="프로젝트 선택">
+									<fb:control>
+										<MultiComboBox
+											selectionChange="projSelectionChange"
+											selectionFinish="projSelectionFinish"
+											width="350px"
+											selectedKeys="{PaymentRt>/projfilterData}"
+											items="{PaymentRt>/projComboData}">
+											<core:Item key="{PaymentRt>PCODE}" text="{PaymentRt>PNAME}"/>
+										</MultiComboBox>
+									</fb:control>				
+								</fb:FilterItem>		
+
+								<fb:FilterItem 
+									name="SearchField" 
+									label="이름 찾기">
+									<fb:control>
+										<SearchField value="{PaymentRt>/SearchField}" liveChange=".onliveChange"></SearchField>
+									</fb:control>				
+								</fb:FilterItem>	
+
+							</fb:filterItems>
+						</fb:FilterBar>
+					</f:content>
+				</f:DynamicPageHeader>
+			</f:header>
+
+			<!-- DynamicPage Content -->
+			<f:content>
+				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+					<items>
+						<!-- 메뉴1 테이블 레포트 -->
+						<IconTabFilter text="경비 사용 현황">
+
+							<OverflowToolbar>
+								<ToolbarSpacer/>
+								<!-- 뷰 모드 선택 버튼 -->
+								<MenuButton type="Transparent" icon="{PaymentRt>/viewSelectIcon}" menuPosition="EndBottom">
+									<menu>
+										<Menu itemSelected="onMenuAction">
+											<MenuItem text="Table View" press="onTableView"/>
+											<MenuItem text="Chart View" press=".onChartView"/>
+										</Menu>
+									</menu>
+								</MenuButton>
+								<!-- export 기능 버튼 -->
+								<MenuButton type="Transparent" icon="sap-icon://excel-attachment" menuPosition="EndBottom">
+									<menu>
+										<Menu itemSelected="onMenuAction">
+											<MenuItem text="Save" icon="sap-icon://excel-attachment" press="onExport"/>
+											<MenuItem text="Save as" icon="sap-icon://excel-attachment" press=".onReNameReport"/>
+										</Menu>
+									</menu>
+								</MenuButton>
+
+							</OverflowToolbar>
+							<t:Table
+								id="reportTable"
+								visible="true"
+								rows="{PaymentRt>/reportTableData}"
+								rowSelectionChange="onRowSelection"
+								selectionMode="None"
+								visibleRowCount="10"
+								ariaLabelledBy="title">
+								<t:extension>
+									<OverflowToolbar>
+										<ToolbarSpacer/>
+										<Text text="총 지급 금액 : {PaymentRt>/sumPay} 원"></Text>		
+										<Button
+											icon="sap-icon://action-settings"
+											type="Transparent"
+											press="onSettings"/>
+									</OverflowToolbar>
+								</t:extension>
+
+								<t:Column width="300px" visible="{PaymentRt>/exportDataSet/0/visible}">
+									<Label text="프로젝트 및 사용부서"></Label>
+									<t:template>
+										<Text text="{PaymentRt>PNAME}"/>
+									</t:template>
+								</t:Column>
+
+								<t:Column visible="{PaymentRt>/exportDataSet/1/visible}">
+									<Label text="사원번호"></Label>
+									<t:template>
+										<Text text="{PaymentRt>EMPNO}"/>
+									</t:template>
+								</t:Column>
+
+								<t:Column visible="{PaymentRt>/exportDataSet/2/visible}">
+									<Label text="사원이름"></Label>
+									<t:template>
+										<Text text="{PaymentRt>ENAME}"/>
+									</t:template>
+								</t:Column>
+
+								<t:Column visible="{PaymentRt>/exportDataSet/3/visible}">
+									<Label text="부서명"></Label>
+									<t:template>
+										<Text text="{PaymentRt>GNAME}"/>
+									</t:template>
+								</t:Column>
+
+								<t:Column visible="{PaymentRt>/exportDataSet/4/visible}">
+									<Label text="지급일"></Label>
+									<t:template>
+										  <Text text="{PaymentRt>CUMON}"/>
+									</t:template>
+								</t:Column>
+
+								<t:Column visible="{PaymentRt>/exportDataSet/5/visible}">
+									<Label text="지급 금액"></Label>
+									<t:template>
+										<Text text="{PaymentRt>PROPR}"/>
+									</t:template>
+								</t:Column>
+
+							</t:Table>
+							<OverflowToolbar id="reportChartToolbar" visible="false">
+								<ToolbarSpacer/>
+								<Text text="총 지급 금액 : {PaymentRt>/sumPay} 원"></Text>
+							</OverflowToolbar>
+							<viz:VizFrame 
+								id="reportChart"
+								visible="false"
+								selectData=".onSelectData"
+								deselectData=".onDeselectData"
+								xmlns="sap.viz" 
+								uiConfig="{applicationSet:'fiori'}"
+								width="100%" 
+								height="500px">
+							</viz:VizFrame>
+
+						</IconTabFilter>
+						<!-- 메뉴2 차트 레포트 -->
+						<IconTabFilter text="부서경비 사용 추이">
+
+							<l:VerticalLayout
+									width="100%"
+									class="gridWrapper">
+								<l:Grid
+										containerQuery="true"
+										defaultSpan="XL6 L6 M6 S6">
+									<viz:VizFrame 
+										id="reportLineChart"
+										selectData=".onSelectLineData"
+										deselectData=".onDeselectLineData"
+										xmlns="sap.viz" 
+										uiConfig="{applicationSet:'fiori'}"
+										width="100%" 
+										height="500px">
+									</viz:VizFrame>
+
+									<t:Table
+										id="detailTable"
+										rows="{PaymentRt>/reportDetailTableData}"
+										selectionMode="None"
+										visibleRowCount="10"
+										ariaLabelledBy="title">
+										<t:extension>
+											<OverflowToolbar>
+												<Title text="날짜 데이터"/>
+												<ToolbarSpacer/>
+												<Text text="총 지급 금액 : {PaymentRt>/sumPay} 원"></Text>
+											</OverflowToolbar>
+										</t:extension>
+
+										<t:Column visible="{PaymentRt>/exportDataSet/0/visible}">
+											<Label text="사원번호"></Label>
+											<t:template>
+												<Text text="{PaymentRt>EMPNO}"/>
+											</t:template>
+										</t:Column>
+
+										<t:Column visible="{PaymentRt>/exportDataSet/1/visible}">
+											<Label text="사원이름"></Label>
+											<t:template>
+												<Text text="{PaymentRt>ENAME}"/>
+											</t:template>
+										</t:Column>
+
+										<t:Column visible="{PaymentRt>/exportDataSet/2/visible}">
+											<Label text="부서명"></Label>
+											<t:template>
+												<Text text="{PaymentRt>GNAME}"/>
+											</t:template>
+										</t:Column>
+
+										<t:Column visible="{PaymentRt>/exportDataSet/5/visible}">
+											<Label text="지급 금액"></Label>
+											<t:template>
+												<Text text="{PaymentRt>PROPR}"/>
+											</t:template>
+										</t:Column>
+
+									</t:Table>
+								</l:Grid>
+							</l:VerticalLayout>
+							
+						</IconTabFilter>
+					</items>
+				</IconTabBar>
+				
+			</f:content>
+		</f:DynamicPage>
+</mvc:View>

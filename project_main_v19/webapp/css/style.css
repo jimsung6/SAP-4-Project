@@ -1,0 +1,11 @@
+.loginTitle {
+    color:#66a3ff;
+    
+    padding-top: 30px;
+    font-size: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  
+  .vBoxHeight {
+      height: 600px;
+  }

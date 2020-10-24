@@ -1,0 +1,147 @@
+<!-- 성훈행님 : 출장비 마스터 -->
+<mvc:View 
+	controllerName="ExpenseManagement.controller.master.Projectprj" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" 
+	xmlns="sap.ui.table"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+	xmlns:m="sap.m"
+	height="100%">
+	<m:Page
+		showHeader="false"
+		enableScrolling="false"
+		class="sapUiContentPadding">
+		<m:content>
+			<Table
+				rows="{		
+				    path: 'Perdiem>/T_TAB1', 
+				    sorter: {
+				        path: 'Perdiem>POSNR', 
+				        descending: false
+				        }
+				}"
+				selectionMode="Single"
+				selectionBehavior="Row"
+				ariaLabelledBy="title"
+				visibleRowCount="20">
+				<extension>
+					<m:OverflowToolbar>
+						<m:Title id="title" text="출장비 조회"/>
+					</m:OverflowToolbar>
+				</extension>
+				<columns>
+					<Column width="100px"
+					sortOrder="Descending">
+						<m:Label text="전표번호" />
+						<template>
+							<m:Text text="{Perdiem>POSNR}" />
+						</template>
+					</Column>
+					<Column width="105px"
+					sortOrder="Descending">
+						<m:Label text="사원번호" />
+						<template>
+							<m:Text text="{Perdiem>EMPNO}" />
+						</template>
+					</Column>
+					<Column width="50px"
+					sortOrder="Descending">
+						<m:Label text="직급" />
+						<template>
+							<m:Text text="{Perdiem>JOB}" />
+						</template>
+					</Column>
+					<Column width="80px"
+					sortOrder="Descding">
+						<m:Label text="사원이름" />
+						<template>
+							<m:Text text="{Perdiem>ENAME}" />
+						</template>
+					</Column>
+					<Column width="85px"
+					sortOrder="Descending">
+						<m:Label text="근무일수" />
+						<template>
+							<m:Text text="{Perdiem>WORKD}" />
+						</template>
+					</Column>
+					
+					<Column textAlign="End" width="120Px">
+						<m:Label text="지급금액(KRW)" />
+						<template>
+							<u:Currency
+                			value="{Perdiem>PDIEM}" 
+                			maxPrecision="0" 
+                			useSymbol="false"/>
+						</template>
+					</Column>
+					
+					
+					
+					<Column width="50px"
+					sortOrder="Descending">
+						<m:Label text="상태" />
+						<template>
+							<m:Text text="{Perdiem>AUTRZ}" />
+						</template>
+					</Column>
+					<Column width="95px"
+					sortOrder="Descending">
+						<m:Label text="승인요청일" />
+						<template>
+							<m:Text text="{Perdiem>ADATE}" />
+						</template>
+					</Column>
+					<Column width="100px"
+					sortOrder="Descending">
+						<m:Label text="승인일" />
+						<template>
+							<m:Text text="{Perdiem>BDATE}" />
+						</template>
+					</Column>
+					<Column width="100px"
+					sortOrder="Descending">
+						<m:Label text="반려일" />
+						<template>
+							<m:Text text="{Perdiem>CDATE}" />
+						</template>
+					</Column>
+					<Column width="100px"
+					sortOrder="Descending">
+						<m:Label text="지급일" />
+						<template>
+							<m:Text text="{Perdiem>DDATE}" />
+						</template>
+					</Column>
+					<Column width="100px"
+					sortOrder="Descending">
+						<m:Label text="근무연월" />
+						<template>
+							<m:Text text="{Perdiem>WORKYM}" />
+						</template>
+					</Column>
+					<Column width="80px"
+					sortOrder="Descending">
+						<m:Label text="부서이름" />
+						<template>
+							<m:Text text="{Perdiem>GNAME}" />
+						</template>
+					</Column>
+					<Column width="300px"
+					sortOrder="Descending">
+						<m:Label text="프로젝트이름" />
+						<template>
+							<m:Text text="{Perdiem>PNAME}" />
+						</template>
+					</Column>
+					
+					
+					
+				</columns>
+			</Table>
+		</m:content>
+	</m:Page>
+</mvc:View>

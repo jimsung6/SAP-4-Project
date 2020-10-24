@@ -1,0 +1,102 @@
+<!-- 일반부서 승인권한자 -->
+<mvc:View
+	controllerName="ExpenseManagement.controller.App"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:tnt="sap.tnt"
+	height="100%">
+	<tnt:ToolHeader>
+        <Button icon="sap-icon://home" type="Transparent" press=".onHomePress">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="NeverOverflow" />
+			</layoutData>
+		</Button>
+
+		<MenuButton visible="{employeeLog>/ButtonSetting/MasterSearch}" text="마스터 조회" type="Transparent" >
+			<layoutData>
+				<OverflowToolbarLayoutData priority="Low" />
+			</layoutData>
+            <Menu>
+                <MenuItem text="사원 정보" press=".onGoEmp"/>
+				<MenuItem text="조직 정보" press=".onGoDep" />
+                <MenuItem text="프로젝트 정보" press=".onGoProject"/>
+				<MenuItem text="계좌 정보" press=".onGoAccount" />				
+			</Menu>
+		</MenuButton>
+		
+		<MenuButton visible="{employeeLog>/ButtonSetting/Expense}" text="경비관리" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="Low" />
+			</layoutData>
+			<Menu>
+                <MenuItem text="경비 입력"  press=".onGoExpenseInput"/>
+				<MenuItem visible="{employeeLog>/ButtonSetting/ExpenseManagement}" text="경비 승인/반려" press=".onGoExpenseManagement"/>
+                <MenuItem visible="{employeeLog>/ButtonSetting/BTripPayment}" text="경비 지급" press=".onGoPay_HS" />		
+			</Menu>
+		</MenuButton>
+
+		<MenuButton visible="{employeeLog>/ButtonSetting/BTripManagement}" text="출장관리" type="Transparent" >
+			<layoutData>
+				<OverflowToolbarLayoutData priority="Low" />
+			</layoutData>
+            <Menu>
+                <MenuItem text="근무시간 등록"  press=".onGoKJE"/>
+				<MenuItem text="출장비 조회" press=".onGoPerdiemprj"/>
+                <MenuItem visible="{employeeLog>/ButtonSetting/ExpenseManagement}" text="출장비 승인/반려" press=".onGoConfirm" />
+                <MenuItem visible="{employeeLog>/ButtonSetting/BTripPayment}" text="출장비 지급" press=".onGoPay_YJ" />				
+			</Menu>
+		</MenuButton>
+
+		<MenuButton visible="{employeeLog>/ButtonSetting/BudgetSearch}" text="예산조회" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="Low" />
+			</layoutData>
+			<Menu>
+                <MenuItem text="부서별 예산조회" press=".onGoBudget_EH"/>
+				<MenuItem text="프로젝트별 예산조회" press=".onGoPROBUDLIST"/>	
+			</Menu>
+		</MenuButton>
+
+
+		<MenuButton visible="{employeeLog>/ButtonSetting/BudgetRequest}" text="예산증액요청" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="Low" />
+			</layoutData>
+			<Menu>
+			 	<MenuItem text="부서별 예산증액요청" press=".onGoDepBudget_YS"/>
+				<MenuItem text="프로젝트별 예산증액요청" press=".onGoProBudget_YS" />
+			</Menu>	
+		</MenuButton> 	
+
+		<MenuButton visible="{employeeLog>/ButtonSetting/BudgetRequestCanc}" text="예산증액 승인/반려" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="Low" />
+			</layoutData>
+			<Menu>
+			 	<MenuItem text="부서별 예산증액 승인/반려" press=".onGoDepBudget_SY" />
+				<MenuItem text="프로젝트별 예산증액 승인/반려" press=".onGoProjBudget_SY" />
+			</Menu>	
+		</MenuButton> 	
+
+		<tnt:ToolHeaderUtilitySeparator />
+		<ToolbarSpacer>
+			<layoutData>
+				<OverflowToolbarLayoutData minWidth="20px" />
+			</layoutData>
+		</ToolbarSpacer> 
+
+        <MenuButton visible="{employeeLog>/ButtonSetting/LogInfo}" text="{employeeLog>/loginAuth}  {employeeLog>/loginName}" icon="sap-icon://my-view" type="Transparent">
+			<layoutData>
+				<OverflowToolbarLayoutData priority="NeverOverflow" />
+			</layoutData>
+			<Menu>
+				<MenuItem text="로그아웃"  press=".onLogOut" />
+				
+			</Menu>
+		</MenuButton>
+	</tnt:ToolHeader>
+
+	<App id="app">
+	</App>
+
+</mvc:View>

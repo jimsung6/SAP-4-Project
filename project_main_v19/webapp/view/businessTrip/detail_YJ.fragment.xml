@@ -1,0 +1,63 @@
+<core:FragmentDefinition 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:t="sap.ui.table" 
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog id="helloDialog" title="사원 조회" contentHeight="60%" contentWidth="60%">
+		<content>
+			<l:VerticalLayout width="100%" class="gridWrapper ">
+				<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
+					<OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+						<HBox>
+							<ComboBox class="sapUiSmallMarginEnd" selectedKey="{PaymentJYJ>/comboData}" showSecondaryValues="true" items="{PaymentJYJ>/comboDataItems}">
+							<items>
+								<core:ListItem key="{PaymentJYJ>GCODE}" text="{PaymentJYJ>GNAME}" additionalText="{PaymentJYJ>GCODE}"/>
+							</items>
+							</ComboBox>
+							<SearchField liveChange="onSearchChange" value="{PaymentJYJ>/nameSearch}" placeholder="사원검색" width="200px"/>
+						</HBox>
+							<ToolbarSpacer/>
+						<Button width="60px" text="조회" press="onSearch"/>
+					</OverflowToolbar>
+				</l:Grid>
+				</l:VerticalLayout>
+				<l:VerticalLayout width="100%" class="gridWrapper">
+				<l:Grid containerQuery="true" defaultSpan="XL12 L12 M12 S12">
+					<t:Table id="fragTable" rowSelectionChange="onRowSelection" selectionMode="Single" selectionBehavior="Row" rows="{PaymentJYJ>/fragInfo}" visibleRowCount="5">
+						<t:columns>
+							<t:Column>
+								<Label text="부서코드"/>
+								<t:template>
+								<Text text="{PaymentJYJ>GCODE}"> </Text>
+								</t:template>
+							</t:Column>
+							<t:Column>
+								<Label text="부서명"/>
+								<t:template>
+								<Text text="{PaymentJYJ>GNAME}"> </Text>
+								</t:template>
+							</t:Column>
+							<t:Column>
+								<Label text="사원번호"/>
+								<t:template>
+								<Text text="{PaymentJYJ>EMPNO}"> </Text>
+								</t:template>
+							</t:Column>
+							<t:Column>
+								<Label text="사원이름"/>
+								<t:template>
+								<Text text="{PaymentJYJ>ENAME}"> </Text>
+								</t:template>
+							</t:Column>
+						</t:columns>
+					</t:Table>
+				</l:Grid>
+			</l:VerticalLayout>
+		</content>
+		<buttons>
+			<Button text="추가" press=".onAddData"/>
+			<Button text="취소" press=".onCloseDialog"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

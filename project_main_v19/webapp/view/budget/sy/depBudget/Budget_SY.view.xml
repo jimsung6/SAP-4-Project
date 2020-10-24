@@ -1,0 +1,78 @@
+<mvc:View 
+	controllerName="ExpenseManagement.controller.budget.sy.depBudget.Budget_SY"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:filterbar="sap.ui.comp.filterbar">
+	
+	<Page title="부서 예산증액 승인/반려">
+		<content>
+		<filterbar:FilterBar showGoOnFB="false"
+								useToolbar="false"
+								 showFilterConfiguration="false"
+								 filterContainerWidth="10rem"> 	
+
+		<filterbar:filterGroupItems>
+			<filterbar:FilterGroupItem
+				label="기안날짜"
+				groupName="default"
+				name="PNAME"
+				visibleInFilterBar="true">
+				<filterbar:control>
+				<DateRangeSelection
+					id= "TDateSelect"
+					displayFormat="yyyy/MM"
+					change="DateChange"
+					dateValue="{teaminitsun>/startDate}"
+					secondDateValue="{teaminitsun>/endDate}"/>
+				</filterbar:control>
+			</filterbar:FilterGroupItem>
+			</filterbar:filterGroupItems>
+		</filterbar:FilterBar>
+
+			<Table id="teamlist"
+				   items="{teaminitsun>/info}"
+				   growing="true"
+				   growingThreshold="5">
+		   
+				<columns>
+					<Column width="150px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="부서명" />
+					</Column>
+					<Column width="80px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="부서매니저" />
+					</Column>
+					<Column width="80px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="담당자" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="미결건수(긴급건수)" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="반려건수(긴급건수)" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="완결건수(긴급건수)" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="총건수(긴급건수)" />
+					</Column>
+				</columns>
+				<items >
+					<ColumnListItem type="Active">
+						<cells>
+							<Text text="{teaminitsun>GNAME}" />
+							<Text text="{teaminitsun>AUNAME}"  />
+							<Text text="{teaminitsun>PYNAME}" />
+							<Link text="{teaminitsun>REMAIN}" emphasized="true" press=".onGoDetail"/>
+							<Link text="{teaminitsun>REJECT}" emphasized="true" press=".onGoDetail"/>
+							<Link text="{teaminitsun>COMPLETE}" emphasized="true" press=".onGoDetail"/>
+							<Link text="{teaminitsun>ALL}" emphasized="true" press=".onGoDetail"/>
+						</cells>
+					</ColumnListItem>
+				</items>	   
+			</Table>
+		</content>
+	</Page>
+	
+</mvc:View>

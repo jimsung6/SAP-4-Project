@@ -1,0 +1,190 @@
+<!-- 정은혜 : 부서예산 조회 -->
+<mvc:View 
+	controllerName="ExpenseManagement.controller.budget.DepartmentBudgetList"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:filterbar="sap.ui.comp.filterbar"
+	xmlns:popover="sap.m.Popover"
+	xmlns:scroll="sap.m.ScrollContainer"
+	xmlns:u="sap.ui.unified">
+	
+	<Page>
+		<content>
+
+			<Table id="dbudgetlist"
+				   items="{BUDGET>/DepartmentBudget}">
+				   <!--mode="MultiSelect"
+				   selectionChange=".onSelectionChange"-->
+				   <!--items="{/ProductCollection}"-->
+				   <!--delete=".onRowDelete"-->
+				   <!-- growing="true"
+				   growingThreshold="5"> -->
+		    <!-- mTable => selectionmode 이런 거 안 적어줘도 되고 그냥 mode 로 적어줌, Multiselect/singleselect/Delete/None 등 -->
+				<headerToolbar height="100px">
+					<OverflowToolbar height="80px">
+						<content>
+
+							<Title titleStyle="H2" text="부서별 예산 조회" />
+
+							<ToolbarSpacer/>
+							<SearchField
+								width="200px"
+								class="sapUiTinyMarginTop"
+								liveChange=".onLiveChange"
+								value="{BUDGET>/filterbar/eName}"/>
+							<!--<ComboBox -->
+							<!--	class="sapUiTinyMarginTop"-->
+							<!--	placeholder="담당자" -->
+							<!--	selectedKey="{BUDGET>/filterbar/ename}"-->
+							<!--	items="{BUDGET>/DepartmentBudget}">-->
+							<!--	<items>-->
+							<!--		<core:ListItem key="{BUDGET>EMPNO}" -->
+							<!--					   text="{BUDGET>ENAME}" -->
+							<!--					   additionalText="{BUDGET>EMPNO}" />-->
+							<!--	</items>-->
+							<!--</ComboBox>-->
+							
+							<ComboBox 
+								class="sapUiTinyMarginTop"
+								placeholder="부서" 
+								selectedKey="{BUDGET>/filterbar/gname}"
+								items="{BUDGET>/DepartmentInfo}">
+								<items>
+									<core:ListItem key="{BUDGET>GCODE}" 
+												   text="{BUDGET>GNAME}" 
+												   additionalText="{BUDGET>GCODE}"/>
+									<!-- <core:ListItem key="All" text="All" />
+									<core:ListItem key="Sales1" text="영업1팀" />
+									<core:ListItem key="Sales2" text="영업2팀" />
+									<core:ListItem key="Marketing" text="마케팅팀" />
+									<core:ListItem key="Logistics" text="물류팀" /> -->
+								</items>
+							</ComboBox>
+
+							<DatePicker
+								id="bDatePicker"
+								class="sapUiTinyMarginTop"
+								width="150px"
+								dateValue="{BUDGET>/dateData}"
+								displayFormat="y-MM"
+								change="handleChange" />
+
+							<!-- <ComboBox 
+								class="sapUiTinyMarginTop" 
+								selectionChange=".onFilterSearch" 
+								placeholder="연도" 
+								selectedKey="{TEST>/filterbar/Year}">
+								<items>
+									<core:ListItem key="" text="All" />
+									<core:ListItem key="2020" text="2020" />
+									<core:ListItem key="2019" text="2019" />
+									<core:ListItem key="2018" text="2018" />
+									<core:ListItem key="2017" text="2017" />
+									<core:ListItem key="2016" text="2016" />
+								</items>
+							</ComboBox>	
+
+							<ComboBox 
+								class="sapUiTinyMarginTop" 
+								id="MonthComboBox"
+								selectionChange=".onFilterSearch"	
+								placeholder="월" 
+								selectedKey="{TEST>/filterbar/Month}">
+								<items>
+									<core:ListItem key="All" text="All" />
+									<core:ListItem key="01" text="1월" />
+									<core:ListItem key="02" text="2월" />
+									<core:ListItem key="03" text="3월" />
+									<core:ListItem key="04" text="4월" />
+									<core:ListItem key="05" text="5월" />
+									<core:ListItem key="06" text="6월" />
+									<core:ListItem key="07" text="7월" />
+									<core:ListItem key="08" text="8월" />
+									<core:ListItem key="09" text="9월" />
+									<core:ListItem key="10" text="10월" />
+									<core:ListItem key="11" text="11월" />
+									<core:ListItem key="12" text="12월" />
+								</items>
+							</ComboBox>	 -->
+
+							<Button class="sapUiTinyMarginTop" press=".onFilterSearch" text="조회" type="Emphasized"></Button>
+
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<infoToolbar>
+					<OverflowToolbar visible="true" id="ToolbarId">
+						<ToolbarSpacer/>
+						<Text text="합계 : "></Text>
+						<Text text="{
+                                                parts: [
+                                                    {path: 'BUDGET>/sumData'},
+                                                    {path: 'BUDGET>/currency'}
+                                                ],
+                                                type:'sap.ui.model.type.Currency',
+                                                formatOptions: {
+                                                    currencyCode: false,
+                                                    showMeasure: false
+                                                }
+                                            }" />
+						<!--<Text text="{BUDGET>/sumData}"></Text>-->
+						<!--<u:Currency-->
+      <!--          	          value="{BUDGET>/sumData}" maxPrecision="0" useSymbol="false"/>-->
+						<Text text="원"></Text>
+					</OverflowToolbar>
+				</infoToolbar>
+
+				<columns>
+					<Column hAlign="Center" width="50px" minScreenWidth="Tablet">
+						<Text text="부서코드" />
+					</Column>
+					<Column hAlign="Center" width="80px" minScreenWidth="Tablet">
+						<Text text="부서명" />
+					</Column>
+					<Column hAlign="Center" width="60px" minScreenWidth="Tablet">
+						<Text text="예산년월" />
+					</Column>
+					<Column hAlign="Center" width="100px" minScreenWidth="Tablet">
+						<Text text="배정일자" />
+					</Column>
+					<Column hAlign="Center" width="90px" minScreenWidth="Tablet">
+						<Text text="배정금액(원)" />
+					</Column>
+					<Column hAlign="Center" width="100px" minScreenWidth="Tablet">
+						<Text text="담당자번호" />
+					</Column>
+					<Column hAlign="Center" width="50px" minScreenWidth="Tablet">
+							<!-- mergeDuplicates="true" -->
+						<Text text="담당자명" />
+					</Column>
+					<Column hAlign="Center" width="90px" minScreenWidth="Tablet">
+							<!-- mergeDuplicates="true" -->
+						<Text text="잔여예산" />
+					</Column>
+					<!--<Column hAlign="Center" width="50px" minScreenWidth="Tablet">-->
+					<!--	<Text text="긴급여부" />-->
+					<!--</Column>-->
+				</columns>
+				<items>
+					<ColumnListItem type="ACTIVE">
+						<cells>
+							<Text text="{BUDGET>GCODE}" />
+							<Text text="{BUDGET>GNAME}" />
+							<Text text="{BUDGET>BUDYM}" />
+							<Text text="{BUDGET>DEPDY}" />
+							<u:Currency
+                			 value="{BUDGET>DEPPR}" maxPrecision="0" useSymbol="false"/>
+							<Text text="{BUDGET>EMPNO}" />
+							<Text text="{BUDGET>ENAME}" />
+							<u:Currency
+                			 value="{BUDGET>REMBUD}" maxPrecision="0" useSymbol="false"/>
+							<!--<Text text="{BUDGET>DEPEM}" />-->
+						</cells>
+					</ColumnListItem>
+				</items>	   
+			</Table>
+		</content>
+	</Page>
+	
+</mvc:View>

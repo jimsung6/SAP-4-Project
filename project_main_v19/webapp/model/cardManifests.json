@@ -1,0 +1,753 @@
+{
+
+	"statusList": {
+		"sap.app": {
+			"id": "mainboard.statusList",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "List",
+			"header": {
+				"type": "Numeric",
+				"data" : {
+					"json": {
+						"listInfos": {
+							"listData": {
+								"number": 0,
+								"unit": "건",
+								"state": "Critical",
+								"request": {
+									"number": 0
+								},
+								"payment": {
+									"number": 0
+								}
+							}
+							
+						}
+					},
+
+					"path": "/listInfos/listData"
+
+				},
+
+				"title": "전표 현황",
+				"mainIndicator": {
+					"number": "{number}",
+					"unit": "{unit}",
+					"state": "{state}"
+				},
+				"sideIndicators": [
+					{
+						"title": "요청항목",
+						"number": "{request/number}",
+						"unit": "건"
+					},
+					{
+						"title": "미결항목",
+						"number": "{payment/number}",
+						"unit": "건"
+					}
+				]
+			},
+			"content": {
+				"data": {
+					"json": []
+				},
+				"item": {
+					"icon": {
+						"src": "{icon}"
+					},
+					"title":  "{name}",
+					"info": {
+						"value": "{number} 건",
+						"state": "{State}"
+					},
+					"actions": [
+						{
+							"type": "Navigation",
+							"parameters": {
+								"url": "{= ${name} === '부서 예산 증액 요청' ? '/index.html#/DepBudget_YS' : ${name} === '부서 예산 증액 요청 완료' ? '/index.html#/DepBudget_YS' : ${name} === '부서 예산 증액 요청 반려' ? '/index.html#/DepBudget_YS' : ${name} === '프로젝트 예산 증액 요청' ? '/index.html#/ProjBudget_YS' : ${name} === '프로젝트 예산 증액 요청 완료' ? '/index.html#/ProjBudget_YS' : ${name} === '프로젝트 예산 증액 요청 반려' ? '/index.html#/ProjBudget_YS' : ${name} === '부서 예산 증액 요청 미결' ? '/index.html#/DepBudget_SY' : ${name} === '프로젝트 예산 증액 요청 미결' ? '/index.html#/ProjBudget_SY' : ${name} === '임시저장' ? '/index.html#/Approyj' : ${name} === '승인요청' ? '/index.html#/Approyj' : ${name} === '승인요청 반려' ? '/index.html#/Approyj' : ${name} === '승인요청 완료' ? '/index.html#/Approyj' : ${name} === '지급 반려' ? '/index.html#/Approyj' : ${name} === '지급 완료' ? '/index.html#/Approyj' : ${name} === '승인요청 미결' ? '/index.html#/ExpenseManagement' : ${name} === '지급 미결' ? '/index.html#/ExpenseManagement' : '/index.html#/mainBoard'}",
+								"target": "_self"
+							}
+						}
+					]
+				}
+			}
+		}
+	},
+
+	"depExpenses" : {
+		"sap.app": {
+			"id": "card.explorer.bulletChart.list.card",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "List",
+			"header": {
+				"title": "관리부서 사용경비",
+				"icon": {
+					"src": "sap-icon://paper-plane"
+				},
+				"status": {
+					"text": "지급처리"
+				}
+			},
+			"content": {
+				"data": {
+					"json": []
+				},
+				"maxItems": 5,
+				"item": {
+					"title": "{Name}",
+					"info": {
+						"value": "{= format.currency(${budget}, '총 예산', {currencyCode:false})} 원",
+						"state": "{Highlight}"
+					},
+					"chart": {
+						"type": "Bullet",
+						"minValue": 0,
+						"maxValue": "{budget}",
+						"target": "{InitBudget}",
+						"value": "{expenses}",
+						"scale": "€",
+						"displayValue": "{= format.currency(${expenses}, '사용 경비', {currencyCode:false})} 원",
+						"color": "{ChartColor}"
+					}
+				}
+			}
+		}
+	},
+
+	"porjExpenses" : {
+		"sap.app": {
+			"id": "card.explorer.bulletChart.list.card",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "List",
+			"header": {
+				"title": "관리프로젝트 사용경비",
+				"icon": {
+					"src": "sap-icon://paper-plane"
+				},
+				"status": {
+					"text": "지급처리"
+				}
+			},
+			"content": {
+				"data": {
+					"json": []
+				},
+				"maxItems": 5,
+				"item": {
+					"title": "{Name}",
+					"info": {
+						"value": "{= format.currency(${budget}, '총 예산', {currencyCode:false})} 원",
+						"state": "{Highlight}"
+					},
+					"chart": {
+						"type": "Bullet",
+						"minValue": 0,
+						"maxValue": "{budget}",
+						"target": "{InitBudget}",
+						"value": "{expenses}",
+						"scale": "€",
+						"displayValue": "{= format.currency(${expenses}, '사용 경비', {currencyCode:false})} 원",
+						"color": "{ChartColor}"
+					},
+					"actions": [
+						{
+							"type": "Navigation",
+							"parameters": {
+								"url": "/index.html#/PaymentRt/{Pcode}",
+								"target": "_self"
+							}
+						}
+					]
+				}
+			}
+		}
+	},
+
+	"depExpTrans": {
+		"_version": "1.14.0",
+		"sap.app": {
+			"id": "card.explorer.line.card",
+			"type": "card"
+		},
+		"sap.ui": {
+			"technology": "UI5",
+			"icons": {
+				"icon": "sap-icon://line-chart"
+			}
+		},
+		"sap.card": {
+			"type": "Analytical",
+			"header": {
+				"title": "관리 부서 경비사용 추이",
+				"icon": {
+					"src": "sap-icon://line-chart"
+				},
+				"status": {
+					"text": "지급처리"
+				}
+			},
+			"content": {
+				"chartType": "Line",
+				"legend": {
+					"visible": "{legend/visible}",
+					"position": "{legend/position}",
+					"alignment": "{legend/alignment}"
+				},
+				"plotArea": {
+					"dataLabel": {
+						"visible": true
+					},
+					"categoryAxisText": {
+						"visible": false
+					},
+					"valueAxisText": {
+						"visible": false
+					}
+				},
+				"title": {
+					"text": "Line chart",
+					"visible": true,
+					"alignment": "Left"
+				},
+				"measureAxis": "valueAxis",
+				"dimensionAxis": "categoryAxis",
+				"data": {
+					"json": {
+						"dimensions": {
+							"Month": "Month"
+						},
+						"legend": {
+							"visible": true,
+							"position": "Bottom",
+							"alignment": "TopLeft"
+						},
+						"list": []
+					},
+					"path": "/list"
+				},
+				"dimensions": [
+					{
+						"label": "{dimensions/Month}",
+						"value": "{Month}"
+					}
+				],
+				"measures": []
+			}
+		}
+	},
+
+	"projExpTrans": {
+		"_version": "1.14.0",
+		"sap.app": {
+			"id": "card.explorer.line.card",
+			"type": "card"
+		},
+		"sap.ui": {
+			"technology": "UI5",
+			"icons": {
+				"icon": "sap-icon://line-chart"
+			}
+		},
+		"sap.card": {
+			"type": "Analytical",
+			"header": {
+				"title": "관리 프로젝트 경비사용 추이",
+				"icon": {
+					"src": "sap-icon://line-chart"
+				},
+				"status": {
+					"text": "지급처리"
+				}
+			},
+			"content": {
+				"chartType": "Line",
+				"legend": {
+					"visible": "{legend/visible}",
+					"position": "{legend/position}",
+					"alignment": "{legend/alignment}"
+				},
+				"plotArea": {
+					"dataLabel": {
+						"visible": true
+					},
+					"categoryAxisText": {
+						"visible": false
+					},
+					"valueAxisText": {
+						"visible": false
+					}
+				},
+				"title": {
+					"text": "Line chart",
+					"visible": true,
+					"alignment": "Left"
+				},
+				"measureAxis": "valueAxis",
+				"dimensionAxis": "categoryAxis",
+				"data": {
+					"json": {
+						"dimensions": {
+							"Month": "Month"
+						},
+						"legend": {
+							"visible": true,
+							"position": "Bottom",
+							"alignment": "TopLeft"
+						},
+						"list": []
+					},
+					"path": "/list"
+				},
+				"dimensions": [
+					{
+						"label": "{dimensions/Month}",
+						"value": "{Month}"
+					}
+				],
+				"measures": []
+			}
+		}
+	},
+
+	"stackedone": {
+		"sap.app": {
+			"id": "card.explorer.stackedBar.list.card",
+			"type": "card",
+			"title": "Sample of a List with StackedBar Chart",
+			"subTitle": "Sample of a List with StackedBar chart",
+			"applicationVersion": {
+				"version": "1.0.0"
+			},
+			"shortTitle": "A short title for this Card",
+			"info": "Additional information about this Card",
+			"description": "A long description for this Card",
+			"tags": {
+				"keywords": [
+					"List",
+					"Chart",
+					"Card",
+					"Sample"
+				]
+			}
+		},
+		"sap.ui": {
+			"technology": "UI5",
+			"icons": {
+				"icon": "sap-icon://list"
+			}
+		},
+		"sap.card": {
+			"type": "List",
+			"header": {
+				"title": "사용경비 현황",
+				"subTitle": "by month"
+			},
+			"content": {
+				"data": {
+					"json": {
+						"legend": {
+							"items": {
+								
+							}
+						},
+						"maxOverYears": 700,
+						"Notebooks": [
+							
+						]
+					},
+					"path": "/Notebooks"
+				},
+				"maxItems": 4,
+				"item": {
+					"title": "{Month}",
+					"chart": {
+						"type": "StackedBar",						
+						"maxValue": "{/maxOverYears}",
+						"bars": [
+							
+						]
+					}
+				}
+			}
+		}
+	},
+	
+	"stackedBar" : {
+		"_version": "1.14.0",
+		"sap.app": {
+			"id": "card.explorer.stacked.column.card",
+			"type": "card",
+			"title": "Sample of a Stacked Column Chart",
+			"subTitle": "Sample of a Stacked Column Chart",
+			"applicationVersion": {
+				"version": "1.0.0"
+			},
+			"shortTitle": "A short title for this Card",
+			"info": "Additional information about this Card",
+			"description": "A long description for this Card",
+			"tags": {
+				"keywords": [
+					"Analytical",
+					"Card",
+					"Stacked Column",
+					"Sample"
+				]
+			}
+		},
+		"sap.ui": {
+			"technology": "UI5",
+			"icons": {
+				"icon": "sap-icon://full-stacked-column-chart"
+			}
+		},
+		"sap.card": {
+			"type": "Analytical",
+			"header": {
+				"type": "Numeric",
+				"title": "사용경비 현황",
+				"subTitle": "by month",
+				"mainIndicator": {
+				}
+			},
+			"content": {
+				"chartType": "StackedColumn",
+				"legend": {
+					"visible": true,
+					"position": "Bottom",
+					"alignment": "Center"
+				},
+				"plotArea": {
+					"dataLabel": {
+						"visible": false,
+						"showTotal": true
+					},
+					"categoryAxisText": {
+						"visible": false
+					},
+					"valueAxisText": {
+						"visible": false
+					}
+				},
+				"title": {
+					"visible": false,
+					"alignment": "Left"
+				},
+				"measureAxis": "valueAxis",
+				"dimensionAxis": "categoryAxis",
+				"data": {
+					"json": {
+						"list": [
+							
+						]
+					},
+					"path": "/list"
+				},
+				"dimensions": [
+					{
+						"label": "Month",
+						"value": "{Month}"
+					}
+				],
+				"measures": [
+					
+				]
+			}
+		}
+	},
+	
+	
+	"calendar": {
+		"sap.app": {
+			"id": "sample.CardsLayout.model.calendar",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "Calendar",
+			"data": {
+				"json": {
+					"specialDate": [
+						
+					],
+					"legendItem": [
+						
+					]
+				}
+			},
+			"header": {
+				"title": "My calendar",
+				"subTitle": "근태 현황"
+			},
+			"content": {
+				"date": "2020.09.01",
+				"maxLegendItems": 5,
+				"noItemsText": " ",
+				"specialDate": {
+					"template": {
+						"startDate": "{start}",
+						"endDate": "{end}",
+						"type": "{type}"
+					},
+					"path": "/specialDate"
+				},
+				"legendItem": {
+					"template": {
+						"category": "{category}",
+						"text": "{text}",
+						"type": "{type}"
+					},
+					"path": "/legendItem"
+				}
+			}
+		}
+	},
+
+	"donut": {
+		"sap.app": {
+			"id": "sample.CardsLayout.model.donut",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "Analytical",
+			"header": {
+				"title": "부서 사용경비"
+			},
+			"content": {
+				"chartType": "Donut",
+				"legend": {
+					"visible": true,
+					"position": "Right",
+					"alignment": "Center"
+				},
+				"plotArea": {
+					"dataLabel": {
+						"visible": true,
+						"showTotal": true
+					}
+				},
+				"title": {
+					"text": "8월 카테고리별 사용경비",
+					"visible": true,
+					"alignment": "Center"
+				},
+				"measureAxis": "size",
+				"dimensionAxis": "color",
+				"data": {
+					"json": {
+						"measures": [
+							{
+								"measureName": "",
+								"value": 10
+							},
+							{
+								"measureName": "",
+								"value": 10
+							},
+							{
+								"measureName": "",
+								"value": 10
+							},{
+								"measureName": "",
+								"value": 10
+							},
+							{
+								"measureName": "기타",
+								"value": 10
+							},
+							{
+								"measureName": "여유 예산",
+								"value": 10
+							}
+						]
+					},
+					"path": "/measures"
+				},
+				"dimensions": [{
+					"label": "Measure Name",
+					"value": "{measureName}"
+				}],
+				"measures": [{
+					"label": "Value",
+					"value": "{value}"
+				}]
+			}
+		}
+	},
+
+	"donut2": {
+			"sap.app": {
+				"id": "sample.CardsLayout.model.donut",
+				"type": "card"
+			},
+			"sap.card": {
+				"type": "Analytical",
+				"header": {
+					"title": "프로젝트 사용경비"
+				},
+				"content": {
+					"chartType": "Donut",
+					"legend": {
+						"visible": true,
+						"position": "Right",
+						"alignment": "Center"
+					},
+					"plotArea": {
+						"dataLabel": {
+							"visible": true,
+							"showTotal": true
+						}
+					},
+					"title": {
+						"text": "8월 카테고리별 사용경비",
+						"visible": true,
+						"alignment": "Center"
+					},
+					"measureAxis": "size",
+					"dimensionAxis": "color",
+					"data": {
+						"json": {
+							"measures": [
+							
+						]
+						},
+						"path": "/measures"
+					},
+					"dimensions": [{
+						"label": "Measure Name",
+						"value": "{measureName}"
+					}],
+					"measures": [{
+						"label": "Value",
+						"value": "{value}"
+					}]
+				}
+			}
+	},
+
+	"stackedColumn": {
+		"sap.app": {
+			"id": "sample.CardsLayout.model.Analytical",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "Analytical",
+			"header": {
+				"type": "Numeric",
+				"title": "전월 부서원 경비 사용현황"
+			},
+			"content": {
+				"chartType": "StackedBar",
+				"legend": {
+					"visible": false,
+					"position": "Right",
+					"alignment": "Left"
+				},
+				"plotArea": {
+					"dataLabel": {
+						"visible": false,
+						"showTotal": true
+					},
+					"categoryAxisText": {
+						"visible": false
+					},
+					"valueAxisText": {
+						"visible": false
+					}
+				},
+				"title": {
+					"visible": false
+				},
+				"measureAxis": "valueAxis",
+				"dimensionAxis": "categoryAxis",
+				"data": {
+					"json": {
+						"list": [
+							
+						]
+					},
+					"path": "/list"
+				},
+				"dimensions": [
+					{
+						"label": "Categories",
+						"value": "{Category}"
+					}
+				],
+				"measures": [
+					{
+						"label": "expense",
+						"value": "{expense}"
+					}
+				]
+			}
+		}
+	},
+	
+	"stackedColumn2": {
+		"sap.app": {
+			"id": "sample.CardsLayout.model.Analytical",
+			"type": "card"
+		},
+		"sap.card": {
+			"type": "Analytical",
+			"header": {
+				"type": "Numeric",
+				"title": "프로젝트 팀원 경비 사용현황"
+			},
+			"content": {
+				"chartType": "StackedBar",
+				"legend": {
+					"visible": false,
+					"position": "Bottom",
+					"alignment": "Left"
+				},
+				"plotArea": {
+					"dataLabel": {
+						"visible": false,
+						"showTotal": true
+					},
+					"categoryAxisText": {
+						"visible": false
+					},
+					"valueAxisText": {
+						"visible": false
+					}
+				},
+				"title": {
+					"visible": false
+				},
+				"measureAxis": "valueAxis",
+				"dimensionAxis": "categoryAxis",
+				"data": {
+					"json": {
+						"list": [
+							
+						]
+					},
+					"path": "/list"
+				},
+				"dimensions": [
+					{
+						"label": "Categories",
+						"value": "{Category}"
+					}
+				],
+				"measures": [
+					{
+						"label": "expense",
+						"value": "{expense}"
+					}
+				]
+			}
+		}
+	}
+
+
+  
+}

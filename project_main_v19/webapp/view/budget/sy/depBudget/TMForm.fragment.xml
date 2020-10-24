@@ -1,0 +1,64 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		contentWidth="30%"
+		id="TMForm"
+		title="부서매니저 상세정보"
+		titleAlignment="Center">
+			<content>
+			<f:Form>
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanS="5"
+						columnsS="1" />	
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="부서">
+								<f:fields>
+									<Text text="{teaminitsun>/pmData/0/GNAME}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="이름">
+								<f:fields>
+									<Text text="{teaminitsun>/pmData/0/ENAME}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="연락처">
+								<f:fields>
+									<Text text="{teaminitsun>/pmData/0/PNUM}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="이메일">
+								<f:fields>
+									<Text text="{teaminitsun>/pmData/0/EMAIL}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="">
+								<f:fields>
+									<Button icon="sap-icon://email" press=".openemail" width="20%"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+		<beginButton>
+			<Button text="확인"
+					press=".onCloseDialog" />
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>
+

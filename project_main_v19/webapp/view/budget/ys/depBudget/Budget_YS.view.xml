@@ -1,0 +1,19 @@
+<mvc:View
+	controllerName="ExpenseManagement.controller.budget.ys.depBudget.Budget_YS"
+	xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" >
+		<App>
+			<pages>
+				<Page title="부서 예산 증액 요청">
+					<content>
+                        <Panel class="sapUiResponsiveMargin" width="auto">
+					        <mvc:XMLView viewName="ExpenseManagement.view.budget.ys.depBudget.TeamList_YS"/>
+                            <mvc:XMLView viewName="ExpenseManagement.view.budget.ys.depBudget.TBudgetList_YS"/>
+                        </Panel>
+					</content>
+				</Page>
+			</pages>
+		</App>
+</mvc:View>
+

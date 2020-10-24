@@ -1,0 +1,16 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core" >
+   <Dialog
+      id="RpRenameDialog"
+      title="다른이름으로 저장">
+      <content>
+        <Text class="sapUiSmallMarginBegin" text="파일이름 : "></Text>
+        <Input class="sapUiSmallMarginBegin" width="200px" value="{PaymentRt>/fragInputData}"></Input>
+      </content>
+      <buttons>
+        <Button text="저장" press=".onSaveReNameReport"/>
+        <Button text="취소" press=".onCloseReNameReport"/>  
+      </buttons>
+   </Dialog>
+</core:FragmentDefinition>

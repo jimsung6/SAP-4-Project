@@ -1,0 +1,128 @@
+<mvc:View 
+	controllerName="ExpenseManagement.controller.budget.sy.depBudget.Detail"
+	xmlns:mvc="sap/ui/core/mvc"
+	xmlns="sap/m"
+	xmlns:table="sap.ui.table"
+	xmlns:f="sap/ui/layout/form"
+    xmlns:core="sap/ui/core"
+	xmlns:u="sap.ui.unified">
+	<Page showNavButton="true"
+		  navButtonPress=".onNavBack">
+		<content>
+	
+		<table:Table
+		id="teamspecificlist"
+		fixedColumnCount="2"
+		selectionMode="{teaminitsun>/info/Toggle}"
+		selectionBehavior="Row"
+		rows="{teaminitsun>/detail}"
+		visibleRowCount="10"
+		>
+		<table:extension>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button text="승인"  visible="{teaminitsun>/info/Approvebtn}" press=".aConfirmMsg"/>
+				<Button text="반려" visible="{teaminitsun>/info/Rejectbtn}" press =".rejOpen"/>
+				
+			</OverflowToolbar>
+		</table:extension>
+			<table:columns>
+			 <table:Column width="80px"  hAlign="Center">
+					<Label text="긴급여부"/>
+					<table:template >
+					<core:Icon src="sap-icon://circle-task-2" color = "{teaminitsun>Depembtn}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="80px" hAlign="Center" >
+					<Label text="요청사유"/>
+					<table:template>
+						<Button text="보기" press =".open"/>
+					</table:template>
+				</table:Column>
+					<table:Column width="80px" hAlign="Center">
+					<Label text="기안코드"/> 
+					<table:template>
+						<Text text="{teaminitsun>TPICODE}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="100px" hAlign="Center">
+					<Label text="기안일"/>
+					<table:template>
+						<Text text="{teaminitsun>DTDATE}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="150px" hAlign="Center">
+					<Label text="부서명"/>
+					<table:template>
+						<Text text="{teaminitsun>GNAME}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="130px" hAlign="Center"  >
+					<Label text="부서매니저"/>
+					<table:template>
+						<Link text="{teaminitsun>AUNAME}" emphasized="true" press=".pmOpen" />
+					</table:template>
+				</table:Column>
+				<table:Column width="130px" hAlign="Center">
+					<Label text="증액요청 날짜"/>
+					<table:template>
+						<Text text="{teaminitsun>REQDATE}"/>
+					</table:template>
+				</table:Column> 
+				<table:Column width="150px" hAlign="Center">
+					<Label text="요청예산(원)"/>
+					<table:template>
+				<u:Currency value="{teaminitsun>TREBUD}" 
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/> 
+					</table:template>
+				</table:Column>
+				<table:Column width="80px" hAlign="Center">
+					<Label text="처리현황"/>
+					<table:template>
+						<Link text="{teaminitsun>SNAME}" emphasized="true" press=".rejView" enabled="{teaminitsun>ReReasonlink}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="100px" hAlign="Center">
+					<Label text="담당자"/>
+					<table:template>
+						<Text text="{teaminitsun>PYNAME}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="150px" hAlign="Center">
+					<Label text="남은예산"/>
+					<table:template>
+					<u:Currency value="{teaminitsun>REMBUD}" 
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/> 
+					</table:template>
+				</table:Column>
+				<table:Column width="150px" hAlign="Center">
+					<Label text="총예산"/>
+					<table:template>
+					<u:Currency value="{teaminitsun>DEPPR}" 
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/> 
+					</table:template>
+				</table:Column>
+					<table:Column width="150px" visible="{teaminitsun>/info/Approve}" hAlign="Center">
+					<Label text="승인일"/>
+					<table:template>
+						<Text text="{teaminitsun>TACCDATE}"/>
+					</table:template>
+				</table:Column>
+					<table:Column width="150px" visible="{teaminitsun>/info/Reject}" hAlign="Center">
+					<Label text="반려일"/>
+					<table:template>
+						<Text text="{teaminitsun>TREJDATE}"/>
+					</table:template>
+				</table:Column>
+			</table:columns>	
+		</table:Table>
+	</content>
+	</Page>
+	
+</mvc:View>

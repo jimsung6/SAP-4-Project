@@ -1,0 +1,103 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+      id="helloDialog"
+      title="사원 조회"
+      contentHeight="60%"
+      contentWidth="60%">
+
+            <content>
+
+                <l:VerticalLayout
+                    width="100%"
+                    class="gridWrapper ">
+                    <l:Grid
+                        containerQuery="true"
+                        defaultSpan="XL12 L12 M12 S12">
+                            <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <HBox>
+
+                                   <ComboBox 
+                                        class="sapUiSmallMarginEnd"
+                                        selectedKey="{/comboData}"
+                                        showSecondaryValues="true"
+                                        items="{/comboDataItems}">
+                                        <items>
+                                        <core:ListItem key="{GCODE}" text="{GNAME}" additionalText = "{GCODE}"/>
+                                        </items>
+                                    </ComboBox>
+
+                                    <SearchField liveChange="onSearchChange" value="{/nameSearch}" placeholder="사원검색" width ="200px"></SearchField>
+                                </HBox> 
+                                <ToolbarSpacer/> 
+                                <Button width ="60px" text="조회" press="onSearch"></Button>  
+                            </OverflowToolbar>
+
+                    </l:Grid>
+                </l:VerticalLayout>
+
+
+                <l:VerticalLayout
+                    width="100%"
+                    class="gridWrapper">
+                    <l:Grid
+                        containerQuery="true"
+                        defaultSpan="XL12 L12 M12 S12">
+                        <t:Table 
+                            id="fragTable"
+                            rowSelectionChange="onRowSelection"
+                            selectionMode="Single"
+                            selectionBehavior="Row"
+                            rows="{/fragInfo}"
+                            visibleRowCount="5">
+                            <t:columns>
+
+                                <t:Column>
+                                    <Label text="부서코드"></Label>
+                                    <t:template>
+                                        <Text text="{GCODE}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="부서명"></Label>
+                                    <t:template>
+                                        <Text text="{GNAME}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="사원번호"></Label>
+                                    <t:template>
+                                        <Text text="{EMPNO}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="사원이름"></Label> 
+                                    <t:template>
+                                        <Text text="{ENAME}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                            </t:columns>
+                        </t:Table>
+
+                    </l:Grid>
+                </l:VerticalLayout>
+
+            </content>
+
+            <buttons>
+                <Button text="추가" press=".onAddData"/>
+                <Button text="취소" press=".onCloseDialog"/>
+            </buttons>
+
+   </Dialog>
+
+</core:FragmentDefinition>

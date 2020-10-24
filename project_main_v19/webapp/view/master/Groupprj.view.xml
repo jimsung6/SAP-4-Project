@@ -1,0 +1,84 @@
+<!-- 성훈행님 : 조직정보마스터 -->
+<mvc:View 
+	controllerName="ExpenseManagement.controller.master.Groupprj" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" 
+	xmlns="sap.ui.table"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+	xmlns:m="sap.m"
+	height="100%">
+	<m:Page
+		showHeader="false"
+		enableScrolling="false"
+		class="sapUiContentPadding">
+		<m:content>
+			<Table
+				rows="{		
+				    path: 'GROUP>/T_TAB1', 
+				    sorter: {
+				        path: 'GROUP>GCODE', 
+				        descending: false
+				        }
+				}"
+				selectionMode="Single"
+				selectionBehavior="Row"
+				ariaLabelledBy="title"
+				visibleRowCount="15">
+				<extension>
+					<m:OverflowToolbar>
+						<m:Title id="title" text="조직정보 마스터 조회"/>
+					</m:OverflowToolbar>
+				</extension>
+				<columns>
+					<Column width="100px"
+					sortOrder="Descending">
+						<m:Label text="부서코드" />
+						<template>
+							<m:Text text="{GROUP>GCODE}" />
+						</template>
+					</Column>
+					<Column width="200px">
+						<m:Label text="승인자" />
+						<template>
+							<m:Text text="{GROUP>AUEMP}"/>
+						</template>
+					</Column>
+					<Column width="200px">
+						<m:Label text="계좌번호" />
+						<template>
+							<m:Text text="{GROUP>CACCT}" />
+						</template>
+					</Column>
+					<Column width="200px">
+						<m:Label text="부서이름" />
+						<template>
+							<m:Text text="{GROUP>GNAME}" />
+						</template>
+					</Column>
+					<Column width="150px">
+						<m:Label text="시작일" />
+						<template>
+							<m:Text text="{GROUP>SDATE}" />
+						</template>
+					</Column>
+					<Column width="150px">
+						<m:Label text="종료일" />
+						<template>
+							<m:Text text="{GROUP>EDATE}" />
+						</template>
+					</Column>
+					<Column width="200px">
+						<m:Label text="지급사원" />
+						<template>
+							<m:Text text="{GROUP>PYEMP}" />
+						</template>
+					</Column>
+					
+				</columns>
+			</Table>
+		</m:content>
+	</m:Page>
+</mvc:View>

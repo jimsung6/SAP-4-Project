@@ -1,0 +1,100 @@
+<!-- 성훈행님 : 프로젝트 마스터 -->
+<mvc:View 
+	controllerName="ExpenseManagement.controller.master.Projectprj" 
+	xmlns:html="http://www.w3.org/1999/xhtml" 
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" 
+	xmlns="sap.ui.table"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.core"
+	xmlns:m="sap.m"
+	height="100%">
+	<m:Page
+		showHeader="false"
+		enableScrolling="false"
+		class="sapUiContentPadding">
+		<m:content>
+			<Table
+				rows="{		
+				    path: 'PROJECT>/T_TAB1', 
+				    sorter: {
+				        path: 'PROJECT>PCODE', 
+				        descending: false
+				        }
+				}"
+				selectionMode="Single"
+				selectionBehavior="Row"
+				ariaLabelledBy="title"
+				visibleRowCount="20">
+				<extension>
+					<m:OverflowToolbar>
+						<m:Title id="title" text="프로젝트정보 마스터 조회"/>
+					</m:OverflowToolbar>
+				</extension>
+				<columns>
+					<Column width="50px"
+					sortOrder="Descending">
+						<m:Label text="코드" />
+						<template>
+							<m:Text text="{PROJECT>PCODE}" />
+						</template>
+					</Column>
+					<Column width="105px">
+						<m:Label text="승인자" />
+						<template>
+							<m:Text text="{PROJECT>AUEMP}" />
+						</template>
+					</Column>
+					<Column width="400px">
+						<m:Label text="프로젝트 이름" />
+						<template>
+							<m:Text text="{PROJECT>PNAME}" />
+						</template>
+					</Column>
+					<Column width="110Px">
+						<m:Label text="계약금(KRW)" />
+						<template>
+							<u:Currency
+                			value="{PROJECT>PMONEY}" 
+                			maxPrecision="0" 
+                			useSymbol="false"/>
+						</template>
+					</Column>
+					<Column width="90px">
+						<m:Label text="시작일" />
+						<template>
+							<m:Text text="{PROJECT>SDATE}" />
+						</template>
+						  
+					</Column>
+					<Column width="90px">
+						<m:Label text="종료일" />
+						<template>
+							<m:Text text="{PROJECT>EDATE}" />
+						</template>
+					</Column>
+					<Column width="50px">
+						<m:Label text="지급" />
+						<template>
+							<m:Text text="{PROJECT>PTEXP}" />
+						</template>
+					</Column>
+					<Column width="200px">
+						<m:Label text="고객사명" />
+						<template>
+							<m:Text text="{PROJECT>ZCLNT}" />
+						</template>
+					</Column>
+					<Column width="105px">
+						<m:Label text="지급사원" />
+						<template>
+							<m:Text text="{PROJECT>PYEMP}" />
+						</template>
+					</Column>
+					
+				</columns>
+			</Table>
+		</m:content>
+	</m:Page>
+</mvc:View>

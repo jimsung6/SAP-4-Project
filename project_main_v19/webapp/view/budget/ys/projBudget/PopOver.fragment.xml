@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns:calendar="sap.ui.unified.calendar" xmlns:cards="sap.f.cards"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		title="요청 사유"
+		placement="Bottom"
+        class="sapUiPopupWithPadding"
+        contentWidth="30%">
+	<content>
+    <Text text="{/requestData}" />
+	</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					text="닫기"
+					press="handleActionPress" />
+			</Toolbar>
+		</footer>
+	</Popover>
+</core:FragmentDefinition>

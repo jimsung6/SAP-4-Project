@@ -1,0 +1,106 @@
+<!-- 김지언 : 사원정보 -->
+<mvc:View 
+   controllerName="ExpenseManagement.controller.master.EmpTableKJE" 
+   xmlns:html="http://www.w3.org/1999/xhtml" 
+   xmlns:mvc="sap.ui.core.mvc"
+   displayBlock="true" 
+   xmlns="sap.ui.table"
+   xmlns:form="sap.ui.layout.form"
+   xmlns:f="sap.ui.comp.filterbar"
+   xmlns:u="sap.ui.unified"
+   xmlns:c="sap.ui.core"
+   xmlns:m="sap.m"
+   height="100%">
+   <m:Page
+      showHeader="false"
+      enableScrolling="false"
+      class="sapUiContentPadding">
+      <m:content>
+         <Table
+        	id="EmpTable"
+            rows="{      
+                path: 'employeeKJE>/T_TAB1', 
+                sorter: {
+                    path: 'employeeKJE>EMPNO', 
+                    descending: false
+                    }
+            }"
+            selectionMode="Single"
+            selectionBehavior="Row"
+            ariaLabelledBy="title"
+            visibleRowCount="20">
+            <extension>
+               <m:OverflowToolbar>
+               	<m:content>
+                  <m:Title id="title" text="사원 마스터 조회"/>
+                  <m:ToolbarSpacer></m:ToolbarSpacer>
+                  <m:Label text="사원 이름:"/>
+                  <m:SearchField
+									placeholder="Filter"
+									value="{employeeKJE>/filterData}"
+									liveChange="onfilter"
+									width="10rem"/>
+					<m:Label text="	부서 번호:"/>
+					<m:SearchField
+									placeholder="Filter"
+									value="{employeeKJE>/filterData2}"
+									liveChange="onfilter2"
+									width="10rem"/>
+                  </m:content>
+               </m:OverflowToolbar>
+            </extension>
+            <columns>
+               <Column width="190px"
+               sortOrder="Descending">
+                  <m:Label text="사원 번호" />
+                  <template>
+                     <m:Text text="{employeeKJE>EMPNO}" />
+                  </template>
+               </Column>
+               <Column width="100px">
+                  <m:Label text="사원 이름" />
+                  <template>
+                     <m:Text text="{employeeKJE>ENAME}"/>
+                  </template>
+               </Column>
+               <Column width="100px">
+                  <m:Label text="직급" />
+                  <template>
+                     <m:Text text="{employeeKJE>JOB}" />
+                  </template>
+               </Column>
+               <Column width="100px">
+                  <m:Label text="부서 번호" />
+                  <template>
+                     <m:Text text="{employeeKJE>GCODE}" />
+                  </template>
+               </Column>
+               <Column width="100px">
+                  <m:Label text="은행명" />
+                  <template>
+                     <m:Text text="{employeeKJE>BANKL}" />
+                  </template>
+               </Column>
+               <Column width="200px">
+                  <m:Label text="계좌번호" />
+                  <template>
+                     <m:Text text="{employeeKJE>CACCT}" />
+                  </template>
+               </Column>
+               <Column width="200px">
+                  <m:Label text="전화번호" />
+                  <template>
+                     <m:Text text="{employeeKJE>PNUM}" />
+                  </template>
+               </Column>
+               <Column width="200px">
+                  <m:Label text="이메일" />
+                  <template>
+                     <m:Text text="{employeeKJE>EMAIL}" />
+                  </template>
+               </Column>
+            </columns>
+         </Table>
+      </m:content>
+   </m:Page>
+</mvc:View>

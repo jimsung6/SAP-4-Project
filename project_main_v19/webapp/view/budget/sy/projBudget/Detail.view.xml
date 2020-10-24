@@ -1,0 +1,122 @@
+<mvc:View 
+	controllerName="ExpenseManagement.controller.budget.sy.projBudget.Detail"
+	xmlns:mvc="sap/ui/core/mvc"
+	xmlns="sap/m"
+	xmlns:table="sap.ui.table"
+	xmlns:f="sap/ui/layout/form"
+    xmlns:core="sap/ui/core"
+	xmlns:u="sap.ui.unified">
+	<Page showNavButton="true"
+		  navButtonPress=".onNavBack">
+		<content>
+	
+		<table:Table
+		id="productslist"
+		fixedColumnCount="2"
+		selectionMode="{projectinitsun>/info/Toggle}"
+		selectionBehavior="Row"
+		rows="{projectinitsun>/detail}"
+		rowSelectionChange=".onRowSelectionChange" 
+		visibleRowCount="10"
+		>
+		<table:extension>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button text="승인"  visible="{projectinitsun>/info/Approvebtn}" press=".aConfirmMsg"/>
+				<Button text="반려" visible="{projectinitsun>/info/Rejectbtn}" press =".rejOpen"/>
+			</OverflowToolbar>
+		</table:extension>
+			<table:columns>
+			<table:Column width="80px" hAlign="Center">
+					<Label text="긴급여부"/>
+					<table:template >
+					<core:Icon src="sap-icon://circle-task-2" color = "{projectinitsun>Depembtn}" />
+					</table:template>
+				</table:Column>
+				<table:Column width="80px" hAlign="Center" >
+					<Label text="요청사유"/>
+					<table:template>
+						<Button text="보기" press =".open"/>
+					</table:template>
+				</table:Column>
+					<table:Column width="80px" hAlign="Center">
+					<Label text="기안코드"/>
+					<table:template>
+						<Text text="{projectinitsun>PICODE}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="100px" hAlign="Center">
+					<Label text="기안일"/>
+					<table:template>
+						<Text text="{projectinitsun>DPDATE}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="300px" hAlign="Center">
+					<Label text="프로젝트명"/>
+					<table:template>
+						<Link text="{projectinitsun>PNAME}" emphasized="true" press=".proOpen"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="100px" hAlign="Center"  >
+					<Label text="매니저"/>
+					<table:template>
+						<Link text="{projectinitsun>AUNAME}" emphasized="true" press=".pmOpen"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="130px" hAlign="Center">
+					<Label text="요청예산"/>
+					<table:template>
+					<u:Currency value="{projectinitsun>REBUD}" 
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="80px" hAlign="Center">
+					<Label text="처리현황"/>
+					<table:template>
+						<Link text="{projectinitsun>SNAME}" emphasized="true" press=".rejView" enabled="{projectinitsun>ReReasonlink}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="100px" hAlign="Center">
+					<Label text="담당자"/>
+					<table:template>
+						<Text text="{projectinitsun>PYNAME}"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="170px" hAlign="Center">
+					<Label text="남은예산"/>
+					<table:template>
+					<u:Currency value="{projectinitsun>REMBUD}" 
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/>
+					</table:template>
+				</table:Column>
+				<table:Column width="170px" hAlign="Center">
+					<Label text="총예산"/>
+					<table:template>
+					<u:Currency value="{projectinitsun>PROBUD}" 
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/>
+					</table:template>
+				</table:Column>
+					<table:Column width="150px" visible="{projectinitsun>/info/Approve}" hAlign="Center">
+					<Label text="승인일"/>
+					<table:template>
+						<Text text="{projectinitsun>ACCDATE}"/>
+					</table:template>
+				</table:Column>
+					<table:Column width="150px" visible="{projectinitsun>/info/Reject}" hAlign="Center">
+					<Label text="반려일"/>
+					<table:template>
+						<Text text="{projectinitsun>REJDATE}"/>
+					</table:template>
+				</table:Column>
+			</table:columns>	
+		</table:Table>
+	</content>
+	</Page>
+	
+</mvc:View>

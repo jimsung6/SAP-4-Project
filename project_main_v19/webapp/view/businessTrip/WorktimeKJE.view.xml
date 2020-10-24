@@ -1,0 +1,294 @@
+<mvc:View 
+   controllerName="ExpenseManagement.controller.businessTrip.WorktimeKJE"
+   displayBlock="true"
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns:u="sap.ui.unified"
+   xmlns:c="sap.ui.core"
+   xmlns="sap.m"
+   xmlns:l="sap.ui.layout"
+   xmlns:f="sap.ui.comp.filterbar"
+   xmlns:table="sap.ui.table">
+   
+      <l:VerticalLayout
+         width="100%"
+         class="gridWrapper">
+         <l:Grid
+            containerQuery="true"
+            defaultSpan="XL10 L10"
+            defaultIndent="XL1 L1"
+            hSpacing="0">
+            <OverflowToolbar>
+               <!--<DateRangeSelection-->
+           <!--             width="300px"-->
+           <!--             id="DRS"-->
+           <!--             dateValue="{/startDate}"-->
+           <!--             secondDateValue="{/endDate}"-->
+           <!--             change=".filterGlobally2"/>-->
+                        
+                 <DatePicker
+                    id="DP10"
+                    width="150px"
+                    value="{/WORKYM}"  
+                    displayFormat="y-MM"	
+                    valueFormat="yyyyMM"
+                    change="onDateChange"/>
+                    <ToolbarSpacer></ToolbarSpacer>
+                  <Button class="sapUiSmallMargin" icon="sap-icon://add" text="입력 행 추가" press=".onRowAdd"></Button>
+                  <Button class="sapUiTinyMarginEnd" icon="sap-icon://less" text="입력 행 삭제" press=".onDelete"></Button>
+                  <!--<Button class="sapUiTinyMarginEnd" text="저장" press=".onSave"></Button>-->
+                  <!--<Button class="sapUiTinyMarginEnd" text="승인 요청" press=".onAdmin"></Button>-->
+            </OverflowToolbar>
+
+         </l:Grid>
+      </l:VerticalLayout>
+      
+               <!--테이블-->
+         
+         <l:VerticalLayout
+            width="100%"
+            class="gridWrapper">
+         <l:Grid
+            defaultSpan="XL10 L12 M12 S12"
+            defaultIndent="XL1 L0 M0 S0"
+               containerQuery="true">
+      
+             <table:Table
+               id="Wtab"
+               selectionMode="MultiToggle"
+               rows="{/tableInfo}"
+               visibleRowCount="{/tableRow}"
+               selectionBehavior="Row"
+               rowSelectionChange=".rowSelection">
+              <table:columns>
+            	  <table:Column visible="{input}" width="120px">
+                      <Label text="Project Code" />
+                      <table:template>
+            			 <ComboBox enabled="{input}" showSecondaryValues="true"
+				                     selectedKey="{PCODE}"
+		                             items="{/rfcData}"
+		                             selectionChange="onComboSelect">
+	                        <items>
+	                           <c:ListItem key="{PCODE}" text="{PCODE}" additionalText = "{PNAME}"/>
+	                        </items>
+	                     </ComboBox>
+                      </table:template>
+                  </table:Column>
+                  
+                  
+                  <table:Column width="120px">
+                      <Label text="상태" />
+                      <table:template>
+                          <Text text="{APPLY}" />
+                      </table:template>
+                  </table:Column>
+                  
+               <table:Column visible="{input}"  width="60px">
+                      <Label text="1" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME01}" />
+                      </table:template>
+                </table:Column>
+             
+               <table:Column visible="{input}"  width="60px">
+                      <Label text="2" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME02}" />
+                      </table:template>
+                </table:Column>
+                  
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="3" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME03}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="4" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME04}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="5" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME05}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="6" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME06}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="7" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME07}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="8" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME08}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="9" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME09}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="10" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME10}" />
+                      </table:template>
+                </table:Column>
+                
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="11" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME11}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="12" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME12}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="13" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME13}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="14" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME14}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="15" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME15}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="16" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME16}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="17" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME17}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="18" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME18}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="19" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME19}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="20" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME20}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="21" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME21}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="22" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME22}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="23" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME23}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="24" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME24}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="25" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME25}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="26" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME26}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="27" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME27}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="28" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME28}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="29" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME29}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="30" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME30}" />
+                      </table:template>
+                </table:Column>
+                <table:Column visible="{input}"  width="60px">
+                      <Label text="31" />
+                      <table:template>
+                           <Input enabled="{input}" value="{WTIME31}" />
+                      </table:template>
+                </table:Column>
+                
+               </table:columns>
+          <table:footer>
+                    <OverflowToolbar>
+                       <Button class="sapUiTinyMarginEnd" text="저장" press=".onSave"></Button>
+                  <Button class="sapUiTinyMarginEnd" text="승인 요청" press=".onAdmin"></Button>
+                    </OverflowToolbar>
+            </table:footer>
+               
+           </table:Table>
+         </l:Grid>
+      </l:VerticalLayout>
+      
+</mvc:View>

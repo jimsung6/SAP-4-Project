@@ -1,0 +1,43 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		contentWidth="30%"
+		id="projectrejectDialog2"
+		class="sapUiPopupWithPadding"
+		title="반려사유"
+		titleAlignment="Center">
+		<content>
+		<f:Form>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanS="6"
+					columnsS="1" />	
+			</f:layout>
+			<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="반려코드">
+								<f:fields>
+									<Text text="{projectinitsun>/RejectViewData/RETCODE}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="반려내역">
+								<f:fields>
+									<Text text="{projectinitsun>/RejectViewData/REJTEXT}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+			</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+		<endButton>
+		<Button text="확인"
+					press= ".onCloseDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

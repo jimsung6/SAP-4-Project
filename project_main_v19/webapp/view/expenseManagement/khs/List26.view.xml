@@ -1,0 +1,217 @@
+<mvc:View 
+	controllerName="ExpenseManagement.controller.expenseManagement.List26"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:filterbar="sap.ui.comp.filterbar"
+	xmlns:t="sap.ui.table"
+	xmlns:u="sap.ui.unified"
+	xmlns:c="sap.ui.model.type.Currency">
+	
+	<Page>
+		<content>
+			<OverflowToolbar>
+            <ToolbarSpacer/>
+			<Button press=".onFilterSearch" text="조회"/>
+            <Button visible="{TEST>/comboEnable}" press=".onSave" text="지급" />
+            <Button visible="{TEST>/comboEnable}" press=".onRet" text="반려" />
+         </OverflowToolbar>
+			<filterbar:FilterBar id="payFilter"	 
+								 showFilterConfiguration="false"
+								 filterContainerWidth="10rem"
+								 showGoOnFB="false"
+								 useToolbar="false">				 
+				<filterbar:filterGroupItems>
+				
+				<!-- Delivery Date Filter Start -->
+					<filterbar:FilterGroupItem
+									label="날짜별"
+									groupName="default"
+									name="jpdat"
+									visibleInFilterBar="true">
+						<filterbar:control>
+							<DateRangeSelection 
+												id="DRS"
+												displayFormat="{TEST>/displayFormat}"
+												dateValue="{TEST>/oToday}"
+												secondDateValue="{TEST>/oToday2}"
+												change="handleChange"
+												/>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>	
+					<!-- Delivery Date Filter End -->
+					
+					<!-- Category Filter Start -->
+					<filterbar:FilterGroupItem
+									label="부서별"
+									groupName="default"
+									name="gcode"
+									visibleInFilterBar="true">
+						<filterbar:control>
+							<ComboBox selectedKey="{TEST>/filterbar/gcode}"
+										showSecondaryValues="true"
+										items="{TEST>/oGcode}">
+								<items>
+									<core:ListItem key="{TEST>GCODE}" text="{TEST>GNAME}" additionalText = "{TEST>GCODE}"/>
+								</items>
+							</ComboBox>
+						</filterbar:control>	
+					</filterbar:FilterGroupItem>
+					<!-- Category Filter End -->
+					
+					<!-- Category Filter Start -->
+					<filterbar:FilterGroupItem
+									label="프로젝트별"
+									groupName="default"
+									name="pcode"
+									visibleInFilterBar="true">
+						<filterbar:control>
+							<ComboBox selectedKey="{TEST>/filterbar/pcode}"
+										showSecondaryValues="true"
+										items="{TEST>/oPcode}">
+								<items>
+									<core:ListItem key="{TEST>PCODE}" text="{TEST>PNAME}" additionalText = "{TEST>PCODE}"/>
+								</items>
+							</ComboBox>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>
+					<!-- Category Filter End -->
+
+
+					<!-- Category Filter Start -->
+					<filterbar:FilterGroupItem
+									label="사원번호별"
+									groupName="default"
+									name="empno"
+									visibleInFilterBar="true">
+						<filterbar:control>
+							<MultiInput
+								selectedKey="{TEST>/filterbar/empno}"
+								id="multiInput2"
+								value="{TEST>/filterbar/empno}"
+								valueHelpRequest="handleValueHelp"
+								/>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>
+					<!-- Category Filter End -->
+
+					<!-- Category Filter Start -->
+					<filterbar:FilterGroupItem
+									label="계정과목별"
+									groupName="default"
+									name="codhc"
+									visibleInFilterBar="true">
+						<filterbar:control>
+							<ComboBox selectedKey="{TEST>/filterbar/codhc}"
+									  showSecondaryValues="true"
+									  items="{TEST>/oCodhc}">
+								<items>
+									<core:ListItem key="{TEST>CODHC}" text="{TEST>CODDN}" additionalText = "{TEST>CODHC}"/>
+								</items>
+							</ComboBox>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>
+					
+					
+					<!-- Category Filter End -->
+				</filterbar:filterGroupItems>
+			</filterbar:FilterBar>
+			<OverflowToolbar>
+							<RadioButtonGroup columns="4"
+											selectedIndex="{TEST>/filterbar/index}"
+											 >
+								<RadioButton text="전체항목" />
+								<RadioButton text="미결항목" />
+								<RadioButton text="완결항목" />
+								<RadioButton text="반려항목" />
+							</RadioButtonGroup>
+		 </OverflowToolbar>
+			<Table 
+			       id="cbotable"
+				   items="{TEST>/View}"
+				   mode = "MultiSelect"
+				   selectionChange=".rowSelection">
+		    <!-- mTable => selectionmode 이런 거 안 적어줘도 되고 그냥 mode 로 적어줌, Multiselect/singleselect/Delete/None 등 -->
+				<headerToolbar>
+					<OverflowToolbar>
+						<content>
+							<Title text="지급요청건" />
+							<ToolbarSpacer />	  
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="80px" hAlign="Center">
+						<Text text="전표번호" />
+					</Column>
+					<Column width="70px" hAlign="Center">
+						<Text text="사원번호" />
+					</Column>
+					<Column width="70px" hAlign="Center">
+						<Text text="부서" />
+					</Column>
+					<Column width="130px" hAlign="Center">
+						<Text text="프로젝트" />
+					</Column>
+						<Column width="100px" hAlign="Center">
+						<Text text="전표발생일자" />
+					</Column>
+					<Column width="80px" hAlign="Center">
+						<Text text="계정과목" />
+					</Column>
+					<Column width="90px" hAlign="Center">
+						<Text text="금액" />
+					</Column>
+					<Column width="100px" hAlign="Center">
+						<Text text="개인계좌" />
+					</Column>
+					<Column width="90px" hAlign="Center">
+						<Text text="회사계좌" />
+					</Column>
+					<Column width="80px" hAlign="Center">
+						<Text text="상태코드" />
+					</Column>
+					<Column width="70px" hAlign="Center">
+						<Text text="반려코드" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Link 
+								text="{TEST>JPNUM}"
+								press = ".proOpen"/>
+							<Text text="{TEST>ENAME}" />
+							<Text text="{TEST>GNAME}" />
+							<Text text="{TEST>PNAME}" />
+							<Text text="{TEST>JPDAT}" />
+							<Text text="{TEST>CODDN}" />
+							<u:Currency value="{TEST>PROPR}" maxPrecision="0" useSymbol="false"/>
+							<Text text="{TEST>ECACCT}" />
+							<ComboBox showSecondaryValues="true"
+							enabled = "{TEST>/comboEnable}"
+							selectedKey="{TEST>/sCacnr}"
+									  items="{TEST>/oCacnr}"
+									  value="{TEST>CACNR}">
+							<items>
+									<core:ListItem key="{TEST>CACNR}" text="{TEST>CACNR}" additionalText = "{TEST>BANKL}"/>
+							</items>
+							</ComboBox>	
+							<Text text="{TEST>STCOD}" />
+							<ComboBox showSecondaryValues="true"
+							enabled = "{TEST>/comboEnable}"
+							selectedKey="{TEST>/sRetcode}"
+									  items="{TEST>/oRetcode}"
+									  value="{TEST>RETCODE}">
+								<items>
+									<core:ListItem key="{TEST>RETCODE}" text="{TEST>RETCODE}" additionalText = "{TEST>RETTEXT}"/>
+								</items>
+							</ComboBox>
+						</cells>
+					</ColumnListItem>
+				</items>	   
+			</Table>
+		</content>
+	</Page>
+	
+</mvc:View>

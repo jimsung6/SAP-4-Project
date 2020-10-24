@@ -1,0 +1,103 @@
+<mvc:View 
+	controllerName="ExpenseManagement.controller.budget.sy.projBudget.Budget_SY"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:filterbar="sap.ui.comp.filterbar">
+	
+	<Page title="프로젝트 예산증액 승인/반려">
+		<content>
+			 <filterbar:FilterBar showGoOnFB="false"
+								useToolbar="false"
+								 showFilterConfiguration="false"
+								 filterContainerWidth="15rem"> 	
+		 
+				<filterbar:filterGroupItems>
+				<!-- project name Filter Start -->
+					<filterbar:FilterGroupItem
+									label="프로젝트명"
+									groupName="default"
+									name="PNAME"
+									visibleInFilterBar="true">
+									<filterbar:control>
+								<SearchField  search=".onFilter" value="{projectinitsun>/searchInfoPname}"/>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>
+					<!-- project name Filter End -->
+					
+					<!-- Project manager Filter Start -->
+					<filterbar:FilterGroupItem
+									label="프로젝트매니저"
+									groupName="default"
+									name="AUNAME"
+									visibleInFilterBar="true">
+						<filterbar:control>
+						<SearchField  search=".onFilter" value="{projectinitsun>/searchInfoAuname}"/>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>
+					<!--  Project manager Filter End -->
+				
+					<!-- the person in charge Filter Start -->
+					<filterbar:FilterGroupItem
+									label="담당자"
+									groupName="default"
+									name="PYNAME"
+									visibleInFilterBar="true">
+						<filterbar:control>
+						<SearchField  search=".onFilter" value="{projectinitsun>/searchInfoPyname}"/>
+						</filterbar:control>
+					</filterbar:FilterGroupItem>
+					<!--  the person in charge Filter End -->
+				</filterbar:filterGroupItems>
+			</filterbar:FilterBar>
+			<Table id="projectlistsun"
+				   items="{projectinitsun>/info}"
+				   growing="true"
+				   growingThreshold="10">
+		    <!-- mTable => selectionmode 이런 거 안 적어줘도 되고 그냥 mode 로 적어줌, Multiselect/singleselect/Delete/None 등 -->
+	
+				<columns>
+					<Column width="300px"   hAlign="Center">
+						<Text text="프로젝트명" />
+					</Column>
+					<Column width="180px"  hAlign="Center">
+						<Text text="프로젝트기간" />
+					</Column>
+					<Column width="80px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="매니저" />
+					</Column>
+					<Column width="80px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="담당자" />
+					</Column> 
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="미결건수(긴급건수)" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="반려건수(긴급건수)" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="완결건수(긴급건수)" />
+					</Column>
+					<Column width="148px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="총건수(긴급건수)" />
+					</Column>
+				</columns>
+				<items >
+					<ColumnListItem >
+						<cells>
+							<Text text="{projectinitsun>PNAME}"  />
+							<Text text="{projectinitsun>SDATE}~{projectinitsun>EDATE}" />
+							<Text text="{projectinitsun>AUNAME}" />
+							<Text text="{projectinitsun>PYNAME}" />
+					       <Link text="{projectinitsun>REMAIN}" emphasized="true" press=".onGoDetail"/>
+							<Link text="{projectinitsun>REJECT}" emphasized="true" press=".onGoDetail"/>
+							<Link text="{projectinitsun>COMPLETE}" emphasized="true" press=".onGoDetail"/>
+							<Link text="{projectinitsun>ALL}" emphasized="true" press=".onGoDetail"/>
+						</cells>
+					</ColumnListItem>
+				</items>	   
+			</Table>
+		</content>
+	</Page>
+	
+</mvc:View>

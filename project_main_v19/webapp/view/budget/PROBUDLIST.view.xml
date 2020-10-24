@@ -1,0 +1,105 @@
+<!-- 박민수 : 프로젝트별 예산 조회 -->
+<mvc:View
+   controllerName="ExpenseManagement.controller.budget.PROBUDLIST"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:filterbar="sap.ui.comp.filterbar"
+	xmlns:popover="sap.m.Popover"
+	xmlns:scroll="sap.m.ScrollContainer"
+	xmlns:u="sap.ui.unified">
+	
+	<Page>
+		<content>
+
+			<Table id="TEST"
+				   items="{TEST>/info}">
+			
+				   <!--items="{/ProductCollection}"-->
+				   <!--delete=".onRowDelete"-->
+				   <!-- growing="true"
+				   growingThreshold="5"> -->
+		    <!-- mTable => selectionmode 이런 거 안 적어줘도 되고 그냥 mode 로 적어줌, Multiselect/singleselect/Delete/None 등 -->
+			
+			<headerToolbar height="100px">
+					<OverflowToolbar height="80px">
+						<content>
+
+							<Title titleStyle="H2" text="프로젝트별 예산 조회" />
+
+							<ToolbarSpacer/>
+
+						
+
+					  <DateRangeSelection
+                                id="DRS"
+                                    displayFormat="{TEST>/displayFormat}"
+                                    dateValue="{TEST>/oToday}"
+                                    secondDateValue="{TEST>/oToday2}"
+                                    change="handleChange"
+                           width="20%"/>
+
+
+					
+
+							<Button class="sapUiTinyMarginTop" press=".onFiltering" text="조회" type="Emphasized"></Button>
+
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+
+				<columns>
+				<Column width="80px" minScreenWidth="Desktop"  hAlign="Center">
+						<Text text="프로젝트 코드"  />
+					</Column>
+					<Column width="300px"   hAlign="Center">
+						<Text text="프로젝트명" />
+					</Column>
+					<Column width="180px"  hAlign="Center">
+						<Text text="입력 금액(원)" />
+					</Column>
+					<Column width="150px"  hAlign="Center">
+						<Text text="입력 일자" />
+					</Column>
+					
+					<Column width="80px"  hAlign="Center">
+						<Text text="담당자" />
+					</Column> 
+					<Column width="148px" hAlign="Center">
+						<Text text="담당자 번호" />
+					</Column>
+					<Column width="148px"   hAlign="Center">
+						<Text text="프로젝트 시작일" />
+					</Column>
+					<Column width="148px"  hAlign="Center">
+						<Text text="프로젝트 마감일"/>
+					</Column>
+					 <Column hAlign="Center" width="150px" minScreenWidth="Tablet">
+                     <!-- mergeDuplicates="true" -->
+                  <Text text="잔여예산" />
+               </Column>
+
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation" press=".onDetail">
+						<cells>
+							<Text text="{TEST>PCODE}" />
+							<Text text="{TEST>PNAME}" />
+							<u:Currency
+                          value="{TEST>PROBUD}"  maxPrecision="0" useSymbol="false"/>
+							
+							<Text text="{TEST>PRODY}" />
+					       <Text text="{TEST>ENAME}" />
+							<Text text="{TEST>EMPNO}" />
+							<Text text="{TEST>SDATE}" />
+							<Text text="{TEST>EDATE}" />
+							<u:Currency
+                          value="{TEST>REMBUD}" maxPrecision="0" useSymbol="false"/>
+						</cells>
+					</ColumnListItem>
+				</items>	   
+			</Table>
+		</content>
+	</Page>
+	
+</mvc:View>

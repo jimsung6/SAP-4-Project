@@ -1,0 +1,63 @@
+<mvc:View
+    controllerName="ExpenseManagement.controller.budget.ys.projBudget.ProjectList_YS"
+	xmlns="sap.m"
+    xmlns:table="sap.ui.table"
+   	displayBlock="true"
+    xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc">
+        <table:Table
+            id="pTable"
+            title="프로젝트 리스트"
+            rows="{/projTableData}"
+            selectionBehavior="RowSelector"
+            selectionMode="Single"
+            rowSelectionChange=".onSelectionChange"
+            visibleRowCount="3"
+            threshold="10"> 
+                      <table:columns>
+                <table:Column width="6%" hAlign="Center">
+                    <Label text="프로젝트 코드" />
+                    <table:template>
+                        <Text text="{PCODE}"/>
+                    </table:template>
+                </table:Column>
+                <table:Column width="16%" hAlign="Center">
+                    <Label text="프로젝트 이름" />
+                    <table:template>
+                        <Text text="{PNAME}" />
+                    </table:template>
+                </table:Column>
+                <table:Column width="6%" hAlign="Center">
+                    <Label text="프로젝트 매니저" />
+                    <table:template>
+                        <Text text="{ENAME}" />
+                    </table:template>
+                </table:Column>
+                <table:Column width="8%" hAlign="Center">
+                    <Label text="프로젝트 시작일" />
+                    <table:template>
+					 <Text text="{SDATE}" />	                        
+                    </table:template>
+                </table:Column>
+                 <table:Column width="8%" hAlign="Center">
+                    <Label text="프로젝트 종료일" />
+                    <table:template>
+					 <Text text=" {EDATE}"/>			                        
+                    </table:template>
+                </table:Column>
+                 <table:Column width="5%" hAlign="Center">
+                    <Label text="작업 현황" />
+                    <table:template>
+                        <Text text="{STATUS}" />
+                    </table:template>
+                </table:Column>
+                  <table:Column width="6%" hAlign="Center">
+                    <Label text="예산증액요청" />
+                    <table:template>
+                        <Button text="등록" id="request" width="100%" visible="{= ${STATUS} === '진행중' ? true : false }" press=".onOpenDialog" />
+                    </table:template>
+                </table:Column>
+            </table:columns>
+        </table:Table>
+</mvc:View>
+

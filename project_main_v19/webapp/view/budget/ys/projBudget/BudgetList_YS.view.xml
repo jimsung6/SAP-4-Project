@@ -1,0 +1,100 @@
+<mvc:View
+	controllerName="ExpenseManagement.controller.budget.ys.projBudget.BudgetList_YS"
+	xmlns="sap.m"
+    xmlns:table="sap.ui.table"
+   	displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:filterbar="sap.ui.comp.filterbar"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:u="sap.ui.unified">
+	
+	<HBox justifyContent="End" class="sapUiLargeMarginTop">
+						<Label text="처리상태 :" labelFor="combo1" class="sapUiSmallMarginEnd" ></Label>
+						<ComboBox selectedKey="{/comboData}" id="combo1" width="100px" class="sapUiMediumMarginEnd">
+                          <items>
+                             <core:ListItem key="All" text="All"/>  
+                             <core:ListItem key="0" text="미결"/>
+                             <core:ListItem key="1" text="반려"/>
+                             <core:ListItem key="2" text="완결"/>
+                         </items>
+							</ComboBox>
+						<Label text="기안날짜 :" labelFor="Date1" class="sapUiSmallMarginEnd"></Label>
+						<DateRangeSelection
+									id="Date1"
+									dateValue="{/startDate}"
+									secondDateValue="{/endDate}"
+									delimiter="~"
+									displayFormat="yyyy-MM-dd"
+									width="220px"
+									class="sapUiSmallMarginEnd"
+									/>
+						<Button text = "실행" press = ".onFilterSearch" width="80px" type="Emphasized"/>
+	</HBox>
+	
+	<table:Table
+            id="budgets"
+            title="예산 증액 요청 리스트"
+            rows="{/projBudgetList}"
+            selectionMode="None"
+			visibleRowCount="10"
+            threshold="10"> 
+            <table:columns>
+                <table:Column width="5%" hAlign="Center">
+                    <Label text="기안 코드" />
+                    <table:template>
+                        <Text text="{PICODE}"/>
+                    </table:template>
+                </table:Column>
+                <table:Column width="6%" hAlign="Center">
+                    <Label text="기안날짜" />
+                    <table:template>
+                        <Text text="{DPDATE}" />
+                    </table:template>
+                </table:Column>
+                <table:Column width="8%" hAlign="Center">
+                    <Label text="요청 예산(KRW)" />
+                    <table:template>
+                        <u:Currency value="{REBUD}" maxPrecision="0" useSymbol="false"/>
+                    </table:template>
+                </table:Column>
+                <table:Column width="5%" hAlign="Center">
+                    <Label text="긴급" />
+                    <table:template>
+					 <Text text="{DEPEM}" />	                        
+                    </table:template>
+                </table:Column>
+                 <table:Column width="7%" hAlign="Center">
+                    <Label text="요청 사유" />
+                    <table:template>
+					 <Button text="보기" width="100%" press=".onShowRequest" />			                        
+                    </table:template>
+                </table:Column>
+                 <table:Column width="6%" hAlign="Center">
+                    <Label text="처리날짜" />
+                    <table:template>
+                        <Text text="{RDATE}" />
+                    </table:template>
+                </table:Column>
+                  <table:Column width="7%" hAlign="Center">
+                    <Label text="처리상태" />
+                    <table:template>
+                        <!-- 반려 시 예산 증액 요청 팝업창으로 다시 돌아가는 로직, 다시 예산 증액 요청시 기존의 레코드는 삭제되고 새로운 레코드가 생성된다. -->
+      				<Link text="{STATUS}" press=".onOpenDialog" emphasized="true" enabled="{= ${STATUS} === '반려' ? true : false }"/>
+                    </table:template>
+                </table:Column>
+				    <table:Column width="15%" hAlign="Center">
+                    <Label text="반려내역" />
+                    <table:template>
+                        <Text text="{REJTEXT}" />
+                    </table:template>
+                </table:Column>
+				 <table:Column width="7%" hAlign="Center">
+                    <Label text="재무 담당자" />
+                    <table:template>
+                    <!-- 담당자에게 이메일 보내는 로직 -->
+                	<Link text="{ENAME}" press=".onSendEmail" /> 
+                    </table:template>
+                </table:Column>
+            </table:columns>
+        </table:Table>
+</mvc:View>

@@ -1,0 +1,86 @@
+<mvc:View
+        controllerName="ExpenseManagement.controller.businessTrip.confirm.Detail"
+       xmlns="sap.m"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:core="sap.ui.core"
+        xmlns:u="sap.ui.unified">
+       
+
+
+    	<!-- 상세화면 -->
+        <Table
+              id="detailTable"
+              mode="MultiSelect"
+              selectionChange=".rowSelection"
+              growing="true"
+              growingThreshold="5"
+              items="{detailPerdium>/DetailList}">
+
+              <headerToolbar>
+             
+                <OverflowToolbar>
+                   <content>
+                      <Title text= "상세 목록"/>
+                      <ToolbarSpacer></ToolbarSpacer>
+                         <Button id="ssss1" text="승인"  type="Emphasized"  width="5%" press=".onAccept" visible="{detailPerdium>/comboEnable}" />
+                         <Button id="ssss2" text="반려"  type="Emphasized"  width="5%" press=".onReject" visible="{detailPerdium>/comboEnable}"/>
+                   </content>
+ 
+                </OverflowToolbar>
+              </headerToolbar>
+              <columns>
+                   <Column width=""  hAlign="Center">
+                      <Text text="전표 번호"/> 
+                  </Column>    
+                  
+                   <!-- <Column width=""  hAlign="Center">
+                      <Text text="프로젝트 코드"/> 
+                   </Column>        -->
+                           
+                   <Column width=""  hAlign="Center">
+                      <Text text="프로젝트 이름"/> 
+                    </Column>  
+                                  
+                              
+                   <!-- <Column width=""  hAlign="Center">
+                      <Text text="근무 월"/>               
+                   </Column> -->
+                   
+                   <Column width=""  hAlign="Center">
+                      <Text text="금액"/>               
+                   </Column>
+
+                   <Column width=""  hAlign="Center">
+                      <Text text="통화"/>               
+                   </Column>
+                   
+                   <Column width=""  hAlign="Center">
+                      <Text text="사원 계좌 번호"/>               
+                   </Column>
+                   
+                   <Column width=""  hAlign="Center">
+                      <Text text="상태"/>               
+                   </Column>
+                   
+              </columns>        
+             <items>
+                 <ColumnListItem >
+                     <cells>
+                        <Text text="{detailPerdium>POSNR}" hAlign="Center"/>
+                        <!-- <Text text="{detailPerdium>PCODE}"/> -->
+                        <Text text="{detailPerdium>PNAME}" hAlign="Center"/>
+                        <!-- <Text text="{detailPerdium>WORKYM}"/> -->
+                         <u:Currency
+                  value="{detailPerdium>PDIEM}" maxPrecision="0" useSymbol="false" hAlign="Center"/>
+                        <Text text="{detailPerdium>WAERS}" hAlign="Center"/>
+                        <Text text="{detailPerdium>CACCT1}" hAlign="Center"/>
+                        <!--<Text text="{perdium>CACCT2}"/>-->
+                        <Text text="{detailPerdium>STCODNA}" hAlign="Center"/>
+                     </cells>
+                 </ColumnListItem>
+             </items>
+        </Table>  
+     
+
+</mvc:View>

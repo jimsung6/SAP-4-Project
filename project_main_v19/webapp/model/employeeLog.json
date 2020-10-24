@@ -1,0 +1,32 @@
+{
+	"Log" :
+	{
+		"AUCODE" : "", 
+		"BANKL" : "",
+		"CACCT" : "",
+		"EMAIL" : "",
+		"EMPNO" : "",
+		"ENAME" : "",
+		"GCODE" : "",
+		"JOB" : "",
+		"PNUM" : ""
+	},	
+	"Type" :
+	{
+		"Type" : ""
+	},
+
+	"ButtonSetting" : {
+		"MasterSearch" : false,
+		"ExpenseManagement" : false,
+		"BTripManagement" : false,
+		"BudgetSearch" : false,
+		"BudgetRequest" : false,
+		"BudgetRequestCanc" : false,
+		"LogInfo" : false,
+		"BTripPayment" : false,
+		"Expense" : false
+	}
+
+
+}

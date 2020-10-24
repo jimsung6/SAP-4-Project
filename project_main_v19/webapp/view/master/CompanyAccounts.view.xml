@@ -1,0 +1,82 @@
+<mvc:View
+	height="100%"
+	controllerName="ExpenseManagement.controller.master.CompanyAccounts"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+
+	<Page showHeader="false" enableScrolling="true" class="sapUiContentPadding"
+		showNavButton="false">
+
+		<content>
+			<Table 
+				id="CompanyAccounts" 
+				growing="true" 
+				growingThreshold="10" 
+				paste="onPaste"
+			    mode="MultiSelect">
+				<headerToolbar>
+					<OverflowToolbar id="otbSubheader">
+						<Title text="회사계좌정보" level="H2" />
+						<ToolbarSpacer />
+						<Button id="createButton" text="생성" type="Emphasized"
+							press="onCreateDialog" />
+						<Button id="editButton" text="변경" type="Emphasized"
+							press="onEditAccount" />
+						<Button id="deleteButton" text="삭제" type="Emphasized"
+						press="onDeleteAccount" />
+						<Button id="saveButton" text="저장" type="Emphasized"
+							press="onSave" visible="false" />
+						<Button id="cancelButton" text="취소" type="Emphasized"
+							press="onCancel" visible="false" />
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column minScreenWidth="Tablet" width="5rem">
+						<Text text="계좌 코드" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="은행명" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="계좌번호" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="생성일" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="변경일" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier title="{accounts>CACNR}"/>
+							<Text text="{accounts>BANKL}"/>
+							<Text text="{accounts>CACCT}"/>
+							<Text text="{
+			                        path: 'accounts>CDATE',
+			                        type: 'sap.ui.model.type.Date',
+			                        formatOptions: {
+			                           style: 'long',
+			                           source: {
+			                              pattern: 'yyyyMMdd'
+			                           }
+			                        }
+			                     }" />
+							<Text text="{
+			                        path: 'accounts>MDATE',
+			                        type: 'sap.ui.model.type.Date',
+			                        formatOptions: {
+			                           style: 'long',
+			                           source: {
+			                              pattern: 'yyyyMMdd'
+			                           }
+			                        }
+			                     }" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

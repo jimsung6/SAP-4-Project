@@ -1,0 +1,84 @@
+<!-- 박민수 : 프로젝트별 예산 조회 -->
+<mvc:View
+   controllerName="ExpenseManagement.controller.budget.PROBUDDETAIL"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:filterbar="sap.ui.comp.filterbar"
+	xmlns:popover="sap.m.Popover"
+	xmlns:scroll="sap.m.ScrollContainer"
+	xmlns:u="sap.ui.unified">
+	
+<Page showNavButton="true"
+		  navButtonPress=".onNavBack">
+		<content>
+
+			<Table id="TEST"
+				   items="{detailModel>/detailTableData}">
+			
+				   <!--items="{/ProductCollection}"-->
+				   <!--delete=".onRowDelete"-->
+				   <!-- growing="true"
+				   growingThreshold="5"> -->
+		    <!-- mTable => selectionmode 이런 거 안 적어줘도 되고 그냥 mode 로 적어줌, Multiselect/singleselect/Delete/None 등 -->
+			
+			<headerToolbar height="100px">
+					<OverflowToolbar height="80px">
+						<content>
+
+							<Title titleStyle="H2" text="프로젝트별 예산 조회" />
+
+					
+
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+
+				<columns>
+					<Column width="180px"  hAlign="Center">
+						<Text text="프로젝트 코드" />
+					</Column>
+				<Column width="180px"  hAlign="Center">
+						<Text text="프로젝트 명" />
+					</Column>
+					
+					<Column width="300px"   hAlign="Center">
+						<Text text="기안코드" />
+					</Column>
+					<Column width="180px"  hAlign="Center">
+						<Text text="기안일" />
+					</Column>
+				
+					<Column width="148px" hAlign="Center">
+						<Text text="요청예산(원)" />
+					</Column>
+					<Column width="148px"   hAlign="Center">
+						<Text text="담당자" />
+					</Column>
+					<Column width="148px"  hAlign="Center">
+						<Text text="승인일"/>
+					</Column>
+				
+
+				</columns>
+				<items>
+					<ColumnListItem type="ACTIVE">
+						<cells>
+							<Text text="{detailModel>PCODE}" />
+							<Text text="{detailModel>PNAME}" />
+							<Text text="{detailModel>PICODE}" />
+							
+							<Text text="{detailModel>DPDATE}" />
+					       
+							<Text text="{detailModel>REBUD}" />
+							<Text text="{detailModel>AUEMP}" />
+							<Text text="{detailModel>ACCDATE}" />
+						
+						</cells>
+					</ColumnListItem>
+				</items>	   
+			</Table>
+		</content>
+	</Page>
+	
+</mvc:View>

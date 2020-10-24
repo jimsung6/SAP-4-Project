@@ -1,0 +1,48 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core" 
+   xmlns:l="sap.ui.layout">
+   <Dialog
+      id="RpSettingsDialog"
+      title="레포트 테이블 컬럼 세팅">
+      <content>
+        <l:VerticalLayout
+            width="100%"
+            class="gridWrapper">
+            <l:Grid
+                defaultSpan="XL12 L12 M12 S12"
+                containerQuery="true">
+
+                <HBox class="sapUiSmallMarginTop">
+                  <VBox>
+                   <Label labelFor="radioGroup" text="테이블 모드 설정" />
+                    <RadioButtonGroup id="radioGroup" selectedIndex="{PaymentRt>/radioGroup}" columns="2">
+                      <RadioButton id="noSelect" text="전체"/>
+                      <RadioButton id="select" text="선택" />
+                    </RadioButtonGroup>
+                  </VBox>
+                </HBox> 
+
+                <HBox>
+                  <VBox>
+                    <Label labelFor="tableGroup" text="테이블 컬럼 설정"/>
+                    <HBox>
+                      <Button type="Transparent" text="All" press="onTableSettingAll"></Button>
+                      <CheckBox text="프로젝트 및 사용부서" selected="{PaymentRt>/settingData/pcode}"/>
+                      <CheckBox text="사원번호" selected="{PaymentRt>/settingData/gcode}"/>
+                      <CheckBox text="사원이름" selected="{PaymentRt>/settingData/eName}"/>
+                      <CheckBox text="부서명" selected="{PaymentRt>/settingData/gName}"/>
+                      <CheckBox text="지급월" selected="{PaymentRt>/settingData/payDate}"/>   
+                      <CheckBox text="지급금액" selected="{PaymentRt>/settingData/payment}"/>  
+                    </HBox>
+                  </VBox>
+                </HBox>   
+            </l:Grid>
+        </l:VerticalLayout>
+      </content>
+      <buttons>
+        <Button text="적용" press=".onSettingSave"/>
+        <Button text="취소" press=".onSettingCanc"/>  
+      </buttons>
+   </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		contentWidth="30%"
+		id="teamrejectDialog"
+		title="반려"
+		titleAlignment="Center">
+		<content>
+			<Text text="반려코드 :" />
+			<ComboBox selectedKey="{teaminitsun>/comboData}" 
+					class="sapUiTinyMarginBegin" 
+					showSecondaryValues="true"
+					items="{teaminitsun>/rejectCode}"
+					selectionChange = ".RettextChange">
+				<items>
+					<core:ListItem key="{teaminitsun>RETCODE}" 
+					text="{teaminitsun>RETCODE}"
+					additionalText = "{teaminitsun>RETTEXT}" />
+				</items>
+			</ComboBox>
+		<VBox/>
+			 <Text text="반려내역 :  "/> 
+			<Input 
+				value="{teaminitsun>/inputData}"
+				width="70%"
+				editable="{teaminitsun>/inputEdit}"
+				class="sapUiTinyMarginBegin"/> 
+		</content>
+		<beginButton>
+			<Button text="확인" press= ".onCloseMsg"/>
+		</beginButton>
+		<endButton>
+		<Button text="취소"
+					press= ".onCloseDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

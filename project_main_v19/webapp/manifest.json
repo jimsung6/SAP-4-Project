@@ -1,0 +1,314 @@
+{
+	"_version": "1.12.0",
+	"sap.app": {
+	  "id": "sampleApp",
+	  "type": "application",
+	  "i18n": "i18n/i18n.properties",
+	  "title": "{{appTitle}}",
+	  "description": "{{appDescription}}",
+	  "applicationVersion": {
+		"version": "1.0.0"
+	  }
+	},
+	"sap.ui": {
+	  "technology": "UI5",
+	  "deviceTypes": {
+		  "desktop": true,
+		  "tablet": true,
+		  "phone": true
+	  }
+	},
+	"sap.ui5": {
+	  "rootView": {
+		  "viewName": "ExpenseManagement.view.App",
+		  "type": "XML",
+		  "async": true,
+		  "id": "app"
+	  },
+	  "dependencies": {
+		"minUI5Version": "1.60",
+		"libs": {
+		  "sap.viz": {},
+		  "sap.m": {}
+		}
+	  },
+	  "models": {
+	  	"i18n": {
+		  "type": "sap.ui.model.resource.ResourceModel",
+		  "settings": {
+			"bundleName": "ExpenseManagement.i18n.i18n"
+		  }
+		},
+		"cardManifests": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/cardManifests.json"
+		},
+		 "employeeLog": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/employeeLog.json"
+		},
+		"perdium": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/perdium.json"
+		},
+		"detailPerdium": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/detailPerdium.json"
+		},
+		"employee": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/employee.json"
+		},
+		"worktime": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/worktime.json"
+		},
+		"pdiemJYJ": {
+			"type": "sap.ui.model.json.JSONModel",
+			"uri": "model/pdiemJYJ.json"
+		}
+	  },
+
+	  "routing": {
+		"config": {
+		  "routerClass": "sap.m.routing.Router",
+		  "viewType": "XML",
+		  "viewPath": "ExpenseManagement.view",
+		  "controlId": "app",
+		  "controlAggregation": "pages",
+		  "async": true
+		},
+		"routes": [
+		  {
+			"pattern": "",
+			"name": "login",
+			"target": "login"
+		  },
+		  {
+			"pattern": "mainBoard",
+			"name": "mainBoard",
+			"target": "mainBoard"
+		  },
+		  {
+			"pattern": "routeTest",
+			"name": "routeTest",
+			"target": "routeTest"
+		  },
+		  {
+			"pattern": "Confirm_Home",
+			"name": "Confirm_Home",
+			"target": "Confirm_Home"
+		  },
+		  {
+			"pattern": "WorktimeKJE",
+			"name": "WorktimeKJE",
+			"target": "WorktimeKJE"
+		  },
+		  {
+			"pattern": "EmpTableKJE",
+			"name": "EmpTableKJE",
+			"target": "EmpTableKJE"
+		  },
+		  {
+			"pattern": "PdiemYJ",
+			"name": "PdiemYJ",
+			"target": "PdiemYJ"
+		  },
+		  {
+			"pattern": "List26",
+			"name": "List26",
+			"target": "List26"
+		  },
+		  {
+			"pattern": "Groupprj",
+			"name": "Groupprj",
+			"target": "Groupprj"
+		  },
+		  {
+			"pattern": "Projectprj",
+			"name": "Projectprj",
+			"target": "Projectprj"
+		  },
+		  {
+			"pattern": "Perdiemprj",
+			"name": "Perdiemprj",
+			"target": "Perdiemprj"
+		  },
+		  {
+			"pattern": "DepartmentBudgetList",
+			"name": "DepartmentBudgetList",
+			"target": "DepartmentBudgetList"
+		  },
+		  {
+			"pattern": "PROBUDLIST",
+			"name": "PROBUDLIST",
+			"target": "PROBUDLIST"
+		  },
+		  {
+			"pattern": "CompanyAccounts",
+			"name": "CompanyAccounts",
+			"target": "CompanyAccounts"
+		  },
+		  {
+			"pattern": "ProjBudget_SY",
+			"name": "ProjBudget_SY",
+			"target": "ProjBudget_SY"
+		  },
+		  {
+			"pattern": "DepDetail/{aDetailData}",
+			"name": "DepDetail",
+			"target": "DepDetail" 
+		  },
+		  {
+			"pattern": "DepBudget_SY",
+			"name": "DepBudget_SY",
+			"target": "DepBudget_SY"
+		  },
+		  {
+			"pattern": "ProjDetail/{aDetailData}",
+			"name": "ProjDetail",
+			"target": "ProjDetail"
+		  },
+		  {
+			"pattern": "ProjBudget_YS",
+			"name": "ProjBudget_YS",
+			"target": "ProjBudget_YS"
+		  },
+		  {
+			"pattern": "DepBudget_YS",
+			"name": "DepBudget_YS",
+			"target": "DepBudget_YS"
+		  },
+		  {
+			"pattern": "PaymentRt/{Pcode}",
+			"name": "PaymentRt",
+			"target": "PaymentRt"
+		  },
+		  {
+		   "pattern": "PROBUDDETAIL_MS/{DATA}",
+		   "name": "PROBUDDETAIL_MS",
+		   "target": "PROBUDDETAIL_MS"
+		 },
+		 {
+		  "pattern": "ExpenseManagement",
+		  "name": "ExpenseManagement",
+		  "target": "ExpenseManagement"
+		},
+		{
+		 "pattern": "Approyj",
+		 "name": "Approyj",
+		 "target": "Approyj"
+	   }
+
+		  
+		],
+		"targets": {
+		  "login": {
+			"viewId": "login",
+			"viewName": "Login"
+		  },
+		  "mainBoard": {
+			"viewId": "mainBoard",
+			"viewName": "MainBoard"
+		  },
+		  "routeTest": {
+			"viewId": "routeTest",
+			"viewName": "RouteTest"
+		  },
+		  "Confirm_Home": {
+			"viewId": "Confirm_Home",
+			"viewName": "businessTrip.confirm.Confirm_Home"
+		  },
+		  "WorktimeKJE": {
+			"viewId": "WorktimeKJE",
+			"viewName": "businessTrip/WorktimeKJE"
+		  },
+		  "EmpTableKJE": {
+			"viewId": "EmpTableKJE",
+			"viewName": "master/EmpTableKJE"
+		  },
+		  "PdiemYJ": {
+			"viewId": "PdiemYJ",
+			"viewName": "businessTrip/PdiemYJ"
+		  },
+		  "List26": {
+			"viewId": "List26",
+			"viewName": "expenseManagement.khs.List26"
+		  },
+		  "Groupprj": {
+			"viewId": "Groupprj",
+			"viewName": "master/Groupprj"
+		  },
+		  "Projectprj": {
+			"viewId": "Projectprj",
+			"viewName": "master/Projectprj"
+		  },
+		  "Perdiemprj": {
+			"viewId": "Perdiemprj",
+			"viewName": "businessTrip/Perdiemprj"
+		  },
+		  "DepartmentBudgetList": {
+			"viewId": "DepartmentBudgetList",
+			"viewName": "budget/DepartmentBudgetList"
+		  },
+		  "PROBUDLIST": {
+			"viewId": "PROBUDLIST",
+			"viewName": "budget.PROBUDLIST"
+		  },
+		  "CompanyAccounts": {
+			"viewId": "CompanyAccounts",
+			"viewName": "master/CompanyAccounts"
+		  },
+		  "ProjBudget_SY": {
+			"viewId": "ProjBudget_SY",
+			"viewName": "budget/sy/projBudget/Budget_SY"
+		  },
+		  "ProjDetail": {
+			"viewId": "ProjDetail",
+			"viewName": "budget/sy/projBudget/Detail"
+		  },
+		  "DepBudget_SY": {
+			"viewId": "DepBudget_SY",
+			"viewName": "budget/sy/depBudget/Budget_SY"
+		  },
+		  "DepDetail": {
+			"viewId": "DepDetail",
+			"viewName": "budget/sy/depBudget/Detail"
+		  },
+		  "ProjBudget_YS": {
+			"viewId": "ProjBudget_YS",
+			"viewName": "budget.ys.projBudget.Budget_YS"
+		  },
+		  "DepBudget_YS": {
+			"viewId": "DepBudget_YS",
+			"viewName": "budget/ys/depBudget/Budget_YS"
+		  },
+		  "PaymentRt": {
+			"viewId": "PaymentRt",
+			"viewName": "report/PaymentRt"
+		  },
+		  "PROBUDDETAIL_MS": {
+			"viewId": "PROBUDDETAIL_MS",
+			"viewName": "budget/PROBUDDETAIL"
+		  },
+		  "ExpenseManagement": {
+			"viewId": "ExpenseManagement",
+			"viewName": "expenseManagement/kmg/ExpenseInput"
+		  },
+		  "Approyj": {
+			"viewId": "Approyj",
+			"viewName": "expenseManagement/kyj/Approyj"
+		  }
+		  
+		 
+		}
+	  },
+
+	  "resources": {
+		"css": [{
+			"uri": "css/style.css"
+		}]
+	   }
+
+	}
+  }

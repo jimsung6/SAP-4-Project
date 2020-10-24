@@ -1,0 +1,191 @@
+<!-- 전여정 : 출장비 지급 -->
+<mvc:View
+        controllerName="ExpenseManagement.controller.businessTrip.PdiemYJ"
+        displayBlock="true"
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:filterbar="sap.ui.comp.filterbar"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:l="sap.ui.layout"
+        xmlns:t="sap.ui.table"
+        xmlns:u="sap.ui.unified">
+
+ <Page>
+			      
+			    <content>
+					<!-- 필터링 -->
+					<filterbar:FilterBar
+                           id = "objectFilterYJ"
+                           search=".onFilterBarSearch"
+                           showFilterConfiguration="false"
+                           filterContainerWidth="21rem"
+                           showGoButton="true"
+                           useToolbar="false">
+              <filterbar:filterGroupItems>
+              
+                 <filterbar:FilterGroupItem
+                     label="근무연월"
+                     groupName="default"
+                     name="STCODNA"
+                     visibleInFilterBar="true"
+                     >
+                                         
+                  <filterbar:control>
+              <!--<DateRangeSelection-->
+              <!--  dateValue="{PaymentJYJ>/oToday}"-->
+              <!--  secondDateValue="{PaymentJYJ>/oToday2}"-->
+              <!--  displayFormat="{PaymentJYJ>/displayFormat}"-->
+              <!--  change=".onChangeDateRange"/>-->
+			    	 <DatePicker 
+			           value="{PaymentJYJ>/oToday}" 
+			           displayFormat="y-MM"   
+			          valueFormat="yyyyMM"/>
+			              
+		              </filterbar:control>
+
+                 </filterbar:FilterGroupItem>
+                 
+                 <!-- EMPNO Filter Start -->
+                 <filterbar:FilterGroupItem
+                                         label="사원번호"
+                                         groupName="default"
+                                         name="EMPNO"
+                                         visibleInFilterBar="true">
+                  <filterbar:control>
+                        <MultiInput width="100%" id="multiInput" value="{PaymentJYJ>/inputData}" valueHelpRequest="handleValueHelp"> </MultiInput>
+                  </filterbar:control>
+                 </filterbar:FilterGroupItem>
+                 <!-- EMPNO Filter End -->
+                 
+                 
+        
+                  <!--  AUTRZ Filter Start -->
+                 <filterbar:FilterGroupItem
+                                         label="상태"
+                                         groupName="default"
+                                         name="AUTRZ"
+                                         visibleInFilterBar="true">
+                                  
+                  <filterbar:control>
+                     <RadioButtonGroup selectedIndex="{PaymentJYJ>/RadioButtonGroup}" columns="4">
+                        <RadioButton text="전체"/>
+                        <RadioButton text="지급요청"/>
+                        <RadioButton text="지급완료"/>
+                       
+                        
+                   </RadioButtonGroup>
+                  </filterbar:control>
+                 </filterbar:FilterGroupItem>
+                  <!--  AUTRZ Filter End -->
+
+              </filterbar:filterGroupItems>
+            </filterbar:FilterBar>
+            
+<!-- 출장비 리스트 -->
+        <Table
+              id="perdiemJYJ"
+              mode="None"
+              growing = "true"
+              growingThreshold = "5"
+              selectionChange=".onSelectionChange"
+              items="{pdiemJYJ>/RequestListJYJ}">
+
+              <headerToolbar>
+             
+                <OverflowToolbar>
+                   <content>
+                      <Title text= "출장비 목록"/>
+                      <ToolbarSpacer></ToolbarSpacer>
+                         <Button text="지급"  type="Emphasized"  width="5%" press=".onClickPayment"  visible="{PaymentJYJ>/paybtn}" />
+                    
+                   </content>
+ 
+                </OverflowToolbar>
+              </headerToolbar>
+              <columns>
+                   <Column width="110px" hAlign="Center">
+                      <Text text="전표번호"/> 
+                  </Column>    
+                  
+                   <Column width="110px" hAlign="Center">
+                      <Text text="사원번호"/> 
+                   </Column>       
+                           
+                   <Column width="100px" hAlign="Center">
+                      <Text text="사원이름"/> 
+                    </Column>  
+                                  
+                  <Column width="90px" hAlign="Center">
+                      <Text text="부서이름"/>                           
+                   </Column>
+                   
+                   <Column width="80px" hAlign="Center">
+                      <Text text="직급 "/>               
+                   </Column>
+                              
+                   <Column width="100px" hAlign="Center">
+                      <Text text="근무연월"/>               
+                   </Column>
+                   
+                   <Column width="100px" hAlign="Center">
+                      <Text text="지급 금액"/>               
+                   </Column>
+                   
+                   <Column width="140px" hAlign="Center">
+                      <Text text="사원 계좌"/>               
+                   </Column>
+                   
+                   <Column visible="{pdiemJYJ>/visibleComboData}" width="140px" hAlign="Center">
+                           
+                      <Text text="회사 계좌"/>               
+                   </Column>
+                   
+                   <Column visible="{pdiemJYJ>/visibleTextData}" width="140px" hAlign="Center">
+                           
+                      <Text text="회사 계좌"/>               
+                   </Column>
+                   
+                   <Column width="100px" hAlign="Center">
+                      <Text text="상태"/>               
+                   </Column>
+                   
+              </columns>        
+             <items>
+                 <ColumnListItem >
+                     <cells>
+                        <Text text="{pdiemJYJ>POSNR}"/>
+                        <Text text="{pdiemJYJ>EMPNO}"/>
+                        <Text text="{pdiemJYJ>ENAME}"/>
+                        <Text text="{pdiemJYJ>GNAME}"/>
+                        <Text text="{pdiemJYJ>JOB}"/>
+                        <Text text="{pdiemJYJ>WORKYM}"/>
+                        <u:Currency
+                  value="{pdiemJYJ>PDIEM}" maxPrecision="0" useSymbol="false" />
+                        <Text text="{pdiemJYJ>ECACCT}"/>
+                        
+                        <ComboBox showSecondaryValues="true"
+                             selectedKey="{pdiemJYJ>CACCT}"
+                             items="{PaymentJYJ>/accountData}"
+	                             IsEditable="false" >
+	                        <items>
+	                           <core:ListItem key="{PaymentJYJ>CACCT}" text="{PaymentJYJ>BANKL}" additionalText ="{PaymentJYJ>CACCT}"/>
+	                        </items>
+	                     </ComboBox>
+	                     
+                    	<Text text="{pdiemJYJ>BANKL}"/>
+                        <Text text="{pdiemJYJ>STCODNA}"/>
+                     </cells>
+                 </ColumnListItem>
+             </items>
+        </Table>  
+     
+        
+    </content>
+    
+    
+    
+    
+  </Page>
+
+        
+</mvc:View>

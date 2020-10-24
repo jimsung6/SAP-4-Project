@@ -1,0 +1,14 @@
+<mvc:View
+    controllerName="ExpenseManagement.controller.businessTrip.confirm.Confirm_Home"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page>
+		<content>
+				<Panel class="sapUiResponsiveMargin" width="auto">
+					<mvc:XMLView viewName="ExpenseManagement.view.businessTrip.confirm.Confirm"/>
+					<mvc:XMLView viewName="ExpenseManagement.view.businessTrip.confirm.Detail"/>
+				</Panel>
+			</content>
+    </Page>
+</mvc:View>

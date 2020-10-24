@@ -1,0 +1,133 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core" 
+   xmlns:l="sap.ui.layout"
+   xmlns:u="sap.ui.unified">
+  <Dialog
+      id="openDialog1"
+      contentWidth="70%"
+      title="부서 예산 증액 요청">
+      <content>
+   	<l:VerticalLayout
+				width="100%"
+				class="gridWrapper">
+			<l:Grid
+					containerQuery="true"
+					defaultSpan="XL10 L10"
+               defaultIndent="XL1 L1">
+            <l:VerticalLayout
+                  width="100%"
+                  class="gridWrapper">
+                              <l:Grid
+                     class="sapUiSmallMarginTop"
+                     containerQuery="true"
+                     defaultSpan="XL12 L12">
+                      <HBox/>
+               </l:Grid>
+               <l:Grid
+                     containerQuery="true"
+                     defaultSpan="XL6 L6">
+                     <HBox>
+                        <Label text="부서 코드" design="Bold" class="sapUiSmallMarginEnd sapUiSmallMarginTop"/>
+                        <Text text="{/teamBudgetRequest/GCODE}" width="200px" class="sapUiSmallMarginTop"/>
+                     </HBox>
+                     <HBox>
+                        <Label text="부서 담당자" design="Bold" class="sapUiSmallMarginEnd sapUiSmallMarginTop"/>
+                        <Text text="{/teamBudgetRequest/ENAME}" width="200px" class="sapUiSmallMarginTop"/>
+                     </HBox>
+               </l:Grid>
+                <l:Grid
+                     containerQuery="true"
+                     defaultSpan="XL6 L6">
+                                         <HBox>
+                        <Label text="부서 이름" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <Text text="{/teamBudgetRequest/GNAME}"  width="200px"/>
+                     </HBox>
+                     <HBox>
+                        <Label text="재무 담당자" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <Text text="{/teamBudgetRequest/ENAME2}" width="200px"/>
+                     </HBox>
+               </l:Grid>
+                <l:Grid
+                     containerQuery="true"
+                     defaultSpan="XL6 L6">
+                     <HBox>
+                        <Label text="남은 예산(KRW)" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <u:Currency value="{/teamBudgetRequest/REMBUD}" maxPrecision="0" useSymbol="false" />
+                     </HBox>
+                     <HBox>
+                        <Label text="총 예산(KRW)" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <u:Currency value="{/teamBudgetRequest/DEPPR}" maxPrecision="0" useSymbol="false" />
+                     </HBox>
+               </l:Grid>
+                <l:Grid
+                     containerQuery="true"
+                     defaultSpan="XL6 L6">
+                   <HBox>
+                        <Label text="요청 예산(KRW)" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <Input required="true" width="150px" placeholder="숫자만 기입."
+                        id="budgetInput"
+			                        valueStateText="금액을 기입하세요."
+			                        value="{
+				                              path : '/teamBudgetRequest/TREBUD',
+				                              type : 'sap.ui.model.type.Integer',
+				                              constraints : {
+                                             maxLength: 10
+                                          }
+			                              }"
+                                        change= ".onChange"/>
+                     </HBox>
+                      <HBox>
+                        <Label text="요청 년월" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <Input required="true" width="200px" placeholder="숫자만 기입(YYYYMM)."
+                        id="dateInput"
+			                        class="sapUiSmallMarginBottom"
+			                        valueStateText="요청 년월을 기입하세요."
+			                        value="{
+				                              path : '/teamBudgetRequest/REQDATE',
+				                              type : 'sap.ui.model.type.Integer',
+				                              constraints : {
+                                             maxLength: 10
+                                          }
+			                              }"
+                                        change= ".onChange"/>
+                     </HBox>
+               </l:Grid>
+               <l:Grid
+                     containerQuery="true"
+                     defaultSpan="XL6 L6">
+                      <HBox>
+                        <Label text="요청 사유" design="Bold" class="sapUiSmallMarginEnd"/>
+                        <Input required="true" width="300px" placeholder="100자 이내로"
+                        			id="requestInput"
+			                        valueStateText="요청 사유를 적으세요. 최대 100자 이내."
+			                        value="{
+				                              path : '/teamBudgetRequest/RTREQ',
+				                              type : 'sap.ui.model.type.String',
+				                              constraints : {
+					                           minLength: 1,
+					                           maxLength: 100
+				                                             }
+			                              }"
+			                        change= ".onChange"/>
+                     </HBox>                    
+                     <HBox >
+                        <CheckBox text="긴급" id="check1" select=".onCheckSelect" ></CheckBox>
+                     </HBox>
+               </l:Grid>      
+            </l:VerticalLayout>
+          </l:Grid>
+   </l:VerticalLayout>  
+      </content>
+      	<beginButton> 
+			<Button
+				text="예산 증액 요청"
+				press=".onSaveDialog"/>
+		</beginButton>
+      <endButton>
+      			<Button
+				text="닫기"
+				press=".onCloseDialog"/>
+      </endButton>
+   </Dialog>
+</core:FragmentDefinition>

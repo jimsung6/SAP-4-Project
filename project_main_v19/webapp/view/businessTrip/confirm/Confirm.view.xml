@@ -1,0 +1,202 @@
+<mvc:View
+        controllerName="ExpenseManagement.controller.businessTrip.confirm.Confirm"
+        displayBlock="true"
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:filterbar="sap.ui.comp.filterbar"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:l="sap.ui.layout"
+        xmlns:t="sap.ui.table"
+        xmlns:u="sap.ui.unified">
+
+ 
+<!-- 필터링 -->
+<filterbar:FilterBar
+                           id = "objectFilter_BS"
+                           search=".onFilterBarSearch"
+                           showFilterConfiguration="false"
+                           filterContainerWidth="21rem"
+                           showGoButton="true"
+                           useToolbar="false">
+              <filterbar:filterGroupItems>
+              
+                 <filterbar:FilterGroupItem
+                                         label="근무 월"
+                                         groupName="default"
+                                         name="SDATE"
+                                         visibleInFilterBar="true"
+                                         >
+
+                  <filterbar:control>
+              <!-- <DateRangeSelection
+                dateValue="{TEST>/oToday}"
+                secondDateValue="{TEST>/oToday2}"
+                displayFormat="{TEST>/displayFormat}"
+                change=".onChangeDateRange"/> -->
+
+             <DatePicker 
+    
+           value="{TEST>/WORKYM}" 
+           displayFormat="y-MM"   
+          valueFormat="yyyyMM"/>    
+
+                  </filterbar:control>
+
+                 </filterbar:FilterGroupItem>
+                 
+                 <!-- EMPNO Filter Start -->
+                 <!-- <filterbar:FilterGroupItem
+                                        label="사원번호"
+                                        groupName="default"
+                                        name="EMPNO"
+                                        visibleInFilterBar="true">
+                  <filterbar:control>
+                 <SearchField value="{TEST>/SearchField}" width="50%"  />
+                 </filterbar:control>
+                 </filterbar:FilterGroupItem>  -->
+                 <!-- EMPNO Filter End-->
+                   <!-- Category Filter Start -->
+                   
+               <!-- <filterbar:FilterGroupItem
+                           label="사원번호"
+                           groupName="default"
+                           name="EMPNO"
+                           visibleInFilterBar="true">
+                  <filterbar:control>
+                     <ComboBox 
+                     selectedKey="{TEST>/filterbar/empno}"
+                              showSecondaryValues="true"
+                              items="{TEST>/oEmpno}">
+                        <items>
+                           <core:ListItem key="{TEST>EMPNO}" text="{TEST>ENAME}" additionalText = "{TEST>EMPNO}"/>
+                        </items>
+                     </ComboBox>
+                     <SearchField value="{TEST>/SearchField}" width="50%"  />
+                  </filterbar:control>
+               </filterbar:FilterGroupItem> -->
+
+                  <filterbar:FilterGroupItem
+               label="사원번호"
+               groupName="default"
+               name="EMPNO"
+               visibleInFilterBar="true">
+                  <filterbar:control>
+                  <MultiInput width="100%"
+									id="multiInput"
+									value="{TEST>/filterbar/empno}"
+									valueHelpRequest="handleValueHelp">
+								</MultiInput>
+                     <!-- <MultiInput
+                        selectedKey="{TEST>/filterbar/empno}"
+                        id="multiInput2"
+                        value="{TEST>/filterbar/empno}"
+                        valueHelpRequest="handleValueHelp"
+                        /> -->
+                  </filterbar:control>
+               </filterbar:FilterGroupItem>
+
+
+
+               <!-- Category Filter End -->
+                 
+                 
+        
+                  <!--  AUTRZ Filter Start -->
+                 <filterbar:FilterGroupItem
+                                         label="상태"
+                                         groupName="default"
+                                         name="AUTRZ"
+                                         visibleInFilterBar="true">
+                                  
+                  <filterbar:control>
+                     <RadioButtonGroup columns="4" 
+                     selectedIndex="{TEST>/filterbar/status}" select=".onSelectedButton">
+                        <RadioButton text="전체"/>
+                        <RadioButton text="승인요청"/>
+                        <RadioButton text="승인"/>
+                        <RadioButton text="반려"/>
+                        
+                   </RadioButtonGroup>
+                  </filterbar:control>
+                 </filterbar:FilterGroupItem>
+                  <!--  AUTRZ Filter End -->
+
+              </filterbar:filterGroupItems>
+            </filterbar:FilterBar>
+            
+<!-- 출장비 리스트 -->
+        <Table
+              id="perdiumList_BS"
+              mode="MultiSelect"
+              selectionChange=".rowSelection"
+              growing="true"
+              growingThreshold="5"
+              items="{perdium>/RequestList}">
+
+              <headerToolbar>
+             
+                <OverflowToolbar>
+                   <content>
+                      <Title text= "출장비"/>
+                      <ToolbarSpacer></ToolbarSpacer>
+                         <Button text="승인"  type="Emphasized"  width="5%" press=".onAccept" visible="{perdium>/comboEnable}"  />
+                         <Button text="반려"  type="Emphasized"  width="5%" press=".onReject" visible="{perdium>/comboEnable}"/>
+                   </content>
+ 
+                </OverflowToolbar>
+              </headerToolbar>
+              <columns  hAlign="Center">
+                   <Column width=""  hAlign="Center"> 
+                      <Text text="프로젝트 코드"/> 
+                  </Column>    
+      
+                   <Column width=""  hAlign="Center" >
+                      <Text text="사원번호"/> 
+                    </Column>  
+                                  
+                  <Column width=""  hAlign="Center">
+                      <Text text="사원이름"/>                           
+                   </Column>
+                   
+                   <Column width="" hAlign="Center" >
+                      <Text text="부서명"/>               
+                   </Column>
+                              
+                   <Column width=""  hAlign="Center">
+                      <Text text="직급"/>               
+                   </Column>
+
+                   <Column width=""  hAlign="Center">
+                      <Text text="금액"/>               
+                   </Column>
+                   
+                   <Column width=""  hAlign="Center">
+                      <Text text="통화"/>               
+                   </Column>
+
+                   <Column width=""  hAlign="Center">
+                      <Text text="상태"/>               
+                   </Column>
+
+              </columns>        
+             <items>
+                 <ColumnListItem type="Active" press=".onGoDetail">
+                 <!-- <ColumnListItem> -->
+                     <cells>
+                     	<Text text="{perdium>PCODE}"  hAlign="Center"/>
+                        <Text text="{perdium>EMPNO}" hAlign="Center"/>
+                        <Text text="{perdium>ENAME}" hAlign="Center"/>
+                        <Text text="{perdium>GNAME}" hAlign="Center"/>
+                        <Text text="{perdium>JOB}" hAlign="Center"/>
+          <u:Currency
+						value="{perdium>PDIEM}" maxPrecision="0" useSymbol="false" hAlign="Center" />
+                       <Text text="{perdium>WAERS}"/>
+                        <Text text="{perdium>STCODNA}"/>
+                     </cells>
+                 </ColumnListItem>
+             </items>
+        </Table>  
+
+
+        
+</mvc:View>

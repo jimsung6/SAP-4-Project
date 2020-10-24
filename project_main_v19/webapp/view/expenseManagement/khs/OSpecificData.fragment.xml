@@ -1,0 +1,71 @@
+<core:FragmentDefinition
+controllerName="TableExample.controller.List26"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		contentWidth="30%"
+		id="oOSpecificData"
+		title="지급상세정보"
+		titleAlignment="Center">
+			<content>
+			<f:Form>
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanS="6"
+						columnsS="1" />
+				<!-- columns는 화면 width에 따라서 FormContainer를 어떻게 배치할 건지 정함 -->		
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="전표번호">
+								<f:fields>
+									<Text text="{TEST>/fragData}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="차종">
+								<f:fields>
+									<Text text="{TEST>/Oitem/0/CARTY}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="유류타입">
+								<f:fields>
+									<Text text="{TEST>/Oitem/0/OILTY}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="거리">
+								<f:fields>
+									<Text text="{TEST>/Oitem/0/HOMET}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="비고">
+								<f:fields>
+									<Text text="{TEST>/Oitem/0/BIGO}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="첨부">
+								<f:fields>
+									<Text text="{TEST>/Oitem/0/ADDIM}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+            <buttons>
+                <Button text="확인" press=".onCloseDialog"/>
+            </buttons>
+	</Dialog>
+</core:FragmentDefinition>

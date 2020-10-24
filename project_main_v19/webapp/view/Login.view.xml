@@ -1,0 +1,27 @@
+<mvc:View
+	controllerName="ExpenseManagement.controller.Login"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+ 
+    		<Page
+    			showHeader="false"
+				enableScrolling="false"
+				class="sapUiContentPadding">
+				<content>
+
+					<VBox 
+						height = "100%"
+						alignItems="Center" 
+						justifyContent="Center"
+						class="vBoxHeight">
+						<Text text="경비관리 시스템" class="loginTitle"></Text>
+						<Input type="Text" value="{login>/id}" placeholder="사원번호"></Input>
+						<Input type="Password" value="{login>/password}" placeholder="비밀번호"></Input>
+						<Button text="로그인" type="Emphasized" press=".onLogin"></Button>
+					</VBox>
+					
+				</content>
+			</Page>    
+
+</mvc:View>

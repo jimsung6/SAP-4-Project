@@ -1,0 +1,79 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+      id="ProDialog"
+      title="프로젝트 조회"
+      contentHeight="60%"
+      contentWidth="60%">
+
+            <content>
+
+                <l:VerticalLayout
+                    width="100%"
+                    class="gridWrapper ">
+                    <l:Grid
+                        containerQuery="true"
+                        defaultSpan="XL12 L12 M12 S12">
+                            <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                                <HBox>
+
+                                    <SearchField liveChange="proSearchChange" value="{/proSearch}" placeholder="프로젝트 이름검색" width ="200px"></SearchField>
+                                </HBox> 
+                                <ToolbarSpacer/> 
+                                <Button width ="60px" text="조회" press="proSearch2"></Button>  
+                            </OverflowToolbar>
+
+                    </l:Grid>
+                </l:VerticalLayout>
+
+
+                <l:VerticalLayout
+                    width="100%"
+                    class="gridWrapper">
+                    <l:Grid
+                        containerQuery="true"
+                        defaultSpan="XL12 L12 M12 S12">
+                        <t:Table 
+                            id="proTable"
+                            rowSelectionChange="onproSelection"
+                            selectionMode="Single"
+                            selectionBehavior="Row"
+                            rows="{/proInfo}"
+                            visibleRowCount="5">
+                            <t:columns>
+
+                                <t:Column>
+                                    <Label text="프로젝트 코드"></Label>
+                                    <t:template>
+                                        <Text text="{PCODE}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="프로젝트 이름"></Label>
+                                    <t:template>
+                                        <Text text="{PNAME}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                            </t:columns>
+                        </t:Table>
+
+                    </l:Grid>
+                </l:VerticalLayout>
+
+            </content>
+
+            <buttons>
+                <Button text="입력" press=".onproData"/>
+                <Button text="취소" press=".onproDialog"/>
+            </buttons>
+
+   </Dialog>
+
+</core:FragmentDefinition>

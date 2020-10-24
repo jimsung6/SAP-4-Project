@@ -1,0 +1,66 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:f="sap.ui.layout.form"
+   xmlns:core="sap.ui.core" 
+   xmlns:mvc="sap.ui.core.mvc">
+   <Dialog
+      id="CreateAccount"
+      title="계좌 변경"
+      contentHeight= "300px"
+      contentWidth= "600px">
+		<content>
+			<f:Form>
+				<f:layout>
+					<f:ResponsiveGridLayout 
+						labelSpanXL="2"
+						labelSpanL="4" 
+						labelSpanM="4" 
+						labelSpanS="12" 
+						columnsXL="2"
+						columnsL="2" 
+						columnsM="2" />
+				</f:layout>                      
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="계좌코드"
+											id = "fcacnr">
+								<f:fields>
+									<Input
+										id="ncacnr"
+										placeholder="알파벳 1자리 입력 EX)A"
+										required="true"
+										liveChange= ".onCacnrChange" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="은행명">
+								<f:fields>
+									<Input
+										id="nbankl"
+										class="sapUiSmallMarginBottom"
+										placeholder="은행명을 입력하세요." />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="계좌번호">
+								<f:fields>
+									<Input
+										id="ncacct"
+										class="sapUiSmallMarginBottom"
+										placeholder="'-'없이 입력하세요."
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+   	<beginButton>
+   		<Button text="생성" press=".onCreateAccount" />
+   	</beginButton>
+   	<endButton>
+   		<Button text="닫기" press=".onCloseDialog" />
+   	</endButton>
+   </Dialog>
+</core:FragmentDefinition>
