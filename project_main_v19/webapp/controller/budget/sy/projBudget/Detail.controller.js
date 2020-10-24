@@ -214,12 +214,12 @@ sap.ui.define([
 			var oModel=oView.getModel("projectinitsun");
 			var getIndex = this.byId("productslist").getSelectedIndex();
 			var getIndices = this.byId("productslist").getSelectedIndices();
-			var bApproveCheck = false;
+			var bApproveCheck = true;
 
 			//미결상태 && SelectedIndex가 존재여부 check
 			for(var i = 0; i < getIndices.length; i++){
-				if(getIndex >= 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") === '0'){
-					bApproveCheck = true;
+				if(getIndex < 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+					bApproveCheck = false;
 				}
 			}
 
@@ -256,12 +256,12 @@ sap.ui.define([
 			var status = oModel.getProperty("/detail");
 			var getIndex = this.byId("productslist").getSelectedIndex();
 			var getIndices = this.byId("productslist").getSelectedIndices();
-			var bRejectCheck = false;
+			var bRejectCheck = true;
 
 			//미결상태 && SelectedIndex가 존재여부 check
 			for(var i = 0; i < getIndices.length; i++){
-				if(getIndex >= 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") === '0'){
-					bRejectCheck = true;
+				if(getIndex < 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+					bRejectCheck = false;
 				}
 			}
 
