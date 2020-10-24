@@ -235,11 +235,11 @@
 			"viewId": "List26",
 			"viewName": "expenseManagement.khs.List26"
 		  },
-		  "Groupprj": {
+		  "Groupproj": {
 			"viewId": "Groupproj",
 			"viewName": "master/Groupproj"
 		  },
-		  "Projectprj": {
+		  "Projectproj": {
 			"viewId": "Projectproj",
 			"viewName": "master/Projectproj"
 		  },
