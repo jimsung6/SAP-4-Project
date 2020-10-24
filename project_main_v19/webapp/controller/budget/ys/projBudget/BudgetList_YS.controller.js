@@ -96,7 +96,6 @@ sap.ui.define([
 				I_PCODE : sData,
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData3){	// RFC호출 완료	
-					// console.log(oResultData3.TAB3)
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
 			}).then(function(oResultData3){
@@ -138,11 +137,7 @@ sap.ui.define([
 				I_PICODE : PICODE,
 				I_AUEMP : ZVEMPNO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 			}).done(function(oResultData){	// RFC호출 완료
-				//console.log(oResultData2.TAB3)
-				console.log(oResultData)
 				projectModel4.setProperty("/projBudgetRequest", oResultData.TAB2[0]);
-				
-				// projectModel3.setProperty("/projBudgetRequest", oResultData2.TAB3);
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
             })
@@ -227,7 +222,6 @@ sap.ui.define([
 			parseInt(oEventData);
 			var tableData = this.getView().getModel().getProperty("/projBudgetList");
 			this.fragmentDataCall(tableData[oEventData].PCODE);
-			// console.log(this.getView().getModel().getProperty("/projBudgetList"));
 			// create dialog lazily
 			if (!this.byId("openDialog1")) {
 				// load asynchronous XML fragment
@@ -261,7 +255,6 @@ sap.ui.define([
 		onSaveDialog : function (oEvent) {
 						// collect input controls
 			var oModel = this.getView().getModel();
-			console.log(oEvent.getSource());
 			var gPath = oModel.oData.projBudgetRequest;
 			// 데이터 불러오기
 			var REQUEST = gPath.REQUEST;
@@ -296,7 +289,6 @@ sap.ui.define([
 							type: ButtonType.Emphasized,
 							text: "요청",
 							press: function () {
-								// console.log(oView);
 								var projectModel4 = this.getView().getModel();
 								this.fragmentRfcFunction(projectModel4, REQUEST, REBUD, DEPEM, PCODE, PICODE);
 								MessageToast.show("접수 완료");

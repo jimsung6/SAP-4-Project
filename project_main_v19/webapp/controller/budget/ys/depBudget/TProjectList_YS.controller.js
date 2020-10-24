@@ -18,8 +18,7 @@ sap.ui.define([
 		 * 함수 이름 : 초기 세팅 메소드
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
-		onInit: function() {
-			
+		onInit: function() {			
 		var oView = this.getView();
 		oView.setModel(new JSONModel({
 			teamTableData : [],
@@ -77,7 +76,6 @@ sap.ui.define([
 				I_REQDATE : REQDATE
 			}).done(function(oResultData){	// RFC호출 완료)
 				projectModel4.setProperty("/teamBudgetRequest", oResultData.TEAMTAB2[0]);
-				console.log(oResultData)
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
             })
@@ -179,7 +177,6 @@ sap.ui.define([
 		onSaveDialog : function () {
 			var oModel = this.getView().getModel();
 			var sPath = oModel.getProperty("/teamBudgetRequest");
-			// console.log(this.onCheckSelect());
 			// // 데이터 불러오기
 			var GCODE = sPath.GCODE;
 			var RTREQ = sPath.RTREQ;
@@ -199,7 +196,6 @@ sap.ui.define([
 				oView.byId("dateInput")
 			],
 				bValidationError = false;
-
 			// Check that inputs are not empty.
 			// Validation does not happen during data binding as this is only triggered by user actions.
 			if(REQDATE){
@@ -208,7 +204,6 @@ sap.ui.define([
 			var toDay = this.getView().getModel().getProperty("/today");
 			var thisYear = new Date(toDay).getFullYear().toString();
 			if(REQDATEYEAR !== thisYear){
-				console.log(REQDATEYEAR)
 				MessageBox.error("요청 년월을 확인하세요.");
 			}else{
 				aInputs.forEach(function (oInput) {

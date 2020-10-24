@@ -98,7 +98,6 @@ sap.ui.define([
 				I_GCODE : sData,
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData3){	// RFC호출 완료	
-					// console.log(oResultData3.TAB3)
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
 			}).then(function(oResultData3){
@@ -142,7 +141,6 @@ sap.ui.define([
 				I_AUEMP : ZVEMPNO
 				// I_STATUS : "0", 반려상태에서 미결상태로 바꾸기 위함.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 			}).done(function(oResultData){	// RFC호출 완료
-				console.log(oResultData)
 				projectModel4.setProperty("/teamBudgetRequest", oResultData.TEAMTAB2[0]);
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
@@ -290,7 +288,6 @@ sap.ui.define([
 			var toDay = this.getView().getModel().getProperty("/today");
 			var thisYear = new Date(toDay).getFullYear().toString();
 			if(REQDATEYEAR !== thisYear){
-				console.log(REQDATEYEAR)
 				MessageBox.error("요청 년월을 확인하세요.");
 			}else{
 			aInputs.forEach(function (oInput) {
@@ -306,7 +303,6 @@ sap.ui.define([
 							type: ButtonType.Emphasized,
 							text: "요청",
 							press: function () {
-								// console.log(oView);
 								var projectModel4 = this.getView().getModel();
 								this.fragmentRfcFunction(projectModel4, RTREQ, TREBUD, DEPEM, GCODE, TPICODE, REQDATE);
 								MessageToast.show("접수 완료");
@@ -347,7 +343,6 @@ sap.ui.define([
 			var sValueState = "None";
 			var bValidationError = false;
 			var oBinding = oInput.getBinding("value");
-			console.log(oBinding);
 			try {
 				oBinding.getType().validateValue(oInput.getValue());
 			} catch (oException) {
