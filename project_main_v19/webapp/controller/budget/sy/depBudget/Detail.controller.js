@@ -204,10 +204,14 @@ sap.ui.define([
 		  var getIndex = this.byId("teamspecificlist").getSelectedIndex();
 		  var getIndices = this.byId("teamspecificlist").getSelectedIndices();
 		  var bApproveCheck = true;
- 
-		  //미결상태 && SelectedIndex가 존재여부 check
+
+		  //SelectedIndex가 존재여부 check
+		if(getIndices.length === 0){
+			bApproveCheck = false;
+		}
+		  //미결상태 check
 		  for(var i = 0; i < getIndices.length; i++){
-			 if(getIndex < 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+			 if(oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
 				bApproveCheck = false;
 			 }
 		  }
@@ -221,7 +225,7 @@ sap.ui.define([
 						 MessageToast.show("승인되었습니다");
 						 //승인 rfc
 						 that.ApproveRfcFunction();
-						 //SelectedIndex 초기화
+						 //Select 초기화
 						 that.byId("teamspecificlist").removeSelectionInterval(0,oModel.getData().detail.length)
 						 //Detail rfc
 						 that.onDetailRFC();
@@ -246,10 +250,14 @@ sap.ui.define([
 		  var getIndex = this.byId("teamspecificlist").getSelectedIndex();
 		  var getIndices = this.byId("teamspecificlist").getSelectedIndices();
 		  var bRejectCheck = true;
- 
-		  //미결상태 && SelectedIndex가 존재여부 check
+
+		 //SelectedIndex가 존재여부 check
+		 if(getIndices.length === 0){
+			bApproveCheck = false;
+		}
+		  //미결상태 check
 		  for(var i = 0; i < getIndices.length; i++){
-			 if(getIndex < 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+			 if(oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
 				bRejectCheck = false;
 			 }
 		  }
