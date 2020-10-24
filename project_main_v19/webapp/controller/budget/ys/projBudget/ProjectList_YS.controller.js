@@ -33,7 +33,11 @@ sap.ui.define([
 		}));
 		this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		this._oRouter.attachRouteMatched(this.onAfterRendering, this);
-        }, 
+		},
+		/******************************************************************************************************************************************************
+		 * 함수 이름 : 첫 뷰가 그려진 후 작동까지 하는 메소드
+		 * 작성자 : 노용석
+		 ******************************************************************************************************************************************************/ 
         onAfterRendering : function(){
 			this.onProjectCall();
 			this.listRfcFunction(this.getView().getModel());
