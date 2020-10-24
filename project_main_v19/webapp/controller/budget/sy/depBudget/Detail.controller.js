@@ -203,12 +203,12 @@ sap.ui.define([
 		  var oModel=oView.getModel("teaminitsun");
 		  var getIndex = this.byId("teamspecificlist").getSelectedIndex();
 		  var getIndices = this.byId("teamspecificlist").getSelectedIndices();
-		  var bApproveCheck = false;
+		  var bApproveCheck = true;
  
 		  //미결상태 && SelectedIndex가 존재여부 check
 		  for(var i = 0; i < getIndices.length; i++){
-			 if(getIndex >= 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") === '0'){
-				bApproveCheck = true;
+			 if(getIndex < 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+				bApproveCheck = false;
 			 }
 		  }
  
@@ -245,12 +245,12 @@ sap.ui.define([
 		  var status = oModel.getProperty("/detail");
 		  var getIndex = this.byId("teamspecificlist").getSelectedIndex();
 		  var getIndices = this.byId("teamspecificlist").getSelectedIndices();
-		  var bRejectCheck = false;
+		  var bRejectCheck = true;
  
 		  //미결상태 && SelectedIndex가 존재여부 check
 		  for(var i = 0; i < getIndices.length; i++){
-			 if(getIndex >= 0 && oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") === '0'){
-				bRejectCheck = true;
+			 if(getIndices.length === 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+				bRejectCheck = false;
 			 }
 		  }
  
