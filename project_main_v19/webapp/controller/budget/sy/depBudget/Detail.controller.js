@@ -249,7 +249,7 @@ sap.ui.define([
  
 		  //미결상태 && SelectedIndex가 존재여부 check
 		  for(var i = 0; i < getIndices.length; i++){
-			 if(getIndices.length === 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
+			 if(getIndex < 0 || oModel.getProperty("/detail/"+getIndices[i]+"/STATUS") != '0'){
 				bRejectCheck = false;
 			 }
 		  }
