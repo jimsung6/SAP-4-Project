@@ -237,7 +237,7 @@ sap.ui.define([
 					}
 					this.oApproveDialog.open();
 				} else {
-					MessageBox.alert("양식에 맞게 작성 바랍니다.");
+					MessageBox.error("양식에 맞게 작성 바랍니다.");
 				}
 			}
 		},
