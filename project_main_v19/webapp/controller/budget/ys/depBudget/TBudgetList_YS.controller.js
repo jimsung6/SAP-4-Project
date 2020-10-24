@@ -44,7 +44,6 @@ sap.ui.define([
 					 email: "",
 					 GCODE: ""
 			}));
-
 			//콤보박스 초기 세팅
 			this.getView().getModel().setProperty("/comboData", "All"); // comboData에 All로 초기값 set
 			//캘린더 초기 세팅
@@ -97,10 +96,7 @@ sap.ui.define([
 				I_DTDATE2 : sEndDateInfo,
 				I_GCODE : sData,
 				I_AUEMP : ZVEMPNO
-			}).done(function(oResultData3){	// RFC호출 완료	
-			}).fail(function(sErrorMessage){// 호출 실패
-				alert(sErrorMessage);
-			}).then(function(oResultData3){
+			}).done(function(oResultData3){	// RFC호출 완료
 				var resultData3 = oResultData3.TEAMTAB3;
 				for(var i=0 ; i<resultData3.length ; i++) {
 					if(resultData3[i].STATUS === "0"){
@@ -119,10 +115,11 @@ sap.ui.define([
 						resultData3[i].RDATE = " ";
 					}
 				}
-				projectModel3.setProperty("/teamBudgetList", oResultData3.TEAMTAB3)
+				projectModel3.setProperty("/teamBudgetList", oResultData3.TEAMTAB3)	
+			}).fail(function(sErrorMessage){// 호출 실패
+				alert(sErrorMessage);
 			});
 		},
-
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 예산증액 요청 Fragment rfc
 		 * 작성자 : 노용석
