@@ -120,14 +120,14 @@
 			"target": "List26"
 		  },
 		  {
-			"pattern": "Groupprj",
-			"name": "Groupprj",
-			"target": "Groupprj"
+			"pattern": "Groupproj",
+			"name": "Groupproj",
+			"target": "Groupproj"
 		  },
 		  {
-			"pattern": "Projectprj",
-			"name": "Projectprj",
-			"target": "Projectprj"
+			"pattern": "Projectproj",
+			"name": "Projectproj",
+			"target": "Projectproj"
 		  },
 		  {
 			"pattern": "Perdiemprj",
@@ -236,12 +236,12 @@
 			"viewName": "expenseManagement.khs.List26"
 		  },
 		  "Groupprj": {
-			"viewId": "Groupprj",
-			"viewName": "master/Groupprj"
+			"viewId": "Groupproj",
+			"viewName": "master/Groupproj"
 		  },
 		  "Projectprj": {
-			"viewId": "Projectprj",
-			"viewName": "master/Projectprj"
+			"viewId": "Projectproj",
+			"viewName": "master/Projectproj"
 		  },
 		  "Perdiemprj": {
 			"viewId": "Perdiemprj",
