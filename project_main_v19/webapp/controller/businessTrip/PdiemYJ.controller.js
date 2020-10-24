@@ -16,7 +16,7 @@ sap.ui.define([
 
 			
 			return Controller.extend("ExpenseManagement.controller.businessTrip.PdiemYJ", {
-
+					// qweqwe
                    onInit : function() {
                    	
 					//실행버튼  이름 바꾸기
