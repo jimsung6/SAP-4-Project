@@ -191,8 +191,8 @@ sap.ui.define([
 			var AUEMP = this.getOwnerComponent().getCookiy("EMPNO");
 			var oView = this.getView(),
 				aInputs = [
-				oView.byId("budgetInput"),
-				oView.byId("requestInput"),
+				oView.byId("budgetInput2"),
+				oView.byId("requestInput2"),
 				oView.byId("dateInput")
 			],
 				bValidationError = false;

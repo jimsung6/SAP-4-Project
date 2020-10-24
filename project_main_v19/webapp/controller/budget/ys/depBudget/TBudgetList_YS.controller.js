@@ -37,7 +37,7 @@ sap.ui.define([
 			var sModel = oView.setModel(new JSONModel({
 					 teamBudgetList : [],
 					 teamBudgetRequest : {},
-					request: "",
+					 request: "",
 					 budget: "",
 					 tpicode: "",
 					 name: "",
@@ -176,7 +176,6 @@ sap.ui.define([
 				comboData = "";
 			};
 			//프로젝트 코드 데이터 불러오기
-			// var PCODE = this.getView().getModel().getProperty("/PCODE");
 			var projectModel3 = this.getView().getModel();
 			if (sData){
 				this.listRfcFunction(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData.text);
@@ -258,7 +257,7 @@ sap.ui.define([
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
 		onSaveDialog : function (oEvent) {
-						// collect input controls
+			// collect input controls
 			var oModel = this.getView().getModel();
 			var gPath = oModel.oData.teamBudgetRequest;
 			// 데이터 불러오기
@@ -275,8 +274,8 @@ sap.ui.define([
 			var TPICODE = this.getView().getModel().getProperty("/tpicode");
 			var oView = this.getView(),
 				aInputs = [
-				oView.byId("budgetInput"),
-				oView.byId("requestInput"),
+				oView.byId("budgetInput2"),
+				oView.byId("requestInput2"),
 				oView.byId("dateInput"),
 			],
 				bValidationError = false;
@@ -349,9 +348,7 @@ sap.ui.define([
 				sValueState = "Error";
 				bValidationError = true;
 			}
-
 			oInput.setValueState(sValueState);
-
 			return bValidationError;
 		},
 		/******************************************************************************************************************************************************

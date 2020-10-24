@@ -270,8 +270,8 @@ sap.ui.define([
 			// var STATUS = gPath.STATUS;
 			var oView = this.getView(),
 				aInputs = [
-				oView.byId("budgetInput"),
-				oView.byId("requestInput")
+				oView.byId("budgetInput1"),
+				oView.byId("requestInput1")
 			],
 				bValidationError = false;
 			// Check that inputs are not empty.

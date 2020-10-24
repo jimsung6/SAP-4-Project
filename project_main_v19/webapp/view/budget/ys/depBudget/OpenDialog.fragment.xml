@@ -66,7 +66,7 @@
                    <HBox>
                         <Label text="요청 예산(KRW)" design="Bold" class="sapUiSmallMarginEnd"/>
                         <Input required="true" width="150px" placeholder="숫자만 기입."
-                        id="budgetInput"
+                        id="budgetInput2"
 			                        valueStateText="금액을 기입하세요."
 			                        value="{
 				                              path : '/teamBudgetRequest/TREBUD',
@@ -99,7 +99,7 @@
                       <HBox>
                         <Label text="요청 사유" design="Bold" class="sapUiSmallMarginEnd"/>
                         <Input required="true" width="300px" placeholder="100자 이내로"
-                        			id="requestInput"
+                        			id="requestInput2"
 			                        valueStateText="요청 사유를 적으세요. 최대 100자 이내."
 			                        value="{
 				                              path : '/teamBudgetRequest/RTREQ',

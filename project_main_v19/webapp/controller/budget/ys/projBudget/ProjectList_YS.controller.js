@@ -95,7 +95,7 @@ sap.ui.define([
                 projectModel.setProperty("/projTableData", oResultData.TAB1)
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
-            }).then(function(oResultData){
+            }).always(function(oResultData){
                 var resultData = oResultData.TAB1
                 var toDay = new Date();
                 for( var i=0 ; i < resultData.length ; i++ ){
@@ -207,8 +207,8 @@ sap.ui.define([
 			};	
 			var oView = this.getView(),
 				aInputs = [
-				oView.byId("budgetInput"),
-				oView.byId("requestInput")
+				oView.byId("budgetInput1"),
+				oView.byId("requestInput1")
 			],
 				bValidationError = false;
 
