@@ -19,8 +19,7 @@ sap.ui.define([
 
    var TableController= Controller.extend("ExpenseManagement.controller.master.CompanyAccounts", {
    	
-	   //FGFGFG
-	   //EEFEFEFEFE
+	   //git 테스트 변경
       onInit : function() {
          
          var oModel = new JSONModel();
