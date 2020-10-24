@@ -78,9 +78,9 @@
 										formatOptions: {
 										showMeasure: false
 										}
-										}"/>
+										}">
 							<Text text="{project>SDATE}"/>
-			                     <!--   path: 'group>SDATE',-->
+			                       <!-- path: 'group>SDATE',-->
 			                     <!--   type: 'sap.ui.model.type.Date',-->
 			                     <!--   formatOptions: {-->
 			                     <!--      style: 'long',-->
@@ -88,7 +88,7 @@
 			                     <!--         pattern: 'yyyyMMdd'-->
 			                     <!--      }-->
 			                     <!--   }-->
-			                     <!--}" />-->
+			                     <!--}" /> -->
 							<Text text="{project>EDATE}"/>
 			                     <!--   path: 'group>EDATE',-->
 			                     <!--   type: 'sap.ui.model.type.Date',-->
