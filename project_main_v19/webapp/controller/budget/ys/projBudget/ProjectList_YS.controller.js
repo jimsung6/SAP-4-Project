@@ -99,7 +99,7 @@ sap.ui.define([
                     if(toDay.getTime() < endDay.getTime()){
                         resultData[i].STATUS = "진행중"
                     }else{
-                        resultData[i].STATUS = "완결"
+                        resultData[i].STATUS = "종료"
                     }
                 }
 			});   
@@ -228,7 +228,8 @@ sap.ui.define([
 								MessageToast.show("접수 완료");
 								this.oApproveDialog.close();
 								this.oApproveDialog.destroy();
-								delete this.oApproveDialog
+								delete this.oApproveDialog;
+								this.onCloseDialog();
 							}.bind(this)
 						}),
 						endButton: new Button({
