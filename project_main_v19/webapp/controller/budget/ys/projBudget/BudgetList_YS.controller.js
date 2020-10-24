@@ -98,7 +98,7 @@ sap.ui.define([
 			}).done(function(oResultData3){	// RFC호출 완료	
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
-			}).then(function(oResultData3){
+			}).always(function(oResultData3){
 				var resultData3 = oResultData3.TAB3;
 				for(var i=0 ; i<resultData3.length ; i++) {
 					if(resultData3[i].STATUS === "0"){

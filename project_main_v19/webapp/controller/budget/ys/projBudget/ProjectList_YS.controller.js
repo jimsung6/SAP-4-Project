@@ -92,11 +92,8 @@ sap.ui.define([
 				//RFC Import 데이터
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData){	// RFC호출 완료
-                projectModel.setProperty("/projTableData", oResultData.TAB1)
-			}).fail(function(sErrorMessage){// 호출 실패
-				alert(sErrorMessage);
-            }).always(function(oResultData){
-                var resultData = oResultData.TAB1
+				projectModel.setProperty("/projTableData", oResultData.TAB1)
+				var resultData = oResultData.TAB1
                 var toDay = new Date();
                 for( var i=0 ; i < resultData.length ; i++ ){
                     var endDay = new Date(resultData[i].EDATE)
@@ -105,8 +102,10 @@ sap.ui.define([
                     }else{
                         resultData[i].STATUS = "종료"
                     }
-                }
-			});   
+                }    
+			}).fail(function(sErrorMessage){// 호출 실패
+				alert(sErrorMessage);
+            });   
 		},
 		/******************************************************************************************************************************************************
 	 	* 함수 이름 : 예산증액 요청 리스트 rfc
@@ -119,10 +118,6 @@ sap.ui.define([
 				I_PCODE : PCODE,
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData3){	// RFC호출 완료	
-					// console.log(oResultData3.TAB3)
-			}).fail(function(sErrorMessage){// 호출 실패
-				alert(sErrorMessage);
-			}).then(function(oResultData3){
 				var resultData3 = oResultData3.TAB3;
 				for(var i=0 ; i<resultData3.length ; i++) {
 					if(resultData3[i].STATUS === "0"){
@@ -142,6 +137,8 @@ sap.ui.define([
 					}
 				}
 				projectModel3.setProperty("/projBudgetList", oResultData3.TAB3)
+			}).fail(function(sErrorMessage){// 호출 실패
+				alert(sErrorMessage);
 			});
 		},
 		/******************************************************************************************************************************************************
