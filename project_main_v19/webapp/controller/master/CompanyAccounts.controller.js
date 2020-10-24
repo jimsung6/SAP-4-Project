@@ -19,7 +19,6 @@ sap.ui.define([
 
    var TableController= Controller.extend("ExpenseManagement.controller.master.CompanyAccounts", {
    	
-	   //git 테스트 변경
       onInit : function() {
          
          var oModel = new JSONModel();
@@ -298,7 +297,8 @@ sap.ui.define([
 	               if (oResultData.T_TAB1[j].MDATE === "0000-00-00") {
 	                  oResultData.T_TAB1[j].MDATE = "0";
 	               }
-	                  oModel.setData(oResultData);
+					  oModel.setData(oResultData);
+					  MessageToast.show("계좌가 성공적으로 변경되었습니다.");
 	            }   
 	            
 	         }).fail(function(sErrorMessage){
@@ -319,6 +319,7 @@ sap.ui.define([
 	  		
 		  	this.getView().getModel("accounts").setData(this.aTab);
 			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+			MessageToast.show("작업이 취소되었습니다.");
 		},
 	    
 	    

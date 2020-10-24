@@ -307,7 +307,7 @@ sap.ui.define([
 				}
 				this.oApproveDialog.open();
 			} else {
-				MessageBox.alert("양식에 맞게 작성 바랍니다.");
+				MessageBox.error("양식에 맞게 작성 바랍니다.");
 			}
 		},
 		/******************************************************************************************************************************************************
@@ -328,16 +328,13 @@ sap.ui.define([
 			var sValueState = "None";
 			var bValidationError = false;
 			var oBinding = oInput.getBinding("value");
-
 			try {
 				oBinding.getType().validateValue(oInput.getValue());
 			} catch (oException) {
 				sValueState = "Error";
 				bValidationError = true;
 			}
-
 			oInput.setValueState(sValueState);
-
 			return bValidationError;
 		},
 		/******************************************************************************************************************************************************
