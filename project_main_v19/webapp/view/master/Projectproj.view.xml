@@ -72,13 +72,7 @@
 							<Text text="{project>PNAME}"/>
 							<Text text="{project>AUEMP}"/>
 							<Text text="{project>AUTNM}"/>
-							<Text text="{
-										path: 'project>PMONEY',
-										type: 'sap.ui.model.type.Currency',
-										formatOptions: {
-										showMeasure: false
-										}
-										}"/>
+							<Text text="{project>PMONEY}"/>
 							<Text text="{project>SDATE}"/>
 			                       <!-- path: 'group>SDATE',-->
 			                     <!--   type: 'sap.ui.model.type.Date',-->
