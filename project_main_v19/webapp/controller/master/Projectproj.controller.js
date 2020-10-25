@@ -18,7 +18,6 @@ sap.ui.define([
 
    var TableController= Controller.extend("ExpenseManagement.controller.master.Projectproj", {
    	
-   	
       onInit : function() {
          
          var oModel = new JSONModel({currency: "KRW"});
@@ -36,7 +35,6 @@ sap.ui.define([
          }).fail(function(sErrorMessage){
             alert(sErrorMessage);
          });
-         
          
         this.oTable = this.byId("Projectproj");
         
@@ -80,15 +78,10 @@ sap.ui.define([
 					value: "{project>PAYNM}"
 				})
 				]
-         
 			});
-		
-         
     	},
         
 	  	rebindTable: function(oTemplate, sKeyboardMode) {
-	  		
-  			
 			this.oTable.bindItems({
 				path: "project>/T_TAB1",
 				template: oTemplate,
@@ -96,7 +89,6 @@ sap.ui.define([
 				// key: "accounts>CACNR",
 			}).setKeyboardMode(sKeyboardMode);
 			},
-      
       
         onCreateDialog : function() {
        		if (!this.byId("CreateProject")) {
@@ -112,9 +104,7 @@ sap.ui.define([
        		}
        		var oMM = Core.getMessageManager();
        		oMM.registerObject(this.byId("npcode"), true);
-			
 		 },
-
 
 		_validateInput: function (oInput) {
 			var sValueState = "None";
@@ -155,12 +145,9 @@ sap.ui.define([
 				oInput.setValueStateText("프로젝트 코드는 3자리를 초과할수 없습니다!");
 			}else if (bDupl) {
 				oInput.setValueStateText("프로젝트 코드가 중복됩니다! 다른 프로젝트 코드를 입력하세요");
-			}
-			
-			
+			}	
 			return bValidationError;
-		},
-		
+		},		
 		
 		onPcodeChange : function(oEvent) {
 			var oInput = oEvent.getSource();
@@ -172,7 +159,6 @@ sap.ui.define([
 			
 			var aInput = this.byId("npcode"),
 				bValidationError = this._validateInput(aInput);
-
 			
 			if (bValidationError) {
 				MessageBox.alert("입력값을 다시 확인하세요.");
@@ -204,39 +190,32 @@ sap.ui.define([
 				Newproject.ZCLNT = this.byId("nzclnt").getProperty("value");
 				Newproject.PYEMP = this.byId("npyemp").getProperty("value");
 				Newproject.PAYNM = this.byId("npaynm").getProperty("value");
-				
-			
+							
 				this.getOwnerComponent().rfcCall("ZB_CREATE_PROJECT", {
 				I_PROJECT: Newproject
 		         }).done(function(oResultData){   // RFC호출 완료
 		            for (var j=0; j<oResultData.T_TAB1.length; j++) {
 		              if (oResultData.T_TAB1[j].SDATE === "0000-00-00") {
 		                  oResultData.T_TAB1[j].SDATE = "0";
-		              }
-		                  
+		              }     
 	            	}
 	            	oModel.setData(oResultData);
 		         }).fail(function(sErrorMessage){
 		            alert(sErrorMessage);
 		         });
-				
-				
-				
+					
 				//다이얼로그창 닫기
 				this.byId("CreateProject").close();
 				this.byId("CreateProject").destroy();
 				MessageToast.show("새로운 프로젝트가 생성되었습니다.");   //메세지 생성
-				
-				
+								
 				this.rebindTable(this.oReadOnlyTemplate, "Navigation");
 			}
-			
-			
-			},
+		},
 	    
 	    onEditProject : function() {
 	    	
-	    		var oModel = this.getView().getModel("project");
+	    	var oModel = this.getView().getModel("project");
 			var tab = oModel.getData().T_TAB1;
 			var oTable = this.byId("Projectproj");
 			var aSelectedPaths = oTable._aSelectedPaths;
@@ -311,8 +290,6 @@ sap.ui.define([
 			});
 			}
 	    },
-			
-	    
 	    
 		onSave: function() {
 			this.byId("Projectproj").setMode("MultiSelect"); 
@@ -326,8 +303,7 @@ sap.ui.define([
 			var tab = oModel.getData().T_TAB1;
 			var oTable = this.byId("Projectproj");
 			var aSelectedPaths = oTable._aSelectedPaths;
-			
-			
+						
 					for(var i = 0; i < tab.length ; i++ ){
 			            var splitData = tab[i].SDATE.split('-');
 			            tab[i].SDATE = splitData[0] + splitData[1] + splitData[2];
@@ -336,8 +312,6 @@ sap.ui.define([
 			            	tab[i].SDATE = "";
 			            }
 		        	}
-				
-				
 				
 				this.getOwnerComponent().rfcCall("ZB_SAVE_PROJECT", {
 				T_TAB1: tab
@@ -349,12 +323,11 @@ sap.ui.define([
 		                  oModel.setData(oResultData);
 		            }   
 		            
-		        	this.rebindTable(this.oReadOnlyTemplate, "Navigation");	
+					this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+					MessageToast.show("변경된 정보가 저장되었습니다.");	
 		         }).fail(function(sErrorMessage){
-		            MessageBox.alert("입력값을 다시 확인하세요.");
+		            MessageToast.show("입력값을 다시 확인하세요.");
 		         });
-	         
-		
 		},
 
 		onCancel: function() {
@@ -369,7 +342,6 @@ sap.ui.define([
 			this.rebindTable(this.oReadOnlyTemplate, "Navigation");
 		},
 	    
-	    
 	    onCloseDialog : function () {
 				
 			if(this.byId("CreateProject")) {
@@ -377,7 +349,6 @@ sap.ui.define([
 			}else if(this.byId("DeleteProject")) {
 				this.byId("DeleteProject").destroy();
 			}
-				
 	    }
    });
    return TableController;

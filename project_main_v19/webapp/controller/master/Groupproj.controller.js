@@ -320,7 +320,8 @@ sap.ui.define([
 	         });
 	         
 	         
-	         this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+			 this.rebindTable(this.oReadOnlyTemplate, "Navigation");
+			 MessageToast.show("변경된 정보가 저장되었습니다.");
 		},
 
 		onCancel: function() {
