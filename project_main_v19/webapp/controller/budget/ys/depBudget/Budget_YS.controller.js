@@ -6,7 +6,5 @@ sap.ui.define([
 ], function (Controller, JSONModel) {
 	"use strict";
 	return Controller.extend("ExpenseManagement.controller.budget.ys.depBudget.Budget_YS", {
-	
 	});
-
 });

@@ -98,7 +98,7 @@ sap.ui.define([
 			}).done(function(oResultData3){	// RFC호출 완료	
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
-			}).then(function(oResultData3){
+			}).always(function(oResultData3){
 				var resultData3 = oResultData3.TAB3;
 				for(var i=0 ; i<resultData3.length ; i++) {
 					if(resultData3[i].STATUS === "0"){
@@ -270,8 +270,8 @@ sap.ui.define([
 			// var STATUS = gPath.STATUS;
 			var oView = this.getView(),
 				aInputs = [
-				oView.byId("budgetInput"),
-				oView.byId("requestInput")
+				oView.byId("budgetInput1"),
+				oView.byId("requestInput1")
 			],
 				bValidationError = false;
 			// Check that inputs are not empty.
