@@ -160,7 +160,7 @@ sap.ui.define([
 						oEmployeeLog.setProperty("/ButtonSetting/MasterSearch", true);
 						oEmployeeLog.setProperty("/ButtonSetting/ExpenseManagement", true);
 						oEmployeeLog.setProperty("/ButtonSetting/BTripManagement", true);
-						oEmployeeLog.setProperty("/ButtonSetting/BudgetSearch", false);
+						oEmployeeLog.setProperty("/ButtonSetting/BudgetSearch", true);
 						oEmployeeLog.setProperty("/ButtonSetting/BudgetRequest", true);
 						oEmployeeLog.setProperty("/ButtonSetting/BudgetRequestCanc", false);
 						oEmployeeLog.setProperty("/ButtonSetting/LogInfo", true);

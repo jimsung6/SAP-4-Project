@@ -107,10 +107,6 @@ sap.ui.define([
 				I_GCODE : GCODE,
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData3){	// RFC호출 완료	
-					// console.log(oResultData3.TAB3)
-			}).fail(function(sErrorMessage){// 호출 실패
-				alert(sErrorMessage);
-			}).then(function(oResultData3){
 				var resultData3 = oResultData3.TEAMTAB3;
 				for(var i=0 ; i<resultData3.length ; i++) {
 					if(resultData3[i].STATUS === "0"){
@@ -130,6 +126,8 @@ sap.ui.define([
 					}
 				}
 				projectModel3.setProperty("/teamBudgetList", oResultData3.TEAMTAB3)
+			}).fail(function(sErrorMessage){// 호출 실패
+				alert(sErrorMessage);
 			});
 		},
 		/******************************************************************************************************************************************************
@@ -191,8 +189,8 @@ sap.ui.define([
 			var AUEMP = this.getOwnerComponent().getCookiy("EMPNO");
 			var oView = this.getView(),
 				aInputs = [
-				oView.byId("budgetInput"),
-				oView.byId("requestInput"),
+				oView.byId("budgetInput2"),
+				oView.byId("requestInput2"),
 				oView.byId("dateInput")
 			],
 				bValidationError = false;
@@ -237,7 +235,7 @@ sap.ui.define([
 					}
 					this.oApproveDialog.open();
 				} else {
-					MessageBox.alert("양식에 맞게 작성 바랍니다.");
+					MessageBox.error("양식에 맞게 작성 바랍니다.");
 				}
 			}
 		},

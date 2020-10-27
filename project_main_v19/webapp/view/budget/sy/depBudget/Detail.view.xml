@@ -70,7 +70,7 @@
 					</table:template>
 				</table:Column> 
 				<table:Column width="150px" hAlign="Center">
-					<Label text="요청예산(원)"/>
+					<Label text="요청예산"/>
 					<table:template>
 				<u:Currency value="{teaminitsun>TREBUD}" 
 								maxPrecision="0" 

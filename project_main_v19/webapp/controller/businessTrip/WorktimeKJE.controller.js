@@ -14,7 +14,7 @@ sap.ui.define([
 	"use strict";
 	
 	return Controller.extend("ExpenseManagement.controller.businessTrip.WorktimeKJE", {
-		//test je worktime
+		//worktime
 		onInit : function() {
 			
 				var oData = {
