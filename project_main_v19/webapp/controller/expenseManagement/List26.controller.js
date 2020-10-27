@@ -160,7 +160,6 @@ sap.ui.define([
 	             I_GCODE : gData
 	         }).done(function(oResultData){   // RFC호출 완료
 	        	oView.getModel("TEST").setProperty("/oEmpno", oResultData.T_ZBMDT0010);
-	        	oView.getModel();
 	         }).fail(function(sErrorMessage){// 호출 실패
 	            MessageToast.show(sErrorMessage);
 	         });
@@ -177,23 +176,84 @@ sap.ui.define([
             } else {
               this.byId("empnoDialog").open();
             }
+	  },
+	  
+	  handleValueHelp2 : function(oEvent){	       
+		var oView = this.getView();
+	         this.getOwnerComponent().rfcCall("ZB_PCODE_97", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+             //RFC Import 데이터
+	         }).done(function(oResultData){   // RFC호출 완료
+	        	oView.getModel("TEST").setProperty("/oPcode", oResultData.T_ZBMDT0030);
+	         }).fail(function(sErrorMessage){// 호출 실패
+	            MessageToast.show(sErrorMessage);
+	         });
+
+            if (!this.byId("projectDialog")) {
+              Fragment.load({
+                  id: oView.getId(),
+                  name: "ExpenseManagement.view.expenseManagement.khs.Project",
+                  controller: this
+              }).then(function (oDialog) {
+                  oView.addDependent(oDialog);
+                  oDialog.open();
+              });
+            } else {
+              this.byId("projectDialog").open();
+            }
       },
-      
+	  
+	  handleValueHelp3 : function(oEvent){
+    	var oView = this.getView();	       
+	         this.getOwnerComponent().rfcCall("ZB_CODHC_99", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+             //RFC Import 데이터
+	         }).done(function(oResultData){   // RFC호출 완료
+	        	oView.getModel("TEST").setProperty("/oCodhc", oResultData.T_ZBEXT0030);
+	        	oView.getModel();
+	         }).fail(function(sErrorMessage){// 호출 실패
+	            MessageToast.show(sErrorMessage);
+	         });
+
+            if (!this.byId("codhcDialog")) {
+              Fragment.load({
+                  id: oView.getId(),
+                  name: "ExpenseManagement.view.expenseManagement.khs.Codhc",
+                  controller: this
+              }).then(function (oDialog) {
+                  oView.addDependent(oDialog);
+                  oDialog.open();
+              });
+            } else {
+              this.byId("codhcDialog").open();
+            }
+      },
+
       onCloseDialog : function () {
       	var oEid = this.byId("oESpecificData");
       	var oOid = this.byId("oOSpecificData");
       	var oSid = this.byId("oSSpecificData");
-      	var oEmpid = this.byId("empnoDialog");
+		  var oEmpid = this.byId("empnoDialog");
+		  var oPcodeid = this.byId("projectDialog");
+		  var oCodhcid = this.byId("codhcDialog");
       	
       	if(oEid){
-      		oEid.close();
+			  oEid.close();
+			  oEid.destroy();
       	} else if(oOid){
-      		oOid.close();
+			  oOid.close();
+			  oOid.destroy();
       	} else if(oSid){
-      		oSid.close();	
+			  oSid.close();
+			  oSid.destroy();
       	} else if(oEmpid){
-      		oEmpid.close();
-      	}
+			  oEmpid.close();
+			  oEmpid.destroy();
+		  } else if(oPcodeid){
+			oPcodeid.close();
+			oPcodeid.destroy();
+		  } else if(oCodhcid){
+			  oCodhcid.close();
+			  oCodhcid.destroy();
+		  }
       },
       
 		onFilterSearch: function () {
@@ -371,96 +431,118 @@ sap.ui.define([
         onRowSelection : function(oEvent){
 	         var sPath = oEvent.mParameters.rowContext.sPath;
 	         var oModel = this.getView().getModel("TEST");
-	         var selectData = oModel.getProperty(sPath);
-	         oModel.setProperty("/oRow",selectData);
+			 var selectData = oModel.getProperty(sPath);
+			 oModel.setProperty("/eRow",selectData);
+				oModel.setProperty("/pRow",selectData);
+				oModel.setProperty("/cRow",selectData);
       },
          
-        	onSave: function () {
-        		var that = this;
-        		if(this.byId("cbotable").getSelectedContextPaths().length === 0){
-        			MessageBox.error("항목을 선택해주세요");
-        		}else{
-					MessageBox.confirm("지급하시겠습니까?" , {
-					actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-					onClose: function (sAction) {
-					   if(sAction === "OK"){
-						   MessageToast.show("지급되었습니다");
-  	         var payModel = that.getView().getModel("TEST");
-             var selectTable = payModel.getProperty("/test");
-            ////   RFC호출
-                that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-                    //RFC Import 데이터
-                    T_GIVTAB : selectTable
-                  
-                 }).done(function(oResultData){   // RFC호출 완료
-                 }).fail(function(sErrorMessage){// 호출 실패
-                   MessageToast.show(sErrorMessage);
-                 }).then(function(){
-                 });
-              	   }
-					   }
-					});}
-        	},
+	  onSave: function () {
+		var that = this;
+		if(this.byId("cbotable").getSelectedContextPaths().length === 0){
+		   MessageBox.error("항목을 선택해주세요");
+		}else{
+		 MessageBox.confirm("지급하시겠습니까?" , {
+		 actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+		 onClose: function (sAction) {
+			if(sAction === "OK"){
+			var payModel = that.getView().getModel("TEST");
+			var selectTable = payModel.getProperty("/test");
+						   ////   RFC호출
+						that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+						//RFC Import 데이터
+						T_GIVTAB : selectTable
+					   
+					  }).done(function(oResultData){   // RFC호출 완료
+					  }).fail(function(sErrorMessage){// 호출 실패
+						MessageToast.show(sErrorMessage);
+					  }).then(function(){
+					  });
+			   MessageToast.show("지급되었습니다");
+			   //SelectedIndex 초기화
+				  that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+			   }
+			}
+		 });}
+	 },
 						   
-			onRet: function (){
-			        var that = this;
-			    	if(this.byId("cbotable").getSelectedContextPaths().length === 0){
-        			MessageBox.error("항목을 선택해주세요");
-        		}else{
-					MessageBox.confirm("반려하시겠습니까?" , {
-					actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
-					onClose: function (sAction) {
-					   if(sAction === "OK"){
-						   MessageToast.show("반려되었습니다");
-			// var aPath = oEvent.oSource._aSelectedPaths;
-                    // console.log(payModel.getProperty("/View"));
-             var payModel = that.getView().getModel("TEST");
-        	 var selectTable = payModel.getProperty("/test");
-             //var retTable = payModel.getProperty("/retData");
-             //var rPath = selectTable.length;
-             //for(var i=0; i<rPath; i++){
-             //    retTable.push(selectTable[i].RETCODE);
-             //     }
-             //var retData = selectTable.getProperty(rPath+"/RETCODE");
-             //console.log(retData);
-             //var sRetcode = payModel.getProperty("/oRetcode");
-             var oCodeData = that.getView().getModel("TEST").getProperty("/sRetcode");
-			 var pRetcode = oCodeData.retcode;
-             //console.log(pRetcode);
-            ////   RFC호출
-                that.getOwnerComponent().rfcCall("ZB_REJ_PAY_92", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-                    //RFC Import 데이터
-                    T_RETTAB : selectTable
-                 }).done(function(oResultData){   // RFC호출 완료
-                 }).fail(function(sErrorMessage){// 호출 실패
-                    MessageToast.show(sErrorMessage);
-                 }).then(function(){
-                 });
-         
-						   }
-					   }
-					});}
-		},
+	 onRet: function (){
+		var that = this;
+	   if(this.byId("cbotable").getSelectedContextPaths().length === 0){
+		MessageBox.error("항목을 선택해주세요");
+	 }else{
+	  MessageBox.confirm("반려하시겠습니까?" , {
+	  actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+	  onClose: function (sAction) {
+		 if(sAction === "OK"){
+		 var payModel = that.getView().getModel("TEST");
+		 var selectTable = payModel.getProperty("/test");
+		 var oCodeData = that.getView().getModel("TEST").getProperty("/sRetcode");
+		 var pRetcode = oCodeData.retcode;
+		 ////   RFC호출
+			that.getOwnerComponent().rfcCall("ZB_REJ_PAY_92", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+			   //RFC Import 데이터
+			   T_RETTAB : selectTable
+			}).done(function(oResultData){   // RFC호출 완료
+			}).fail(function(sErrorMessage){// 호출 실패
+			   MessageToast.show(sErrorMessage);
+			}).then(function(){
+			});
+
+			MessageToast.show("반려되었습니다");
+					 //SelectedIndex 초기화
+			   that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+			}
+		 }
+	  });}
+},
 	
 		onSearchChange : function(){
 			var searchData = this.getView().getModel("TEST").getProperty("/nameSearch"); 
-			
 			var aFilter = [];
+			var oEmpid = this.byId("empnoDialog");
+			var oPcodeid = this.byId("projectDialog");
+			var oCodhcid = this.byId("codhcDialog");
 			
 			if (searchData) {
+				if(oEmpid){
 				aFilter.push(new Filter("ENAME", FilterOperator.Contains, searchData));
-			}
+			} else if(oPcodeid){
+				aFilter.push(new Filter("PNAME", FilterOperator.Contains, searchData));
+			} else if(oCodhcid){
+				aFilter.push(new Filter("CODDN", FilterOperator.Contains, searchData));
+			}}
 			// filter binding
-			var oList = this.byId("fragTable");
+			var oList = this.byId("empnoTable");
 			var oBinding = oList.getBinding("rows");
 			oBinding.filter(aFilter);
+
+			var pList = this.byId("projectTable");
+			var pBinding = pList.getBinding("rows");
+			pBinding.filter(aFilter);
 		},
 		
 		onAddData : function(){
+			var oEmpid = this.byId("empnoDialog");
+			var oPcodeid = this.byId("projectDialog");
+			var oCodhcid = this.byId("codhcDialog");
          var oModel = this.getView().getModel("TEST");
-         var empnoData = oModel.getProperty("/oRow/EMPNO");
-         oModel.setProperty("/filterbar/empno",empnoData);
-         this.byId("empnoDialog").close();
+		 var empnoData = oModel.getProperty("/eRow/EMPNO");
+		 var pcodeData = oModel.getProperty("/pRow/PCODE");
+		 var codhcData = oModel.getProperty("/cRow/CODHC");
+		 oModel.setProperty("/filterbar/empno",empnoData);
+		 oModel.setProperty("/filterbar/pcode",pcodeData);
+		 oModel.setProperty("/filterbar/codhc",codhcData);
+		 if(oEmpid){
+			oEmpid.close();
+			oEmpid.destroy();
+		 } else if(oPcodeid){
+			oPcodeid.close();
+			oPcodeid.destroy();
+		 } else if(oCodhcid){
+		 oCodhcid.close();
+		 oCodhcid.destroy();
+		}
       }
 
 		
