@@ -29,8 +29,7 @@
 									class="sapUiSmallMarginEnd"
 									/>
 						<Button text = "실행" press = ".onFilterSearch" width="80px" type="Emphasized"/>
-	</HBox>
-	
+	    </HBox>
 	<table:Table
             id="budgets"
             title="예산 증액 요청 리스트"
