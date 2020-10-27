@@ -21,15 +21,16 @@
                         defaultSpan="XL12 L12 M12 S12">
                             <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
                                 <HBox>
-                                <DateRangeSelection 
-												displayFormat="{TEST>/displayFormat}"
-												dateValue="{TEST>/oToday}"
-												secondDateValue="{TEST>/oToday2}"
-												change="handleChange"
-												/>
+                                <DateRangeSelection
+                                    id="FDRS"
+                                    change="onChange"
+                                    displayFormat="{TEST>/fDisplayFormat}"
+                                    dateValue="{TEST>/fToday}"
+                                    secondDateValue="{TEST>/fToday2}"
+                                    />
                                 </HBox> 
                                 <HBox>
-                                <SearchField liveChange=".onSearchChange" value="{TEST>/nameSearch}" placeholder="프로젝트검색" width ="200px"></SearchField>
+                                <SearchField liveChange=".onSearchChange2" value="{TEST>/nameSearch2}" placeholder="프로젝트검색" width ="200px"></SearchField>
                                 </HBox>
                                 <ToolbarSpacer/> 
                             </OverflowToolbar>

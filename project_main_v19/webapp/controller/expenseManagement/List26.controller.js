@@ -21,11 +21,20 @@ sap.ui.define([
 			var yesterday = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
 			oDRS.setDateValue(yesterday);
 			oDRS.setSecondDateValue(new Date());
-			
+			// pFragment 달력 초기 세팅
+			var fDRS = this.byId("FDRS");
+			//모델링
+			var yesterDay = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
+			oDRS.setDateValue(yesterDay);
+			oDRS.setSecondDateValue(new Date());
+
 			var oData = {
 				oToday:yesterday,
 				oToday2:new Date(),
 				displayFormat: "yyyy-MM",
+				fToday: yesterDay,
+				fToday2: new Date(),
+				fDisplayFormat : "yyyy-MM-dd",
 				fragInfo : [],
 				sRetcode: [],
 				sCacnr : [],
@@ -432,9 +441,13 @@ sap.ui.define([
 	         var sPath = oEvent.mParameters.rowContext.sPath;
 	         var oModel = this.getView().getModel("TEST");
 			 var selectData = oModel.getProperty(sPath);
+			 if(this.byId("empnoDialog")){
 			 oModel.setProperty("/eRow",selectData);
+			 } else if(this.byId("projectDialog")){
 				oModel.setProperty("/pRow",selectData);
+			 } else if(this.byId("codhcDialog")){
 				oModel.setProperty("/cRow",selectData);
+			 }
       },
          
 	  onSave: function () {
@@ -500,29 +513,34 @@ sap.ui.define([
 		onSearchChange : function(){
 			var searchData = this.getView().getModel("TEST").getProperty("/nameSearch"); 
 			var aFilter = [];
-			var oEmpid = this.byId("empnoDialog");
-			var oPcodeid = this.byId("projectDialog");
-			var oCodhcid = this.byId("codhcDialog");
-			
-			if (searchData) {
-				if(oEmpid){
-				aFilter.push(new Filter("ENAME", FilterOperator.Contains, searchData));
-			} else if(oPcodeid){
-				aFilter.push(new Filter("PNAME", FilterOperator.Contains, searchData));
-			} else if(oCodhcid){
-				aFilter.push(new Filter("CODDN", FilterOperator.Contains, searchData));
-			}}
+			aFilter.push(new Filter("ENAME", FilterOperator.Contains, searchData));
 			// filter binding
 			var oList = this.byId("empnoTable");
 			var oBinding = oList.getBinding("rows");
 			oBinding.filter(aFilter);
+		},
 
+		onSearchChange2 : function(){
+			var pSearchData = this.getView().getModel("TEST").getProperty("/nameSearch2"); 
+			var pFilter = [];
+			pFilter.push(new Filter("PNAME", FilterOperator.Contains, pSearchData));
+			// filter binding
 			var pList = this.byId("projectTable");
 			var pBinding = pList.getBinding("rows");
-			pBinding.filter(aFilter);
+			pBinding.filter(pFilter);
+		},
+
+		onSearchChange3 : function(){
+			var cSearchData = this.getView().getModel("TEST").getProperty("/nameSearch3"); 
+			var cFilter = [];
+			cFilter.push(new Filter("CODDN", FilterOperator.Contains, cSearchData));
+			// filter binding
+			var cList = this.byId("codhcTable");
+			var cBinding = cList.getBinding("rows");
+			cBinding.filter(cFilter);
 		},
 		
-		onAddData : function(){
+		onAddData : function(oEvent){
 			var oEmpid = this.byId("empnoDialog");
 			var oPcodeid = this.byId("projectDialog");
 			var oCodhcid = this.byId("codhcDialog");
@@ -543,7 +561,11 @@ sap.ui.define([
 		 oCodhcid.close();
 		 oCodhcid.destroy();
 		}
-      }
+	  },
+	  
+	  onChange : function(){
+		MessageToast.show("qwe");
+	  }
 
 		
 	});

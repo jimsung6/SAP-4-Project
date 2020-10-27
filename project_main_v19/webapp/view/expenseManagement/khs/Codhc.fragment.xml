@@ -21,7 +21,7 @@
                         defaultSpan="XL12 L12 M12 S12">
                             <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
                                 <HBox>
-                                <SearchField liveChange=".onSearchChange" value="{TEST>/nameSearch}" placeholder="계정과목검색" width ="200px"></SearchField>
+                                <SearchField liveChange=".onSearchChange3" value="{TEST>/nameSearch3}" placeholder="계정과목검색" width ="200px"></SearchField>
                                 </HBox> 
                                 <ToolbarSpacer/> 
                             </OverflowToolbar>
