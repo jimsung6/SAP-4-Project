@@ -97,7 +97,7 @@ sap.ui.define([
                 var toDay = new Date();
                 for( var i=0 ; i < resultData.length ; i++ ){
                     var endDay = new Date(resultData[i].EDATE)
-                    if(toDay.getTime() < endDay.getTime()){
+                    if(toDay.getTime() < endDay.getTime()+(1000*3600*24*30)){
                         resultData[i].STATUS = "진행중"
                     }else{
                         resultData[i].STATUS = "종료"
@@ -188,14 +188,11 @@ sap.ui.define([
 			// var tableData = this.getView().getModel().getProperty("/projTableData");
 			
 			var sPath = oModel.getProperty("/projBudgetRequest");
-			//var sPath = oModel.oData.projBudgetRequest;
-			// console.log(this.onCheckSelect());
-			console.log(sPath)
+
 			// // 데이터 불러오기
 			var PCODE = sPath.PCODE;
 			var REQUEST = sPath.REQUEST;
 			var REBUD = sPath.REBUD;
-			console.log(PCODE+REQUEST+REBUD)
 			var check = this.byId("check1").getSelected();
 			if (check == true){
 				var DEPEM = "X";
