@@ -438,10 +438,16 @@ sap.ui.define([
 		  //create dialog 
 		  if(!oView.byId("TMForm")) {
 			 var oFragmentController = {
+				 //닫기 Event
 				   onCloseDialog : function(){
 					  oView.byId("TMForm").close();
 					  oModel.setProperty("/pmData",null)
-				   }
+				   },
+				   //mail보내기 Event
+					openemail  : function (oEvent) {
+						var oEmail = oModel.getProperty("/pmData")[0].EMAIL
+						sap.m.URLHelper.triggerEmail(oEmail);
+						}
 			 };
 			 // load asynchronous XML fragment
 			 Fragment.load({
