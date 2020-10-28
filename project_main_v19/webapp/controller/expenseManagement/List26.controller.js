@@ -516,7 +516,7 @@ sap.ui.define([
 	   
 				   MessageToast.show("반려되었습니다");
 							//SelectedIndex 초기화
-					  that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+					  this.byId("cbotable").removeSelections(0,payModel.getData().View.length);
 			}
 		 }
 	  });}
