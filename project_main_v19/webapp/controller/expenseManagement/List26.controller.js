@@ -340,7 +340,9 @@ sap.ui.define([
             MessageToast.show(sErrorMessage);
 		 }).then(function(){	// 여기다가 rfc 호출후 작업코딩
 			
-         });
+		 });
+		 	//SelectedIndex 초기화
+			 that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
 		},
 		
 				//Fragment 띄우기
@@ -456,6 +458,7 @@ sap.ui.define([
          //SAVE
 	  onSave: function () {
 		var that = this;
+		var payModel = that.getView().getModel("TEST");
 		if(this.byId("cbotable").getSelectedContextPaths().length === 0){
 		   MessageBox.error("항목을 선택해주세요");
 		}else{
@@ -463,20 +466,23 @@ sap.ui.define([
 		 actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
 		 onClose: function (sAction) {
 			if(sAction === "OK"){
-			var payModel = that.getView().getModel("TEST");
+				if(payModel.getProperty("/sCacnr").length === 0){
+					MessageBox.error("회사계좌를 선택해주세요");
+				}  else{
 			var selectTable = payModel.getProperty("/test");
-						   ////   RFC호출
-						that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-						//RFC Import 데이터
-						T_GIVTAB : selectTable
-					  }).done(function(oResultData){   // RFC호출 완료
-					  }).fail(function(sErrorMessage){// 호출 실패
-						MessageToast.show(sErrorMessage);
-					  }).then(function(){that.onFilterSearch();
-					  });
-			   MessageToast.show("지급되었습니다");
-			   //SelectedIndex 초기화
-				  that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+					////   RFC호출
+				 that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+				 //RFC Import 데이터
+				 T_GIVTAB : selectTable
+			   }).done(function(oResultData){   // RFC호출 완료
+			   }).fail(function(sErrorMessage){// 호출 실패
+				 MessageToast.show(sErrorMessage);
+			   }).then(function(){that.onFilterSearch();
+			   });
+		MessageToast.show("지급되었습니다");
+		//SelectedIndex 초기화
+		   that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+				  }
 			   }
 			}
 		 });}
@@ -484,6 +490,7 @@ sap.ui.define([
 						   
 	 onRet: function (){
 		var that = this;
+		var payModel = that.getView().getModel("TEST");
 	   if(this.byId("cbotable").getSelectedContextPaths().length === 0){
 		MessageBox.error("항목을 선택해주세요");
 	 }else{
@@ -491,23 +498,25 @@ sap.ui.define([
 	  actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
 	  onClose: function (sAction) {
 		 if(sAction === "OK"){
-		 var payModel = that.getView().getModel("TEST");
-		 var selectTable = payModel.getProperty("/test");
-		 var oCodeData = that.getView().getModel("TEST").getProperty("/sRetcode");
-		 var pRetcode = oCodeData.retcode;
-		 ////   RFC호출
-			that.getOwnerComponent().rfcCall("ZB_REJ_PAY_92", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-			   //RFC Import 데이터
-			   T_RETTAB : selectTable
-			}).done(function(oResultData){   // RFC호출 완료
-			}).fail(function(sErrorMessage){// 호출 실패
-			   MessageToast.show(sErrorMessage);
-			}).then(function(){
-			});
-
-			MessageToast.show("반려되었습니다");
-					 //SelectedIndex 초기화
-			   that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+			 if(payModel.getProperty("/sRetcode").length === 0)
+				 MessageBox.error("반려코드를 선택해주세요");
+			}else {
+				var selectTable = payModel.getProperty("/test");
+				var oCodeData = that.getView().getModel("TEST").getProperty("/sRetcode");
+				var pRetcode = oCodeData.retcode;
+				////   RFC호출
+				   that.getOwnerComponent().rfcCall("ZB_REJ_PAY_92", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+					  //RFC Import 데이터
+					  T_RETTAB : selectTable
+				   }).done(function(oResultData){   // RFC호출 완료
+				   }).fail(function(sErrorMessage){// 호출 실패
+					  MessageToast.show(sErrorMessage);
+				   }).then(function(){that.onFilterSearch();
+				   });
+	   
+				   MessageToast.show("반려되었습니다");
+							//SelectedIndex 초기화
+					  that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
 			}
 		 }
 	  });}
