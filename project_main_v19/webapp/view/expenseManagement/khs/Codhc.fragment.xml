@@ -6,8 +6,8 @@
     xmlns:f="sap.ui.layout.form">
 
     <Dialog
-      id="empnoDialog"
-      title="사원 조회"
+      id="codhcDialog"
+      title="계정과목 조회"
       contentHeight="60%"
       contentWidth="60%">
 
@@ -21,7 +21,7 @@
                         defaultSpan="XL12 L12 M12 S12">
                             <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
                                 <HBox>
-                                <SearchField liveChange=".onSearchChange" value="{TEST>/nameSearch}" placeholder="사원검색" width ="200px"></SearchField>
+                                <SearchField liveChange=".onSearchChange3" value="{TEST>/nameSearch3}" placeholder="계정과목검색" width ="200px"></SearchField>
                                 </HBox> 
                                 <ToolbarSpacer/> 
                             </OverflowToolbar>
@@ -37,41 +37,33 @@
                         containerQuery="true"
                         defaultSpan="XL12 L12 M12 S12">
                         <t:Table 
-                            id="empnoTable"
+                            id="codhcTable"
                             rowSelectionChange="onRowSelection"
                             selectionMode="Single"
                             selectionBehavior="Row"
-                            rows="{TEST>/oEmpno}"
+                            rows="{TEST>/oCodhc}"
                             visibleRowCount="5">
                             <t:columns>
                                 <t:Column>
-                                    <Label text="사원번호"></Label>
+                                    <Label text="회계계정코드"></Label>
                                     <t:template>
-                                        <Text text="{TEST>EMPNO}"> </Text>
+                                        <Text text="{TEST>CODHC}"> </Text>
                                     </t:template>
                                 </t:Column>
 
                                 <t:Column>
-                                    <Label text="사원이름"></Label>
+                                    <Label text="계정과목명"></Label>
                                     <t:template>
-                                        <Text text="{TEST>ENAME}"> </Text>
+                                        <Text text="{TEST>CODDN}"> </Text>
                                     </t:template>
                                 </t:Column>
 
                                 <t:Column>
-                                    <Label text="직급"></Label>
+                                    <Label text="통제성여부"></Label>
                                     <t:template>
-                                        <Text text="{TEST>JOB}"> </Text>
+                                        <Text text="{TEST>TJSYN}"> </Text>
                                     </t:template>
                                 </t:Column>
-
-                                <t:Column>
-                                    <Label text="전화번호"></Label> 
-                                    <t:template>
-                                        <Text text="{TEST>PNUM}"> </Text>
-                                    </t:template>
-                                </t:Column>
-
                             </t:columns>
                         </t:Table>
 

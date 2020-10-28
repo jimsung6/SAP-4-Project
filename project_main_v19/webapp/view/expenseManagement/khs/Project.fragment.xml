@@ -6,8 +6,8 @@
     xmlns:f="sap.ui.layout.form">
 
     <Dialog
-      id="empnoDialog"
-      title="사원 조회"
+      id="projectDialog"
+      title="프로젝트 조회"
       contentHeight="60%"
       contentWidth="60%">
 
@@ -21,8 +21,17 @@
                         defaultSpan="XL12 L12 M12 S12">
                             <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
                                 <HBox>
-                                <SearchField liveChange=".onSearchChange" value="{TEST>/nameSearch}" placeholder="사원검색" width ="200px"></SearchField>
+                                <DateRangeSelection
+                                    id="FDRS"
+                                    change="onChange"
+                                    displayFormat="{TEST>/fDisplayFormat}"
+                                    dateValue="{TEST>/fToday}"
+                                    secondDateValue="{TEST>/fToday2}"
+                                    />
                                 </HBox> 
+                                <HBox>
+                                <SearchField liveChange=".onSearchChange2" value="{TEST>/nameSearch2}" placeholder="프로젝트검색" width ="200px"></SearchField>
+                                </HBox>
                                 <ToolbarSpacer/> 
                             </OverflowToolbar>
 
@@ -37,38 +46,45 @@
                         containerQuery="true"
                         defaultSpan="XL12 L12 M12 S12">
                         <t:Table 
-                            id="empnoTable"
+                            id="projectTable"
                             rowSelectionChange="onRowSelection"
                             selectionMode="Single"
                             selectionBehavior="Row"
-                            rows="{TEST>/oEmpno}"
+                            rows="{TEST>/oPcode}"
                             visibleRowCount="5">
                             <t:columns>
                                 <t:Column>
-                                    <Label text="사원번호"></Label>
+                                    <Label text="프로젝트코드"></Label>
                                     <t:template>
-                                        <Text text="{TEST>EMPNO}"> </Text>
+                                        <Text text="{TEST>PCODE}"> </Text>
                                     </t:template>
                                 </t:Column>
 
                                 <t:Column>
-                                    <Label text="사원이름"></Label>
+                                    <Label text="프로젝트 이름"></Label>
                                     <t:template>
-                                        <Text text="{TEST>ENAME}"> </Text>
+                                        <Text text="{TEST>PNAME}"> </Text>
                                     </t:template>
                                 </t:Column>
 
                                 <t:Column>
-                                    <Label text="직급"></Label>
+                                    <Label text="고객사명"></Label>
                                     <t:template>
-                                        <Text text="{TEST>JOB}"> </Text>
+                                        <Text text="{TEST>ZCLNT}"> </Text>
                                     </t:template>
                                 </t:Column>
 
                                 <t:Column>
-                                    <Label text="전화번호"></Label> 
+                                    <Label text="프로젝트 시작일"></Label> 
                                     <t:template>
-                                        <Text text="{TEST>PNUM}"> </Text>
+                                        <Text text="{TEST>SDATE}"> </Text>
+                                    </t:template>
+                                </t:Column>
+
+                                <t:Column>
+                                    <Label text="프로젝트 종료일"></Label> 
+                                    <t:template>
+                                        <Text text="{TEST>EDATE}"> </Text>
                                     </t:template>
                                 </t:Column>
 
