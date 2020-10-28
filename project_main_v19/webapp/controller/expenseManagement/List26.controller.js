@@ -472,7 +472,7 @@ sap.ui.define([
 					  }).done(function(oResultData){   // RFC호출 완료
 					  }).fail(function(sErrorMessage){// 호출 실패
 						MessageToast.show(sErrorMessage);
-					  }).then(function(){30
+					  }).then(function(){that.onFilterSearch();
 					  });
 			   MessageToast.show("지급되었습니다");
 			   //SelectedIndex 초기화
