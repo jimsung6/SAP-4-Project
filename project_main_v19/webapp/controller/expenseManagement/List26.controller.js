@@ -13,8 +13,11 @@ sap.ui.define([
 	"use strict";
 	
 	return Controller.extend("ExpenseManagement.controller.expenseManagement.List26", {
-	
-		onInit: function () {
+	   /******************************************************************************************************************************************************
+       * 함수 이름 : 첫 뷰가 그려지기 전에 초기세팅
+       * 작성자 : 김현석
+       ******************************************************************************************************************************************************/ 
+	 onInit: function () {
 			//달력 초기 세팅
 			var oDRS = this.byId("DRS");
 			//모델링
@@ -143,10 +146,12 @@ sap.ui.define([
          }).then(function(){	
          	// 여기다가 rfc 호출후 작업코딩
          });
-         
+		 
+		 this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+		 this._oRouter.attachRouteMatched(this.onAfterRendering, this);
           },
           
-          onAfterRendering : function(){
+     onAfterRendering : function(){
 			//뷰가 그려지고 실행됨
 			//초기 필터링 작업
 			this.onFilterSearch();
@@ -265,7 +270,7 @@ sap.ui.define([
 		  }
       },
       //조회버튼 FUNCTION
-		onFilterSearch: function () {
+	  onFilterSearch: function () {
 			var AUEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
 			var AUCODE = this.getOwnerComponent().getCookiy("AUCODE");
 			var oFilterData = this.getView().getModel("TEST").getData().filterbar;
@@ -342,11 +347,11 @@ sap.ui.define([
 			
 		 });
 		 	//SelectedIndex 초기화
-			 that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+			 this.byId("cbotable").removeSelections(0,oModel.getData().View.length);
 		},
 		
 				//Fragment 띄우기
-		proOpen : function(oEvent){
+	  proOpen : function(oEvent){
 			var data = oEvent.oSource.mProperties.text;
 			var oModel = this.getView().getModel("TEST");
 				oModel.setProperty("/fragData", data);
@@ -429,7 +434,7 @@ sap.ui.define([
 		},
 		
 		         //메인뷰 특정 row 선택
-         rowSelection : function(oEvent){
+      rowSelection : function(oEvent){
             var payModel = this.getView().getModel("TEST");
                if(oEvent.oSource._aSelectedPaths){
                     var aPath = oEvent.oSource._aSelectedPaths;
@@ -516,7 +521,7 @@ sap.ui.define([
 	   
 				   MessageToast.show("반려되었습니다");
 							//SelectedIndex 초기화
-					  this.byId("cbotable").removeSelections(0,payModel.getData().View.length);
+					  that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
 			}
 		 }
 	  });}
