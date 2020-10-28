@@ -264,7 +264,7 @@ sap.ui.define([
 
 			 //SelectedIndex가 존재여부 check
 			if(getIndices.length === 0){
-				bApproveCheck = false;
+				bRejectCheck = false;
 			}
 			//미결상태 check
 			for(var i = 0; i < getIndices.length; i++){
@@ -317,7 +317,7 @@ sap.ui.define([
 						var oSelectCombo = oModel.getProperty("/comboData").slice(2,3);
 						var oSelectReject = oModel.getProperty("/rejectCode");
 						if(oSelectCombo != "4" ){
-							oModel.setProperty("/inputData", oSelectReject[oSelectCombo].RETTEXT);
+							oModel.setProperty("/inputData", oSelectReject[oSelectCombo-1].RETTEXT);
 							oModel.setProperty("/inputEdit", false);
 						}else{
 							oModel.setProperty("/inputData", "");
