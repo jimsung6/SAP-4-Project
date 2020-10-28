@@ -24,7 +24,7 @@ sap.ui.define([
 			// pFragment 달력 초기 세팅
 			var fDRS = this.byId("FDRS");
 			//모델링
-			var yesterDay = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
+			var yesterDay = (function(){this.setMonth(this.getMonth()-10); return this}).call(new Date);
 			oDRS.setDateValue(yesterDay);
 			oDRS.setSecondDateValue(new Date());
 
@@ -266,6 +266,8 @@ sap.ui.define([
       },
       //조회버튼 FUNCTION
 		onFilterSearch: function () {
+			var AUEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
+			var AUCODE = this.getOwnerComponent().getCookiy("AUCODE");
 			var oFilterData = this.getView().getModel("TEST").getData().filterbar;
 			
 			if(oFilterData){
@@ -320,7 +322,9 @@ sap.ui.define([
             I_PCODE : iPcode,
             I_CODHC : gCodhc,
             I_EMPNO : sEmpno,
-            I_INDEX : sStcod
+			I_INDEX : sStcod,
+			I_AUCODE : AUCODE,
+			I_AUEMPNO : AUEMPNO
 		 }).done(function(oResultData){   // RFC호출 완료
 			for(var i = 0 ; i < oResultData.T_PAYTAB.length ; i++){
 				if(oResultData.T_PAYTAB[i].STCOD === "C"){
@@ -564,6 +568,43 @@ sap.ui.define([
 	  
 	  onChange : function(){
 		MessageToast.show("qwe");
+
+		var pDate = this.getView().getModel("TEST").getProperty("/fToday");
+		var pDate2 = this.getView().getModel("TEST").getProperty("/fToday2");
+		var oModel = this.getView().getModel("TEST");
+
+	 
+		 if(pDate && pDate2){
+
+			 var sFromDate = new Date(pDate);
+			 var sToDate = new Date(pDate2);
+	
+			 var sFromYear = sFromDate.getFullYear();
+			 var sFromMonth = sFromDate.getMonth()+1 >= 10 ? sFromDate.getMonth()+1 : "0"+(sFromDate.getMonth()+1);
+			 var sFromDate = sFromDate.getDate() >= 10 ? sFromDate.getDate() : "0"+sFromDate.getDate();
+	
+			 var sToYear = sToDate.getFullYear();
+			 var sToMonth = sToDate.getMonth()+1 >= 10 ? sToDate.getMonth()+1 : "0"+(sToDate.getMonth()+1);
+			 var sToDate = sToDate.getDate() >= 10 ? sToDate.getDate() : "0"+sToDate.getDate();
+	
+			 // var sFromDateInfo = sFromYear.toString()+sFromMonth.toString()+sFromDate.toString();
+			 // var sToDateInfo = sToYear.toString()+sToMonth.toString()+sToDate.toString();
+			 
+			 var sFromDateInfo = sFromYear.toString()+sFromMonth.toString()+sFromDate.toString();
+			 var sToDateInfo = sToYear.toString()+sToMonth.toString()+sToDate.toString();
+		 }
+
+		this.getOwnerComponent().rfcCall("ZB_PCODE_97", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+			//RFC Import 데이터
+			I_FROMDATE : sFromDateInfo,
+			I_TODATE : sToDateInfo
+         }).done(function(oResultData){   // RFC호출 완료
+            oModel.setProperty("/oPcode", oResultData.T_ZBMDT0030);
+         }).fail(function(sErrorMessage){// 호출 실패
+            MessageToast.show(sErrorMessage);
+         }).then(function(){
+            // 여기다가 rfc 호출후 작업코딩
+         });
 	  }
 
 		
