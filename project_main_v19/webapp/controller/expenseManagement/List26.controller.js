@@ -264,7 +264,7 @@ sap.ui.define([
 			  oCodhcid.destroy();
 		  }
       },
-      
+      //조회버튼 FUNCTION
 		onFilterSearch: function () {
 			var oFilterData = this.getView().getModel("TEST").getData().filterbar;
 			
@@ -449,7 +449,7 @@ sap.ui.define([
 				oModel.setProperty("/cRow",selectData);
 			 }
       },
-         
+         //SAVE
 	  onSave: function () {
 		var that = this;
 		if(this.byId("cbotable").getSelectedContextPaths().length === 0){
@@ -465,11 +465,10 @@ sap.ui.define([
 						that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 						//RFC Import 데이터
 						T_GIVTAB : selectTable
-					   
 					  }).done(function(oResultData){   // RFC호출 완료
 					  }).fail(function(sErrorMessage){// 호출 실패
 						MessageToast.show(sErrorMessage);
-					  }).then(function(){
+					  }).then(function(){30
 					  });
 			   MessageToast.show("지급되었습니다");
 			   //SelectedIndex 초기화
