@@ -103,27 +103,31 @@
                 </OverflowToolbar>
               </headerToolbar>
               <columns>
-                   <Column width="110px" hAlign="Center">
+                   <Column width="90px" hAlign="Center">
                       <Text text="전표번호"/> 
                   </Column>    
                   
-                   <Column width="110px" hAlign="Center">
+                   <Column width="90px" hAlign="Center">
                       <Text text="사원번호"/> 
                    </Column>       
                            
-                   <Column width="100px" hAlign="Center">
-                      <Text text="사원이름"/> 
+                   <Column width="90px" hAlign="Center">
+                      <Text text="사원명"/> 
                     </Column>  
                                   
                   <Column width="90px" hAlign="Center">
-                      <Text text="부서이름"/>                           
+                      <Text text="부서명"/>                           
                    </Column>
                    
-                   <Column width="80px" hAlign="Center">
+                   <Column width="140px" hAlign="Center">
+                      <Text text="프로젝트명"/>                           
+                   </Column>
+                   
+                   <Column width="70px" hAlign="Center">
                       <Text text="직급 "/>               
                    </Column>
                               
-                   <Column width="100px" hAlign="Center">
+                   <Column width="90px" hAlign="Center">
                       <Text text="근무연월"/>               
                    </Column>
                    
@@ -131,7 +135,7 @@
                       <Text text="지급 금액"/>               
                    </Column>
                    
-                   <Column width="140px" hAlign="Center">
+                   <Column width="100px" hAlign="Center">
                       <Text text="사원 계좌"/>               
                    </Column>
                    
@@ -157,6 +161,7 @@
                         <Text text="{pdiemJYJ>EMPNO}"/>
                         <Text text="{pdiemJYJ>ENAME}"/>
                         <Text text="{pdiemJYJ>GNAME}"/>
+                        <Text text="{pdiemJYJ>PNAME}"/>
                         <Text text="{pdiemJYJ>JOB}"/>
                         <Text text="{pdiemJYJ>WORKYM}"/>
                         <u:Currency
@@ -181,11 +186,9 @@
      
         
     </content>
-    
-    
-    
-    
-  </Page>
+     
+   
+   </Page>
 
         
 </mvc:View>
