@@ -5,7 +5,7 @@
    xmlns:mvc="sap.ui.core.mvc">
    <Dialog
       id="CreateAccount"
-      title="계좌 변경"
+      title="계좌 생성"
       contentHeight= "300px"
       contentWidth= "600px">
 		<content>
