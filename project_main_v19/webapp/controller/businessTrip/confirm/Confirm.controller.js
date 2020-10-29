@@ -260,12 +260,9 @@ this.getOwnerComponent().rfcCall("ZB_GCODE_96", {   // 본인이 호출하고 �
        
         console.log(selectTable);
 
-          that.getOwnerComponent().rfcCall("ZB_REJECT_TOTALPERDIUM", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-              //RFC Import 데이터
-              
-              T_RPER: selectTable
-              
-              
+          that.getOwnerComponent().rfcCall("ZB_REJECT_TOTALPERDIUM", {
+              //RFC Import 데이터    
+              T_RPER: selectTable  
            }).done(function(oResultData){   // RFC호출 완료
                 console.log(oResultData);
                 MessageToast.show("반려 되었습니다.");
