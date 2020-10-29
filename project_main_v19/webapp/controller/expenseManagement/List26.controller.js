@@ -536,7 +536,7 @@ sap.ui.define([
 		 if(sAction === "OK"){
 			 if(payModel.getProperty("/sRetcode").length === 0)
 				 MessageBox.error("반려코드를 선택해주세요");
-			}else {
+			else {
 				var selectTable = payModel.getProperty("/test");
 				var oCodeData = that.getView().getModel("TEST").getProperty("/sRetcode");
 				var pRetcode = oCodeData.retcode;
@@ -549,11 +549,11 @@ sap.ui.define([
 					  MessageToast.show(sErrorMessage);
 				   }).then(function(){that.onFilterSearch();
 				   });
-	   
 				   MessageToast.show("반려되었습니다");
 							//SelectedIndex 초기화
 					  that.byId("cbotable").removeSelections(0,payModel.getData().View.length);
 			}
+		}
 		 }
 	  });}
 },

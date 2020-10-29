@@ -154,10 +154,10 @@
 					<Column width="80px" hAlign="Center">
 						<Text text="계정과목" />
 					</Column>
-					<Column width="80px" hAlign="Center">
-						<Text text="통제성여부" />
+					<Column width="50px" hAlign="Center">
+						<Text text="통제성" />
 					</Column>
-					<Column width="90px" hAlign="Center">
+					<Column width="110px" hAlign="Center">
 						<Text text="금액" />
 					</Column>
 					<Column width="100px" hAlign="Center">
@@ -166,7 +166,7 @@
 					<Column width="90px" hAlign="Center">
 						<Text text="회사계좌" />
 					</Column>
-					<Column width="80px" hAlign="Center">
+					<Column width="70px" hAlign="Center">
 						<Text text="상태코드" />
 					</Column>
 					<Column width="70px" hAlign="Center">
