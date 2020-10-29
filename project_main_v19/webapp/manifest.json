@@ -170,12 +170,12 @@
 			"target": "ProjDetail"
 		  },
 		  {
-			"pattern": "ProjBudget_YS",
+			"pattern": "ProjBudget_YS/{status}",
 			"name": "ProjBudget_YS",
 			"target": "ProjBudget_YS"
 		  },
 		  {
-			"pattern": "DepBudget_YS",
+			"pattern": "DepBudget_YS/{status}",
 			"name": "DepBudget_YS",
 			"target": "DepBudget_YS"
 		  },

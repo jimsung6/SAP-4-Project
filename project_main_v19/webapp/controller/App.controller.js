@@ -147,12 +147,16 @@ sap.ui.define([
 		//function : 부서별 별 예산 증액
 		onGoDepBudget_YS: function(){
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("DepBudget_YS"); //프로젝트 예산 증액
+			oRouter.navTo("DepBudget_YS", {
+				status : "All"
+			}); //프로젝트 예산 증액
 		},
 		//function : 프로젝트 별 예산 증액
 		onGoProBudget_YS: function(){
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("ProjBudget_YS"); //프로젝트 예산 증액
+			oRouter.navTo("ProjBudget_YS", {
+				status : "All"
+			}); //프로젝트 예산 증액
 		},
 		//function : 부서 별 예산 증액 승인/반려
 		onGoDepBudget_SY: function(){

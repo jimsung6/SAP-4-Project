@@ -152,6 +152,8 @@ sap.ui.define([
             var EMPNO = this.getOwnerComponent().getCookiy("EMPNO");
             var AUCODE = this.getOwnerComponent().getCookiy("AUCODE");
             var oModel = this.getView().getModel("PaymentRt");
+            var depComboData = [];
+            var projComboData = [];
             var that = this;
 
             console.log(EMPNO + AUCODE);
@@ -165,23 +167,26 @@ sap.ui.define([
 
             }).done(function(oResultData){   // RFC호출 완료
                console.log(oResultData);
+               
                for(var i=0 ; i < oResultData.T_TAB1.length ; i++){
                   if(oResultData.T_TAB1[i].PCODE === "Z00"){
                      oResultData.T_TAB1[i].PNAME = oResultData.T_TAB1[i].GNAME;
                   }
                }
                oModel.setProperty("/projComboData", oResultData.T_TAB2);
-               oModel.setProperty("/depComboData", oResultData.T_TAB3);
 
+
+
+               oModel.setProperty("/depComboData", oResultData.T_TAB3);
                oModel.setProperty("/reportTableData", oResultData.T_TAB1);
-            }).fail(function(sErrorMessage){// 호출 실패
-               alert(sErrorMessage);
-            }).then(function(){
+
                //총 지금금액 구하기 함수콜
                that.chartDataSetting(oModel.getProperty("/reportTableData"));
                that.lineChartDataSetting(oModel.getProperty("/reportTableData"));
                that.PaymentSum();
                oModel.refresh();
+            }).fail(function(sErrorMessage){// 호출 실패
+               alert(sErrorMessage);
             });
       },
 
@@ -379,10 +384,7 @@ sap.ui.define([
 
          if(oEvent.mParameters){
             var PcodeData = oEvent.mParameters.arguments.Pcode;
-            var GcodeData = oEvent.mParameters.arguments.Gcode;
-
             this.getView().getModel("PaymentRt").setProperty("/Pcode", PcodeData);
-            this.getView().getModel("PaymentRt").setProperty("/Gcode", GcodeData);
          }
 
       },
@@ -821,16 +823,21 @@ sap.ui.define([
          oModel.refresh();
       },
 
+      /**********************************************************************************
+		 * 함수 내용 : 부서 선택 필드 이벤트 함수
+		 * 작성자 : 김성진
+		 **********************************************************************************/
 		depSelectionChange: function(oEvent) {
-
-        var data =  this.getView().getModel("PaymentRt").getProperty("/depfilterData");
-         
+        var data =  this.getView().getModel("PaymentRt").getProperty("/depfilterData");   
          console.log(data);
       },
       
+      /**********************************************************************************
+		 * 함수 내용 : 프로젝트 선택 필드 이벤트 함수
+		 * 작성자 : 김성진
+		 **********************************************************************************/
       projSelectionChange : function(){
          var data =  this.getView().getModel("PaymentRt").getProperty("/projfilterData");
-         
          console.log(data);
       }
 
