@@ -13,7 +13,7 @@ sap.ui.define([
 
 	return Controller.extend("ExpenseManagement.controller.KSH.Groupprj", {
 		onInit : function() {
-			
+			//test
 			var oModel = new JSONModel({currency: "KRW"});
 			this.getView().setModel(oModel, "GROUP");
 			
