@@ -346,15 +346,15 @@ sap.ui.define([
 			I_AUCODE : AUCODE,
 			I_AUEMPNO : AUEMPNO
 		 }).done(function(oResultData){   // RFC호출 완료
-			for(var i = 0 ; i < oResultData.T_PAYTAB.length ; i++){
-				if(oResultData.T_PAYTAB[i].STCOD === "C"){
-					oResultData.T_PAYTAB[i].STCOD = "미결"
-				}else if(oResultData.T_PAYTAB[i].STCOD === "E"){
-					oResultData.T_PAYTAB[i].STCOD = "완결"
-				}else{
-					oResultData.T_PAYTAB[i].STCOD = "반려"
-				}
-			}
+			// for(var i = 0 ; i < oResultData.T_PAYTAB.length ; i++){
+			// 	if(oResultData.T_PAYTAB[i].STCOD === "C"){
+			// 		oResultData.T_PAYTAB[i].STCOD = "미결"
+			// 	}else if(oResultData.T_PAYTAB[i].STCOD === "E"){
+			// 		oResultData.T_PAYTAB[i].STCOD = "완결"
+			// 	}else{
+			// 		oResultData.T_PAYTAB[i].STCOD = "반려"
+			// 	}
+			// }
             oModel.setProperty("/View", oResultData.T_PAYTAB); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
          }).fail(function(sErrorMessage){// 호출 실패
             MessageToast.show(sErrorMessage);
@@ -364,8 +364,7 @@ sap.ui.define([
 		 	//SelectedIndex 초기화
 			 this.byId("cbotable").removeSelections(0,oModel.getData().View.length);
 		},
-		
-				//Fragment 띄우기
+		//Fragment 띄우기
 	  proOpen : function(oEvent){
 			var data = oEvent.oSource.mProperties.text;
 			var oModel = this.getView().getModel("TEST");
@@ -447,8 +446,7 @@ sap.ui.define([
          }).then(function(){
          });
 		},
-		
-		         //메인뷰 특정 row 선택
+	    //메인뷰 특정 row 선택
       rowSelection : function(oEvent){
             var payModel = this.getView().getModel("TEST");
                if(oEvent.oSource._aSelectedPaths){
@@ -462,7 +460,7 @@ sap.ui.define([
                   }
               }    
          },
-        		// FRAGMENT 특정 row 선택
+        // FRAGMENT 특정 row 선택
         onRowSelection : function(oEvent){
 	         var sPath = oEvent.mParameters.rowContext.sPath;
 	         var oModel = this.getView().getModel("TEST");
@@ -596,7 +594,6 @@ sap.ui.define([
 	  },
 	  
 	  onChange : function(){
-		MessageToast.show("qwe");
 
 		var pDate = this.getView().getModel("TEST").getProperty("/fToday");
 		var pDate2 = this.getView().getModel("TEST").getProperty("/fToday2");
@@ -625,8 +622,8 @@ sap.ui.define([
 
 		this.getOwnerComponent().rfcCall("ZB_PCODE_97", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 			//RFC Import 데이터
-			I_FROMDATE : sFromDateInfo,
-			I_TODATE : sToDateInfo
+			I_SDATE : sFromDateInfo,
+			I_EDATE : sToDateInfo
          }).done(function(oResultData){   // RFC호출 완료
             oModel.setProperty("/oPcode", oResultData.T_ZBMDT0030);
          }).fail(function(sErrorMessage){// 호출 실패
