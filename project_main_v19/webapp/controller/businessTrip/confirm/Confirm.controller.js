@@ -177,8 +177,9 @@ this.getOwnerComponent().rfcCall("ZB_GCODE_96", {   // 본인이 호출하고 �
 
           ////   RFC호출
          var mEmployee = this.getView().getModel("detailPerdium");
+         mEmployee.setProperty("/DetailList", []);
          var detail = mEmployee.getProperty("/DetailList");
-         detail.splice(0,detail.length);
+     //    detail.splice(0,detail.length);
          mEmployee.refresh();
 
           this.getOwnerComponent().rfcCall("ZB_DETAIL_PERDIUM", {   
@@ -293,7 +294,8 @@ this.getOwnerComponent().rfcCall("ZB_GCODE_96", {   // 본인이 호출하고 �
 
          // 날짜데이터
          var oModel = this.getView().getModel("TEST");
-      var sDateInfo = oModel.getProperty("/WORKYM");   
+         var sDateInfo = oModel.getProperty("/WORKYM");   
+         sDateInfo = sDateInfo.replace("-", "");
 
 //             var odata = this.getView().getModel("TEST").getProperty("/oToday");
 //             var odata2 = this.getView().getModel("TEST").getProperty("/oToday2");
@@ -345,8 +347,9 @@ this.getOwnerComponent().rfcCall("ZB_GCODE_96", {   // 본인이 호출하고 �
            ////   RFC호출
        
          var mEmployee = this.getView().getModel("perdium");
+         mEmployee.setProperty("/RequestList", []);
          var Request = mEmployee.getProperty("/RequestList");
-         Request.splice(0,Request.length);
+         //Request.splice(0,Request.length);
          mEmployee.refresh();
          
           this.getOwnerComponent().rfcCall("ZB_SEARCH_PERDIUM_DATA", {   
