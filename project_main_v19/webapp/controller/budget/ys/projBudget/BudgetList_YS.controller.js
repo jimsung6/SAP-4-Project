@@ -147,6 +147,7 @@ sap.ui.define([
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
 		onFilterSearch : function(sChannelId, sEventId, sData) {
+			console.log(sData)
 			//캘린더 데이터 불러오기
 			var startDate = this.getView().getModel().getProperty("/startDate"); //startDate
 			var endDate = this.getView().getModel().getProperty("/endDate");
@@ -244,7 +245,6 @@ sap.ui.define([
 		 ******************************************************************************************************************************************************/
 		onCloseDialog : function(sData) {
 			this.byId("openDialog1").close();
-			// window.location.reload();
 			var projectModel3 = this.getView().getModel();
 			this.listRfcFunction(projectModel3);
 		},
