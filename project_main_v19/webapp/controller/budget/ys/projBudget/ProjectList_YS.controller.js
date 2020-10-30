@@ -173,7 +173,7 @@ sap.ui.define([
 		 * 함수 이름 : 예산 증액 요청 fragment 닫기
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/ 			
-		onCloseDialog : function (sChannelId, sEventId, sData) {
+		onCloseDialog : function (oEvent, sChannelId, sEventId, sData) {
 			sap.ui.getCore().getEventBus().publish(
 				"SomeChannel2",
 				"SomeEvent2",
