@@ -167,17 +167,42 @@ sap.ui.define([
 
             }).done(function(oResultData){   // RFC호출 완료
                console.log(oResultData);
+               var depComboData = [];
+               var projComboData = [];
                
                for(var i=0 ; i < oResultData.T_TAB1.length ; i++){
+                  var checked = true;
                   if(oResultData.T_TAB1[i].PCODE === "Z00"){
+                     if(depComboData.length === 0){
+                        depComboData.push(oResultData.T_TAB1[i]);
+                     }else{
+                        for(var j=0 ; j < depComboData.length ; j++){
+                           if(oResultData.T_TAB1[i].GNAME === depComboData[j]){
+                              checked = false;
+                           }
+                        }
+                        if(checked){
+                           depComboData.push(oResultData.T_TAB1[i]);
+                        }
+                     }
                      oResultData.T_TAB1[i].PNAME = oResultData.T_TAB1[i].GNAME;
+                  }else{
+                     if(projComboData.length === 0){
+                        projComboData.push(oResultData.T_TAB1[i]);
+                     }else{
+                        for(var j=0 ; j < projComboData.length ; j++){
+                           if(oResultData.T_TAB1[i].PNAME === projComboData[j]){
+                              checked = false;
+                           }
+                        }
+                        if(checked){
+                           projComboData.push(oResultData.T_TAB1[i]);
+                        }
+                     }
                   }
                }
-               oModel.setProperty("/projComboData", oResultData.T_TAB2);
-
-
-
-               oModel.setProperty("/depComboData", oResultData.T_TAB3);
+               oModel.setProperty("/projComboData", projComboData);
+               oModel.setProperty("/depComboData", depComboData);
                oModel.setProperty("/reportTableData", oResultData.T_TAB1);
 
                //총 지금금액 구하기 함수콜
@@ -829,7 +854,19 @@ sap.ui.define([
 		 **********************************************************************************/
 		depSelectionChange: function(oEvent) {
         var data =  this.getView().getModel("PaymentRt").getProperty("/depfilterData");   
-         console.log(data);
+        console.log(data);
+
+        	// build filter array
+			var aFilter = [];
+			var sQuery = oEvent.getParameter("query");
+			if (sQuery) {
+				aFilter.push(new Filter("ProductName", FilterOperator.Contains, sQuery));
+			}
+
+			// filter binding
+			var oList = this.byId("invoiceList");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilter);
       },
       
       /**********************************************************************************
@@ -839,6 +876,18 @@ sap.ui.define([
       projSelectionChange : function(){
          var data =  this.getView().getModel("PaymentRt").getProperty("/projfilterData");
          console.log(data);
+
+      	// build filter array
+			var aFilter = [];
+			var sQuery = oEvent.getParameter("query");
+			if (sQuery) {
+				aFilter.push(new Filter("ProductName", FilterOperator.Contains, sQuery));
+			}
+
+			// filter binding
+			var oList = this.byId("invoiceList");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilter);
       }
 
 	});
