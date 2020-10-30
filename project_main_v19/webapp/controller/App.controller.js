@@ -89,12 +89,12 @@ sap.ui.define([
 		 //function : 조직정보 조회
 		 onGoDep: function(){
 		 	var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-		 	oRouter.navTo("Groupprj"); //조직정보 조회
+		 	oRouter.navTo("Groupproj"); //조직정보 조회
 		 },
 		 //function : 프로젝트 조회
 		 onGoProject: function(){
 		 	var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-		 	oRouter.navTo("Projectprj"); //프로젝트 조회
+		 	oRouter.navTo("Projectproj"); //프로젝트 조회
 		 },
 		 //function : 계좌정보 조회
 		 onGoAccount: function(){

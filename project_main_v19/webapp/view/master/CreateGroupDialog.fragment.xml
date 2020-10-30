@@ -1,0 +1,117 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:f="sap.ui.layout.form"
+   xmlns:core="sap.ui.core" 
+   xmlns:mvc="sap.ui.core.mvc">
+   <Dialog
+      id="CreateGroup"
+      title="부서생성"
+      contentHeight= "1000px"
+      contentWidth= "670px">
+		<content>
+			<f:Form>
+				<f:layout>
+					<f:ResponsiveGridLayout 
+						labelSpanXL="2"
+						labelSpanL="4" 
+						labelSpanM="4" 
+						labelSpanS="12" 
+						columnsXL="2"
+						columnsL="2" 
+						columnsM="2" />
+				</f:layout>                      
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="부서코드"
+											id = "ngroup">
+								<f:fields>
+									<Input
+										id="ngcode"
+										placeholder="부서코드는 숫자3자리의 조합으로 입력바랍니다.."
+										required="true"
+										liveChange= ".onGcodeChange" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="부서이름">
+								<f:fields>
+									<Input
+										id="ngname"
+										required="true"
+										class="sapUiSmallMarginBottom"
+										placeholder="부서이름을 입력하세요." />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="승인자">
+								<f:fields>
+									<Input
+										id="nauemp"
+										class="sapUiSmallMarginBottom"
+										placeholder="승인자 사번을 입력하세요."
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="승인자이름">
+								<f:fields>
+									<Input
+										id="nautnm"
+										class="sapUiSmallMarginBottom"
+										placeholder="승인자 이름을 입력하세요."
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="시작일">
+								<f:fields>
+									<Input
+										id="nsdate"
+										required="true"
+										class="sapUiSmallMarginBottom"
+										placeholder="시작일을 입력하세요."
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="종료일">
+								<f:fields>
+									<Input
+										id="nedate"
+										required="true"
+										class="sapUiSmallMarginBottom"
+										placeholder="종료일을 입력하세요."
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="지급사원">
+								<f:fields>
+									<Input
+										id="npyemp"
+										class="sapUiSmallMarginBottom"
+										placeholder="지급사원 사번을 입력하세요"
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="지급사원이름">
+								<f:fields>
+									<Input
+										id="npaynm"
+										class="sapUiSmallMarginBottom"
+										placeholder="지급사원 이름을 입력하세요"
+									/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+   	<beginButton>
+   		<Button text="생성" press=".onCreateGroup" />
+   	</beginButton>
+   	<endButton>
+   		<Button text="닫기" press=".onCloseDialog" />
+   	</endButton>
+   </Dialog>
+</core:FragmentDefinition>
