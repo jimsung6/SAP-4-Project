@@ -878,15 +878,17 @@ sap.ui.define([
          console.log(data);
 
       	// build filter array
-			var aFilter = [];
-			var sQuery = oEvent.getParameter("query");
-			if (sQuery) {
-				aFilter.push(new Filter("ProductName", FilterOperator.Contains, sQuery));
-			}
+         var aFilter = [];
+         
+         for(var i=0 ; i < data.length ; i++){
+            if (data[i]) {
+               aFilter.push(new Filter("PCODE", FilterOperator.Contains, data[i]));
+            }
+         }
 
 			// filter binding
-			var oList = this.byId("invoiceList");
-			var oBinding = oList.getBinding("items");
+			var oList = this.byId("reportTable");
+			var oBinding = oList.getBinding("rows");
 			oBinding.filter(aFilter);
       }
 

@@ -467,8 +467,8 @@ sap.ui.define([
 						that.getView().byId("comboHeight").setHeight("30px");
 					}else if(reqConut > 5){
 						that.getView().byId("comboHeight").setHeight("40px");
-					}else if(reqConut > 3){
-						that.getView().byId("comboHeight").setHeight("100px");
+					}else{
+						that.getView().byId("comboHeight").setHeight("50px");
 					}
 
 				}else{
@@ -476,8 +476,8 @@ sap.ui.define([
 						that.getView().byId("comboHeight").setHeight("30px");
 					}else if(resCount > 5){
 						that.getView().byId("comboHeight").setHeight("40px");
-					}else if(resCount > 3){
-						that.getView().byId("comboHeight").setHeight("100px");
+					}else{
+						that.getView().byId("comboHeight").setHeight("50px");
 					}
 				}
 
