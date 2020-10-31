@@ -89,6 +89,7 @@ sap.ui.define([
          this.getView().setModel(new JSONModel({
             Pcode : "",
             Gcode : "",
+            reportData : [],
             reportTableData : [],
             reportChartData : [],
             reportLineChartData : [],
@@ -140,6 +141,7 @@ sap.ui.define([
          oModel.setProperty("/endDate", oDate);
 
          this.onSearch();
+         this.onSelectionChange();
 
       },
 
@@ -203,11 +205,12 @@ sap.ui.define([
                }
                oModel.setProperty("/projComboData", projComboData);
                oModel.setProperty("/depComboData", depComboData);
-               oModel.setProperty("/reportTableData", oResultData.T_TAB1);
+               oModel.setProperty("/reportData", oResultData.T_TAB1);
 
                //총 지금금액 구하기 함수콜
                that.chartDataSetting(oModel.getProperty("/reportTableData"));
                that.lineChartDataSetting(oModel.getProperty("/reportTableData"));
+               that.onSelectionChange();
                that.PaymentSum();
                oModel.refresh();
             }).fail(function(sErrorMessage){// 호출 실패
@@ -873,23 +876,57 @@ sap.ui.define([
 		 * 함수 내용 : 프로젝트 선택 필드 이벤트 함수
 		 * 작성자 : 김성진
 		 **********************************************************************************/
-      projSelectionChange : function(){
-         var data =  this.getView().getModel("PaymentRt").getProperty("/projfilterData");
-         console.log(data);
+      onSelectionChange : function(){
+         var oModel = this.getView().getModel("PaymentRt");
+         var projComboData =  oModel.getProperty("/projfilterData");
+         console.log(projComboData);
+         var depComboData =  oModel.getProperty("/depfilterData");
+         console.log(depComboData)
+         var reportData = oModel.getProperty("/reportData");
+         var filterData = [];
 
-      	// build filter array
-         var aFilter = [];
-         
-         for(var i=0 ; i < data.length ; i++){
-            if (data[i]) {
-               aFilter.push(new Filter("PCODE", FilterOperator.Contains, data[i]));
+
+         if(!projComboData && !depComboData){
+            filterData = reportData;
+         }else{
+            if(depComboData){
+               if(depComboData.length === 0 && !projComboData){
+                  filterData = reportData;
+               }else{
+                  for(var i=0 ; i < depComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(depComboData[i] === reportData[j].GCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+               }
+            }
+
+            if(projComboData){
+               if(projComboData.length === 0 && !depComboData){
+                  filterData = reportData;
+               }else{
+                  for(var i=0 ; i < projComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(projComboData[i] === reportData[j].PCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+               }
             }
          }
+         this.byId("reportTable").removeSelectionInterval(0, oModel.getProperty("/reportTableData").length);
 
-			// filter binding
-			var oList = this.byId("reportTable");
-			var oBinding = oList.getBinding("rows");
-			oBinding.filter(aFilter);
+         oModel.setProperty("/reportTableData", filterData);
+         this.chartDataSetting(oModel.getProperty("/reportTableData"));
+         this.lineChartDataSetting(oModel.getProperty("/reportTableData"));
+         //총 지급 금액 구하기 함수 콜
+         this.PaymentSum();
+         this.byId("reportTable").removeSelectionInterval(0, );
+         //this.reportDataRFC();
+
       }
 
 	});

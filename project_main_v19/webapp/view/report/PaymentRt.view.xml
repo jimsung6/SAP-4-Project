@@ -57,7 +57,7 @@
 									label="부서 선택">
 									<fb:control>
 										<MultiComboBox
-											selectionChange="depSelectionChange"
+											selectionChange="onSelectionChange"
 											selectionFinish="depSelectionFinish"
 											width="350px"
 											selectedKeys="{PaymentRt>/depfilterData}"
@@ -72,7 +72,7 @@
 									label="프로젝트 선택">
 									<fb:control>
 										<MultiComboBox
-											selectionChange="projSelectionChange"
+											selectionChange="onSelectionChange"
 											selectionFinish="projSelectionFinish"
 											width="350px"
 											selectedKeys="{PaymentRt>/projfilterData}"
