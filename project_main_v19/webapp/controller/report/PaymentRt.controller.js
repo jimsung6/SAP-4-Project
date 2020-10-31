@@ -142,7 +142,6 @@ sap.ui.define([
 
          this.onSearch();
          this.onSelectionChange();
-
       },
 
       /**********************************************************************************
@@ -154,8 +153,6 @@ sap.ui.define([
             var EMPNO = this.getOwnerComponent().getCookiy("EMPNO");
             var AUCODE = this.getOwnerComponent().getCookiy("AUCODE");
             var oModel = this.getView().getModel("PaymentRt");
-            var depComboData = [];
-            var projComboData = [];
             var that = this;
 
             console.log(EMPNO + AUCODE);
@@ -206,6 +203,7 @@ sap.ui.define([
                oModel.setProperty("/projComboData", projComboData);
                oModel.setProperty("/depComboData", depComboData);
                oModel.setProperty("/reportData", oResultData.T_TAB1);
+               oModel.setProperty("/reportDetailTableData", []);
 
                //총 지금금액 구하기 함수콜
                that.chartDataSetting(oModel.getProperty("/reportTableData"));
@@ -402,7 +400,7 @@ sap.ui.define([
           
 		oVizFrame.addFeed(feedCategoryAxis);
       oVizFrame.addFeed(feedValueCost);
-      },
+       },
 
       /**********************************************************************************
 		 * 함수 내용 : 파라미터 값 들고오기
@@ -641,24 +639,32 @@ sap.ui.define([
          var oModel = this.getView().getModel("PaymentRt");
          var tableData = oModel.getProperty("/reportTableData");
          var chartData = oModel.getProperty("/reportChartData");
+         var DetailTableData = oModel.getProperty("/reportDetailTableData");
+         var iconTabBarData = this.byId("iconTabBar").getSelectedKey();
          var sumData = 0;
 
-         if(this.byId("reportTable").getVisible()){
-            if(this.byId("reportTable").getSelectionMode() === "None"){
-               for(var i=0 ; i < tableData.length ; i++){
-                     sumData += tableData[i].PROPR;
-               }
-            }else{
-               for(var i=0 ; i < tableData.length ; i++){
-                  if(tableData[i].checked){
-                     sumData += tableData[i].PROPR;
-                  }
-               }
+         if(iconTabBarData === "__filter1"){
+            for(var i=0 ; i<DetailTableData.length ; i++){
+               sumData += DetailTableData[i].PROPR;
             }
          }else{
-            for(var i=0 ; i < chartData.length ; i++){
-               if(chartData[i].checked){
-                  sumData += chartData[i].PROPR;
+            if(this.byId("reportTable").getVisible()){
+               if(this.byId("reportTable").getSelectionMode() === "None"){
+                  for(var i=0 ; i < tableData.length ; i++){
+                        sumData += tableData[i].PROPR;
+                  }
+               }else{
+                  for(var i=0 ; i < tableData.length ; i++){
+                     if(tableData[i].checked){
+                        sumData += tableData[i].PROPR;
+                     }
+                  }
+               }
+            }else{
+               for(var i=0 ; i < chartData.length ; i++){
+                  if(chartData[i].checked){
+                     sumData += chartData[i].PROPR;
+                  }
                }
             }
          }
@@ -788,7 +794,6 @@ sap.ui.define([
             var index = event.mParameters.data[i].data._context_row_number;
             oModel.setProperty("/reportChartData/"+index+"/checked", true)
          }
-         console.log(oModel.getProperty("/reportChartData"));
          this.PaymentSum();
       },
 
@@ -813,7 +818,6 @@ sap.ui.define([
 		 * 작성자 : 김성진
 		 **********************************************************************************/
       onSelectLineData : function(event){
-
          var selectData = event.mParameters.data
          var oModel = this.getView().getModel("PaymentRt");
          var tableData = oModel.getProperty("/reportTableData");
@@ -827,6 +831,7 @@ sap.ui.define([
             }
          }
 
+         this.PaymentSum();
          oModel.refresh();
 
       },
@@ -848,43 +853,20 @@ sap.ui.define([
             }
          }
 
+         this.PaymentSum();
          oModel.refresh();
-      },
-
-      /**********************************************************************************
-		 * 함수 내용 : 부서 선택 필드 이벤트 함수
-		 * 작성자 : 김성진
-		 **********************************************************************************/
-		depSelectionChange: function(oEvent) {
-        var data =  this.getView().getModel("PaymentRt").getProperty("/depfilterData");   
-        console.log(data);
-
-        	// build filter array
-			var aFilter = [];
-			var sQuery = oEvent.getParameter("query");
-			if (sQuery) {
-				aFilter.push(new Filter("ProductName", FilterOperator.Contains, sQuery));
-			}
-
-			// filter binding
-			var oList = this.byId("invoiceList");
-			var oBinding = oList.getBinding("items");
-			oBinding.filter(aFilter);
       },
       
       /**********************************************************************************
-		 * 함수 내용 : 프로젝트 선택 필드 이벤트 함수
+		 * 함수 내용 : 멀티콤보 필드 샐랙트 이벤트 함수
 		 * 작성자 : 김성진
 		 **********************************************************************************/
       onSelectionChange : function(){
          var oModel = this.getView().getModel("PaymentRt");
          var projComboData =  oModel.getProperty("/projfilterData");
-         console.log(projComboData);
          var depComboData =  oModel.getProperty("/depfilterData");
-         console.log(depComboData)
          var reportData = oModel.getProperty("/reportData");
          var filterData = [];
-
 
          if(!projComboData && !depComboData){
             filterData = reportData;
@@ -917,16 +899,25 @@ sap.ui.define([
                }
             }
          }
+         
          this.byId("reportTable").removeSelectionInterval(0, oModel.getProperty("/reportTableData").length);
 
          oModel.setProperty("/reportTableData", filterData);
          this.chartDataSetting(oModel.getProperty("/reportTableData"));
          this.lineChartDataSetting(oModel.getProperty("/reportTableData"));
+         oModel.setProperty("/reportDetailTableData", []);
          //총 지급 금액 구하기 함수 콜
          this.PaymentSum();
-         this.byId("reportTable").removeSelectionInterval(0, );
          //this.reportDataRFC();
 
+      },
+
+      /**********************************************************************************
+		 * 함수 내용 : 메뉴바 선택 이벤트
+		 * 작성자 : 김성진
+		 **********************************************************************************/
+      onIconTabBarSelect : function(){
+         this.PaymentSum();
       }
 
 	});

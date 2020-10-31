@@ -98,7 +98,10 @@
 
 			<!-- DynamicPage Content -->
 			<f:content>
-				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+				<IconTabBar 
+					id="iconTabBar" 
+					class="sapUiResponsiveContentPadding"
+					select="onIconTabBarSelect">
 					<items>
 						<!-- 메뉴1 테이블 레포트 -->
 						<IconTabFilter text="경비 사용 현황">
