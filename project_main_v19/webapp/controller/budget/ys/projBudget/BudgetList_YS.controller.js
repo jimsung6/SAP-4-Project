@@ -84,13 +84,13 @@ sap.ui.define([
 		 * 함수 이름 : 첫 뷰가 그려진 후 작동까지 하는 메소드
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
-		// aaaa : function(){
-		// 	this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
-		// 	var projectModel2 = this.getView().getModel();
-		// 	var projectModel3 = this.getView().getModel();	
-		// 	this.fragmentRfcFunction(projectModel2);
-		// 	this.listRfcFunction(projectModel3);
-		// },
+		onAfterRendering : function(){
+			this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
+			var projectModel2 = this.getView().getModel();
+			var projectModel3 = this.getView().getModel();	
+			this.fragmentRfcFunction(projectModel2);
+			this.listRfcFunction(projectModel3);
+		},
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 예산증액 요청 프로젝트 정보 Fragment rfc
 		 * 작성자 : 노용석
