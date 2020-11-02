@@ -114,16 +114,13 @@ sap.ui.define([
 
          var oModel = this.getView().getModel("PaymentRt");
 
-         //테이블 모드 세팅
-         oModel.setProperty("/selectMode", "선택모드");
          //뷰 선택 아이콘 세팅
          oModel.setProperty("/viewSelectIcon", "sap-icon://table-view");
 
          //라우터
          var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-         oRouter.getRoute("PaymentRt").attachPatternMatched(this._onObjectMatched, this);
+         oRouter.getRoute("PaymentRt").attachPatternMatched(this.getParams, this);
 
-         this.onSearch();
          //테이블 데이터 세팅 rfc함수 콜  
         // this.reportDataRFC(TOCUMON, FROMCUMON);
 
@@ -136,12 +133,13 @@ sap.ui.define([
       onAfterRendering : function(){
          var oModel = this.getView().getModel("PaymentRt");
 
-         var oDate = new Date();
+         var oDate = new Date("2020-09");
          oModel.setProperty("/startDate", oDate);
          oModel.setProperty("/endDate", oDate);
 
          this.onSearch();
          this.onSelectionChange();
+         
       },
 
       /**********************************************************************************
@@ -155,8 +153,6 @@ sap.ui.define([
             var oModel = this.getView().getModel("PaymentRt");
             var that = this;
 
-            console.log(EMPNO + AUCODE);
-
             this.getOwnerComponent().rfcCall("ZB_GET_PAYMENTREPORT_AA", {
                //RFC Import 데이터
                I_EMPNO : EMPNO,
@@ -165,7 +161,7 @@ sap.ui.define([
                I_FROMCUMON : FROMCUMON
 
             }).done(function(oResultData){   // RFC호출 완료
-               console.log(oResultData);
+               
                var depComboData = [];
                var projComboData = [];
                
@@ -205,6 +201,15 @@ sap.ui.define([
                oModel.setProperty("/reportData", oResultData.T_TAB1);
                oModel.setProperty("/reportDetailTableData", []);
 
+               that.byId("projMultiCombo").removeAllSelectedItems();
+               that.byId("depMultiCombo").removeAllSelectedItems();
+
+               if(that.getView().getModel("PaymentRt").getProperty("/Pcode")){
+                  that.byId("projMultiCombo").addSelectedKeys([that.getView().getModel("PaymentRt").getProperty("/Pcode")]);
+               }else{
+                  that.byId("depMultiCombo").addSelectedKeys([that.getView().getModel("PaymentRt").getProperty("/Gcode")]);
+               }
+               
                //총 지금금액 구하기 함수콜
                that.chartDataSetting(oModel.getProperty("/reportTableData"));
                that.lineChartDataSetting(oModel.getProperty("/reportTableData"));
@@ -406,13 +411,28 @@ sap.ui.define([
 		 * 함수 내용 : 파라미터 값 들고오기
 		 * 작성자 : 김성진
 		 **********************************************************************************/
-      _onObjectMatched: function (oEvent) {
+      getParams: function (oEvent) {
 
          if(oEvent.mParameters){
-            var PcodeData = oEvent.mParameters.arguments.Pcode;
-            this.getView().getModel("PaymentRt").setProperty("/Pcode", PcodeData);
-         }
+            var PcodeData = oEvent.mParameters.arguments.Pcode.split(",");
 
+            switch (PcodeData[0]) {
+               case "P":
+                  this.getView().getModel("PaymentRt").setProperty("/Pcode", PcodeData[1]);
+                  break;
+
+               case "G":
+                  this.getView().getModel("PaymentRt").setProperty("/Gcode", PcodeData[1]);
+                  break;
+            
+               default:
+                  break;
+            }
+
+            this.onSearch();
+            this.onSelectionChange();
+
+         }
       },
 
        /**********************************************************************************
@@ -583,6 +603,7 @@ sap.ui.define([
 
             oModel.setProperty("/SearchStartDate", startDate);
             oModel.setProperty("/SearchEndDate", endDate);
+
 
             this.reportDataRFC(startDate, endDate);
 

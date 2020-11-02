@@ -45,16 +45,41 @@ sap.ui.define([
 					 GCODE: ""
 			}));
 			//콤보박스 초기 세팅
-			this.getView().getModel().setProperty("/comboData", "All"); // comboData에 All로 초기값 set
+		//	this.getView().getModel().setProperty("/comboData", "All"); // comboData에 All로 초기값 set
 			//캘린더 초기 세팅
 			var nMS = 1000 * 60 * 60 * 24; //milliseconds in a day
 			var today = new Date(); //오늘 날짜 불러오기
 			var oDay = new Date(today.getTime() - nMS*365); //오늘 날짜 - 365일 -> 최근 1년 이내의 데이터를 불러오기
 			this.getView().getModel().setProperty("/startDate", oDay); // startDate에 oDay를 초기값 set해준다.
 			this.getView().getModel().setProperty("/endDate", today);  // endDate에 today를 초기값 set해준다.
-			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        	this._oRouter.attachRouteMatched(this.onAfterRendering, this);
+
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.getRoute("DepBudget_YS").attachPatternMatched(this.getRouteParamse, this);
 		},
+
+
+		/******************************************************************************************************************************************************
+		 * 함수 이름 : 라우트 파라미터 얻기 함수
+		 * 작성자 : 노용석
+		 ******************************************************************************************************************************************************/
+		getRouteParamse : function(oEvent){
+			if(oEvent.mParameters){
+				var statusData = oEvent.mParameters.arguments.status;
+
+				console.log(statusData);
+				//콤보박스 초기 세팅
+				this.getView().getModel().setProperty("/comboData", statusData); // comboData에 All로 초기값 set
+
+				this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
+				var projectModel2 = this.getView().getModel();
+				var projectModel3 = this.getView().getModel();	
+				this.fragmentRfcFunction(projectModel2);
+				this.listRfcFunction(projectModel3, "", "", statusData);
+			 }
+
+		},
+
+
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 첫 뷰가 그려진 후 작동까지 하는 메소드
 		 * 작성자 : 노용석

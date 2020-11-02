@@ -30,8 +30,9 @@
 							<f:header>
 								<VBox>
 									<card:Header 
-										title="전표 현황 {/sumList} 건"
-										iconSrc="sap-icon://activity-items"/>
+										title="{/toMonth} 월 전표 현황"
+										statusText="{/sumList} 건"
+										iconSrc="sap-icon://write-new-document"/>
 									<ComboBox
 										class="sapUiTinyMargin"
 										width="95%"
@@ -88,9 +89,10 @@
 					</l:Grid>
 				</l:Grid>
 				<!--  메인보드 두번째 라인  -->
-				<l:Grid containerQuery="true"
-						defaultSpan="XL10 L10 M10 S12"
-						defaultIndent="XL1 L1 M1">
+				<l:Grid 
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S12"
+					defaultIndent="XL1 L1 M1">
 					<!--  두번째 라인 컴포넌트 그리드 -->
 					<l:Grid containerQuery="true"
 							defaultSpan="XL6 L6">
@@ -144,12 +146,14 @@
 					</l:Grid>
 				</l:Grid>
 				<!--  메인보드 네번째 라인  -->
-				<l:Grid containerQuery="true"
-						defaultSpan="XL10 L10 M10 S12"
-						defaultIndent="XL1 L1 M1">
+				<l:Grid 
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S12"
+					defaultIndent="XL1 L1 M1">
 					<!--  네번째 라인 컴포넌트 그리드 -->
-					<l:Grid containerQuery="true"
-							defaultSpan="XL6 L6 M6 S12">
+					<l:Grid
+						containerQuery="true"
+						defaultSpan="XL6 L6 M6 S12">
 						<!--  관리부서 및 프로젝트 사용경비 카드 컴포넌트 -->
 						<w:Card 
 							id="depExpensesCard" 
