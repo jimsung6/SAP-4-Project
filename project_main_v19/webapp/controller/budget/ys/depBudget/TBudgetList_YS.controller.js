@@ -263,7 +263,6 @@ sap.ui.define([
 		 ******************************************************************************************************************************************************/
 		onCloseDialog : function (sData) {
 			this.byId("openDialog1").close();
-			// window.location.reload();
 			var projectModel3 = this.getView().getModel();
 			this.listRfcFunction(projectModel3);
 		},
