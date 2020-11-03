@@ -65,7 +65,6 @@ sap.ui.define([
 				console.log(statusData);
 				//콤보박스 초기 세팅
 				this.getView().getModel().setProperty("/comboData", statusData); // comboData에 All로 초기값 set
-
 				this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
 				var projectModel2 = this.getView().getModel();
 				var projectModel3 = this.getView().getModel();	

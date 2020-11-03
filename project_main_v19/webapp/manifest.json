@@ -293,7 +293,7 @@
 		  },
 		  "ExpenseManagement": {
 			"viewId": "ExpenseManagement",
-			"viewName": "expenseManagement/kmg/ExpenseInput"
+			"viewName": "expenseManagement/kmg/ProjectList_MQ"
 		  },
 		  "Approyj": {
 			"viewId": "Approyj",
