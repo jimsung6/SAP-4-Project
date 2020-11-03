@@ -27,21 +27,14 @@
 
 							<Title titleStyle="H2" text="프로젝트별 예산 조회" />
 
-							<ToolbarSpacer/>
-
-						
-
-					  <DateRangeSelection
-                                id="DRS"
-                                    displayFormat="{TEST>/displayFormat}"
-                                    dateValue="{TEST>/oToday}"
-                                    secondDateValue="{TEST>/oToday2}"
-                                    change="handleChange"
-                           width="20%"/>
-
+						<ToolbarSpacer/>
+                    	<SearchField class="sapUiSmallMarginEnd" width="300px" liveChange=".onFilter" value="{TEST>/searchInfoPname}"/>
+						<RadioButtonGroup selectedIndex="{TEST>/RadioButtonGroup}" columns="4">
+	                        <RadioButton text="진행중인 프로젝트" selected="true"/>
+	                        <RadioButton text="종료된 프로젝트"/>
+                		 </RadioButtonGroup>
 
 					
-
 							<Button class="sapUiTinyMarginTop" press=".onFiltering" text="조회" type="Emphasized"></Button>
 
 						</content>
@@ -84,12 +77,12 @@
 					<ColumnListItem type="Navigation" press=".onDetail">
 						<cells>
 							<Text text="{TEST>PCODE}" />
-							<Text text="{TEST>PNAME}" />
+							<Link text="{TEST>PNAME}"  press=".proOpen2"/>
 							<u:Currency
                           value="{TEST>PROBUD}"  maxPrecision="0" useSymbol="false"/>
 							
 							<Text text="{TEST>PRODY}" />
-					       <Text text="{TEST>ENAME}" />
+					       <Text text="{TEST>ENAME}"  />
 							<Text text="{TEST>EMPNO}" />
 							<Text text="{TEST>SDATE}" />
 							<Text text="{TEST>EDATE}" />
