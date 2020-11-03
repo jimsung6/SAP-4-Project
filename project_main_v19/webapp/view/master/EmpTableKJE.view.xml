@@ -1,106 +1,77 @@
 <!-- 김지언 : 사원정보 -->
-<mvc:View 
+<mvc:View
+   height="100%" 
    controllerName="ExpenseManagement.controller.master.EmpTableKJE" 
-   xmlns:html="http://www.w3.org/1999/xhtml" 
    xmlns:mvc="sap.ui.core.mvc"
-   displayBlock="true" 
-   xmlns="sap.ui.table"
-   xmlns:form="sap.ui.layout.form"
-   xmlns:f="sap.ui.comp.filterbar"
-   xmlns:u="sap.ui.unified"
-   xmlns:c="sap.ui.core"
-   xmlns:m="sap.m"
-   height="100%">
-   <m:Page
-      showHeader="false"
-      enableScrolling="false"
-      class="sapUiContentPadding">
-      <m:content>
-         <Table
-        	id="EmpTable"
-            rows="{      
-                path: 'employeeKJE>/T_TAB1', 
-                sorter: {
-                    path: 'employeeKJE>EMPNO', 
-                    descending: false
-                    }
-            }"
-            selectionMode="Single"
-            selectionBehavior="Row"
-            ariaLabelledBy="title"
-            visibleRowCount="20">
-            <extension>
-               <m:OverflowToolbar>
-               	<m:content>
-                  <m:Title id="title" text="사원 마스터 조회"/>
-                  <m:ToolbarSpacer></m:ToolbarSpacer>
-                  <m:Label text="사원 이름:"/>
-                  <m:SearchField
-									placeholder="Filter"
-									value="{employeeKJE>/filterData}"
-									liveChange="onfilter"
-									width="10rem"/>
-					<m:Label text="	부서 번호:"/>
-					<m:SearchField
-									placeholder="Filter"
-									value="{employeeKJE>/filterData2}"
-									liveChange="onfilter2"
-									width="10rem"/>
-                  </m:content>
-               </m:OverflowToolbar>
-            </extension>
-            <columns>
-               <Column width="190px"
-               sortOrder="Descending">
-                  <m:Label text="사원 번호" />
-                  <template>
-                     <m:Text text="{employeeKJE>EMPNO}" />
-                  </template>
-               </Column>
-               <Column width="100px">
-                  <m:Label text="사원 이름" />
-                  <template>
-                     <m:Text text="{employeeKJE>ENAME}"/>
-                  </template>
-               </Column>
-               <Column width="100px">
-                  <m:Label text="직급" />
-                  <template>
-                     <m:Text text="{employeeKJE>JOB}" />
-                  </template>
-               </Column>
-               <Column width="100px">
-                  <m:Label text="부서 번호" />
-                  <template>
-                     <m:Text text="{employeeKJE>GCODE}" />
-                  </template>
-               </Column>
-               <Column width="100px">
-                  <m:Label text="은행명" />
-                  <template>
-                     <m:Text text="{employeeKJE>BANKL}" />
-                  </template>
-               </Column>
-               <Column width="200px">
-                  <m:Label text="계좌번호" />
-                  <template>
-                     <m:Text text="{employeeKJE>CACCT}" />
-                  </template>
-               </Column>
-               <Column width="200px">
-                  <m:Label text="전화번호" />
-                  <template>
-                     <m:Text text="{employeeKJE>PNUM}" />
-                  </template>
-               </Column>
-               <Column width="200px">
-                  <m:Label text="이메일" />
-                  <template>
-                     <m:Text text="{employeeKJE>EMAIL}" />
-                  </template>
-               </Column>
-            </columns>
-         </Table>
-      </m:content>
-   </m:Page>
+	xmlns="sap.m">
+
+	<Page showHeader="false" enableScrolling="true" class="sapUiContentPadding"
+		showNavButton="false">
+
+		<content>
+			<Table 
+				id="emptable" 
+				growing="true" 
+				growingThreshold="10" 
+				paste="onPaste"
+			    mode="MultiSelect">
+				<headerToolbar>
+					<OverflowToolbar id="otbSubheader">
+						<Title text="사원정보 마스터" level="H2" />
+						<ToolbarSpacer />
+						<Button id="createButton" text="생성" type="Emphasized"
+							press="onCreateDialog" />
+						<Button id="editButton" text="변경" type="Emphasized"
+							press="onEditEmployee" />
+						<Button id="deleteButton" text="삭제" type="Emphasized"
+						press="onDeleteEmployee" />
+						<Button id="saveButton" text="저장" type="Emphasized"
+							press="onSave" visible="false" />
+						<Button id="cancelButton" text="취소" type="Emphasized"
+							press="onCancel" visible="false" />
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column minScreenWidth="Tablet" width="7rem">
+						<Text text="사원번호" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="사원 이름" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="직급" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="부서번호" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="은행명" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="계좌번호" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="전화번호" />
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+						<Text text="이메일" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier title="{employeeKJE>EMPNO}"/>
+							<Text text="{employeeKJE>ENAME}"/>
+							<Text text="{employeeKJE>JOB}"/>
+							<Text text="{employeeKJE>GCODE}"/>
+							<Text text="{employeeKJE>BANKL}"/>
+							<Text text="{employeeKJE>ECACCT}"/>       
+							<Text text="{employeeKJE>PNUM}"/>
+			            	<Text text="{employeeKJE>EMAIL}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
 </mvc:View>

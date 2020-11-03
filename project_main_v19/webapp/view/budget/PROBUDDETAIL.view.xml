@@ -1,3 +1,4 @@
+
 <mvc:View
    controllerName="ExpenseManagement.controller.budget.PROBUDDETAIL"
 	xmlns:mvc="sap.ui.core.mvc"
@@ -16,13 +17,6 @@
 
 			<Table id="TEST"
 				   items="{detailModel>/detailTableData}">
-			
-				   <!--items="{/ProductCollection}"-->
-				   <!--delete=".onRowDelete"-->
-				   <!-- growing="true"
-				   growingThreshold="5"> -->
-		    <!-- mTable => selectionmode 이런 거 안 적어줘도 되고 그냥 mode 로 적어줌, Multiselect/singleselect/Delete/None 등 -->
-			
 			<headerToolbar height="100px">
 					<OverflowToolbar height="80px">
 						<content>
@@ -56,15 +50,24 @@
 					</OverflowToolbar>
 				</infoToolbar>
 
+					
+				
+			
 				<columns>
-					<Column width="180px"  hAlign="Center">
+						<Column width="90px"  hAlign="Center">
+						<Text text="긴급여부" />
+					</Column>
+					<Column width="150px"  hAlign="Center">
 						<Text text="프로젝트 코드" />
+					</Column>
+								<Column width="300px"   hAlign="Center">
+						<Text text="프로젝트명" />
 					</Column>
 				<Column width="180px"  hAlign="Center">
 						<Text text="요청사유"/>
 					</Column>
 					
-					<Column width="300px"   hAlign="Center">
+					<Column width="90px"   hAlign="Center">
 						<Text text="기안코드" />
 					</Column>
 					<Column width="180px"  hAlign="Center">
@@ -76,9 +79,7 @@
 					<Column width="148px" hAlign="Center">
 						<Text text="요청예산(원)" />
 					</Column>
-					<Column width="148px"   hAlign="Center">
-						<Text text="담당자" />
-					</Column>
+			
 					<Column width="148px"  hAlign="Center">
 						<Text text="승인일"/>
 					</Column>
@@ -88,16 +89,18 @@
 				<items>
 					<ColumnListItem type="ACTIVE">
 						<cells>
+							<core:Icon src="sap-icon://circle-task-2" color = "{detailModel>Depembtn}" />
 							<Text text="{detailModel>PCODE}" />
+								<Text text="{detailModel>PNAME}" />
 							<Button text="사유" emphasized="true" press=".open" />
 							<Text text="{detailModel>PICODE}" />
 							
 							<Text text="{detailModel>DPDATE}" />
-							<Text text="{detailModel>PYEMP}" />
+							<Text text="{detailModel>ENAME}" />
 					       		<u:Currency
                           value="{detailModel>REBUD}"  maxPrecision="0" useSymbol="false"/>
 							
-							<Text text="{detailModel>PYEMP}" />
+							
 							<Text text="{detailModel>ACCDATE}" />
 						
 						</cells>

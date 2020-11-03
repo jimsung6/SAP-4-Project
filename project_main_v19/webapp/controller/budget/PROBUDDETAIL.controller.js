@@ -101,9 +101,17 @@ sap.ui.define([
 			 
 			 for(var i = 0 ; i < oModel.getProperty("/detailTableData").length ; i++){
 				 
-				sumData += parseInt(oModel.getProperty("/detailTableData/"+i+"/REBUD"));
+				
+				
+						 if(oModel.getProperty("/detailTableData/"+i+"/DEPEM") === 'X'){
+							 oModel.setProperty("/detailTableData/"+i+"/Depembtn", "#dc1313")
+						 }else{
+							 oModel.setProperty("/detailTableData/"+i+"/Depembtn", "#1C4C98")
+						 }
+					 
+					 sumData += parseInt(oModel.getProperty("/detailTableData/"+i+"/REBUD"));
 			 }
-			 
+			 console.log(oModel.getProperty("/detailTableData"));
 			 console.log(sumData);
 			 
 			 oModel.setProperty("/sumData", sumData);
