@@ -137,7 +137,7 @@ sap.ui.define([
          oModel.setProperty("/startDate", oDate);
          oModel.setProperty("/endDate", oDate);
 
-         this.onSearch();
+        // this.onSearch();
          this.onSelectionChange();
          
       },
@@ -204,10 +204,13 @@ sap.ui.define([
                that.byId("projMultiCombo").removeAllSelectedItems();
                that.byId("depMultiCombo").removeAllSelectedItems();
 
-               if(that.getView().getModel("PaymentRt").getProperty("/Pcode")){
-                  that.byId("projMultiCombo").addSelectedKeys([that.getView().getModel("PaymentRt").getProperty("/Pcode")]);
-               }else{
-                  that.byId("depMultiCombo").addSelectedKeys([that.getView().getModel("PaymentRt").getProperty("/Gcode")]);
+               if(oModel.getProperty("/Pcode")){
+                  that.byId("projMultiCombo").addSelectedKeys([oModel.getProperty("/Pcode")]);
+                  oModel.setProperty("/Pcode", "");
+               }
+               if(oModel.getProperty("/Gcode")){
+                  that.byId("depMultiCombo").addSelectedKeys([oModel.getProperty("/Gcode")]);
+                  oModel.setProperty("/Gcode", "");
                }
                
                //총 지금금액 구하기 함수콜

@@ -31,7 +31,8 @@
 			<Menu>
                 <MenuItem text="경비 입력"  press=".onGoExpenseInput"/>
 				<MenuItem visible="{employeeLog>/ButtonSetting/ExpenseManagement}" text="경비 승인/반려" press=".onGoExpenseManagement"/>
-                <MenuItem visible="{employeeLog>/ButtonSetting/BTripPayment}" text="경비 지급" press=".onGoPay_HS" />		
+                <MenuItem visible="{employeeLog>/ButtonSetting/BTripPayment}" text="경비 지급" press=".onGoPay_HS" />
+				<MenuItem visible="{employeeLog>/ButtonSetting/BTripPayment}" text="지급 레포트" press=".onGoExpenseReport" />		
 			</Menu>
 		</MenuButton>
 

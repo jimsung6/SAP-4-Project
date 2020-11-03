@@ -191,6 +191,16 @@ sap.ui.define([
 		 onGoExpenseManagement : function(){
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("ExpenseManagement"); //경비 승인/반려
+		 },
+
+		 /*******************************************************
+		 * function : 경비 지급 레포트
+		 * *****************************************************/
+		onGoExpenseReport : function(){
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("PaymentRt", {
+				Pcode : "N"
+			}); //경비 승인/반려
 		 }
 
 

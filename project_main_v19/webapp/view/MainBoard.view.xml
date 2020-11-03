@@ -178,6 +178,5 @@
 					</l:Grid>
 				</l:Grid>
 		</l:VerticalLayout>
-		<Button text="임시버튼" press="onTest"></Button>
     </Page>
 </mvc:View>

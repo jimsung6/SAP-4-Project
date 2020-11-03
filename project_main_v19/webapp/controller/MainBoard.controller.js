@@ -1084,14 +1084,6 @@ sap.ui.define([
 
 		},
 
-
-		onTest : function(){
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("PaymentRt", {
-				Pcode : "Z00"
-			});
-		},
-
 		/**********************************************************************************
 		 * 함수 내용 : 전표현황 카트 콤보박스 이벤트
 		 * 작성자 : 김성진
