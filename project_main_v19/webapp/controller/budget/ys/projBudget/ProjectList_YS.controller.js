@@ -96,8 +96,10 @@ sap.ui.define([
 				var resultData = oResultData.TAB1
                 var toDay = new Date();
                 for( var i=0 ; i < resultData.length ; i++ ){
-                    var endDay = new Date(resultData[i].EDATE)
-                    if(toDay.getTime() < endDay.getTime()){
+					var endDay = new Date(resultData[i].EDATE)
+					//프로젝트 종료일부터 한달 뒤까진 프로젝트 진행중이라 본다.
+					var month = (function(){this.setMonth(this.getMonth()+1); return this}).call(endDay); 
+                    if(toDay < month){
                         resultData[i].STATUS = "진행중"
                     }else{
                         resultData[i].STATUS = "종료"
@@ -188,14 +190,11 @@ sap.ui.define([
 			// var tableData = this.getView().getModel().getProperty("/projTableData");
 			
 			var sPath = oModel.getProperty("/projBudgetRequest");
-			//var sPath = oModel.oData.projBudgetRequest;
-			// console.log(this.onCheckSelect());
-			console.log(sPath)
+
 			// // 데이터 불러오기
 			var PCODE = sPath.PCODE;
 			var REQUEST = sPath.REQUEST;
 			var REBUD = sPath.REBUD;
-			console.log(PCODE+REQUEST+REBUD)
 			var check = this.byId("check1").getSelected();
 			if (check == true){
 				var DEPEM = "X";

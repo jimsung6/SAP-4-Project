@@ -14,7 +14,7 @@ sap.ui.define([
 	"use strict";
 	
 	return Controller.extend("ExpenseManagement.controller.businessTrip.WorktimeKJE", {
-		//worktime
+		
 		onInit : function() {
 			
 				var oData = {
@@ -101,6 +101,7 @@ sap.ui.define([
 							if(aResultData[i].APPLY === "B"){
 								aResultData[i].input = false;
 								aResultData[i].text = true;
+								
 							}else{
 								aResultData[i].input = true;
 								aResultData[i].text = false;
@@ -170,8 +171,9 @@ sap.ui.define([
 			var iSelectedIndex = oTable.getSelectedIndex();
 			var aSelected = oTable.getSelectedIndices();
 			var inputWorkTime = [];
-			
+			var selectedWorkTime = [];
 			var dateData = this.getView().getModel().getProperty("/WORKYM");
+			var tableData = this.getView().getModel().getProperty("/tableInfo");
 			
 			var yyyy = dateData.substring(0, 4);
 			var mm = dateData.substring(4, 6);
@@ -179,32 +181,33 @@ sap.ui.define([
 			
 			
 			var that = this;
-			
 			//row 선택 시 index로 들어옴, 선택 안했을 시 -1
 			if(iSelectedIndex !== -1) {
+				var isAdmin = 0;
+				for (var k=0; k < aSelected.length; k++) {
+					
+					if (tableData[aSelected[k]].APPLY === "B 승인요청완료") {
+						isAdmin++;
+					}
+				}
+				if(isAdmin === 0){
 			MessageBox.confirm("삭제하시겠습니까?", {
 				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO], 
 				onClose: function(sAction) {
 					if(sAction ===  "YES") {
-					//예를 눌렀을 때만 실행되도록 (index 나옴
+					//예를 눌렀을 때만 실행되도록 (index 나옴)
 					  var oModel = that.getView().getModel();
 					  //var aSelectedIndex = oModel.getProperty("/tableInfo");
 					  //aSelectedIndex.splice(iSelectedIndex,1);
 					  var dataInfo = oModel.getProperty("/tableInfo");
 					  
-					  //for (var i=iSelectedIndices.length-1 ; i >= 0 ; i--) {
-					  //	dataInfo.splice(iSelectedIndices[i],1);
-					  //}   
-					  
 					  	for(var i=0 ; i < aSelected.length ; i++){
 							inputWorkTime.push(dataInfo[aSelected[i]]);
 						}
-					  
-					 // oModel.setProperty("/tableRow", parseInt(oModel.getProperty("/tableRow"))-iSelectedIndices.length );
-					  //splice는 무조건 배열에 적용되어야 함, 배열.splice(자를 Data의 시작위치, 잘라낼 index의 개수)
+			
 					  that.byId("Wtab").removeSelectionInterval(0, dataInfo.length);
 					  oModel.refresh();
-					
+				
 				
 					that.getOwnerComponent().rfcCall("ZB_DELETE_WORKTIME", {  //RFC Import 데이터
 					T_WTIME: inputWorkTime
@@ -222,11 +225,12 @@ sap.ui.define([
 					}
 				}
 			});
-				
+			}else{
+				MessageBox.error("이미 승인요청된 항목입니다.");
+			}	
 			}else{
 				MessageBox.error("데이터를 선택해주십시오");
 			}
-			
 			
 		},
 		
@@ -248,7 +252,7 @@ sap.ui.define([
 				selectedWorkTime.push(inputWorkTime[aIndex]);
 			}
 			
-			for(var i=0 ; i < selectedWorkTime.length ; i++){
+			for(var i=0; i < selectedWorkTime.length; i++){
 				var ck = 0;
 				for(var j=0 ; j < inputWorkTime.length ; j++){
 					if(selectedWorkTime[i].PCODE === inputWorkTime[j].PCODE){
@@ -256,15 +260,21 @@ sap.ui.define([
 					}
 				}
 				if(ck > 1){
-					MessageToast.show("이미 입력한 프로젝트코드입니다.");
+					MessageBox.error("이미 입력한 프로젝트 코드입니다. 입력값을 확인하세요.");
 					return 0;
 					
 				}
 			}
-			
-			
+		
 			
 			if(iSelectedIndex !== -1) {
+				for (var k=0; k < selectedWorkTime.length; k++) {
+					var isNovalue = 0;
+					if (selectedWorkTime[k].PCODE === "") {
+						isNovalue++;
+					}
+				}
+				if(isNovalue === 0) {
 			MessageBox.confirm("저장하시겠습니까?", {
 				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO], 
 				onClose: function(sAction) {
@@ -295,16 +305,16 @@ sap.ui.define([
 					}
 				}
 			});
-				
+			}else {
+				MessageBox.error("프로젝트 코드를 입력하지 않은 항목이 있습니다. 입력값을 확인하세요.");
+			}
 			}else{
 				MessageBox.error("데이터를 선택해주십시오");
-				return;
 			}
 		},
 		
+		
 		 onAdmin : function(oEvent) {
-         
-         
          var oModel = this.getView().getModel();
          var oTable = this.getView().byId("Wtab");
          var iSelectedIndex = oTable.getSelectedIndex();
@@ -331,12 +341,19 @@ sap.ui.define([
 					}
 				}
 				if(ck > 1){
-					MessageToast.show("이미 입력한 프로젝트코드입니다.");
+					MessageBox.error("이미 입력한 프로젝트 코드입니다. 입력값을 확인하세요.");
 					return 0;
 				}
 			}
-         
+   
          if(iSelectedIndex !== -1) {
+         	for (var k=0; k < selectedWorkTime.length; k++) {
+					var isNovalue = 0;
+					if (selectedWorkTime[k].PCODE === "") {
+						isNovalue++;
+					}
+				}
+				if(isNovalue === 0) {
             MessageBox.confirm("승인요청하시겠습니까?", {
                actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO], 
                onClose: function(sAction) {
@@ -368,9 +385,11 @@ sap.ui.define([
                   }
                }
             });
+				}else {
+				MessageBox.error("프로젝트 코드를 입력하지 않은 항목이 있습니다. 입력값을 확인하세요.");
+			}
          }else {
             MessageBox.error("데이터를 선택해주십시오");
-            return;
          }
       },
 
@@ -396,7 +415,7 @@ sap.ui.define([
 			
 		},
 		
-		
+		//행 추가 
 		onRowAdd : function(){
          var rowTableData = this.getView().getModel().getProperty("/tableRow");
          
@@ -444,22 +463,3 @@ sap.ui.define([
       }
 	});
 });
-
-
-/* 		우리가 TableExample을 실행하는 과정
- * 		: 일단 Table을 만들고, model을 만든 후 view와 바인딩함. (우리는 지금 모델에 이름 안 줌, 그러므로 view의 default모델을 우리가 생성한 모델이 되는 것)
- * 		    우리가 보는 메인 페이지 view는 List.view임
- * 		  List.view에 link를 생성해서 누르면 Detail Dialog가 뜨게 만듦 -> 이렇게 되면 List.controller에서 link press에 선언된 함수가 정의되어 있어야 함
- * 		  List.view에서 Row를 선택 -> 상세버튼 누름 -> 버튼에 연결된 함수가 list.controller로 연결되고 detail.view를 라우팅해서 보여줌
- * 		    근데 Detail.view를 보여주려고 routing을 하는 건데 Detail.controller는 대체 왜 필요함? 안 만들어도 상관없는 거 아닌가 (의문) 왜 1대1이어야만 하낭,,
- */		
-
-
-/*		 Event의 출발점 
- * 		: this.getView().getModel(); -> 연결된 View의 Model 가져옴 
- *		  Model 내의 Javascript Data를 가져오고 싶음 -> oModel.getProperty("path(가져올 데이터의 경로)");
- *		  근데 우리 예제에서는 Event가 2개 발생함, 링크를 클릭했을 때 뜨는 Dialog와 상세 버튼을 클릭했을 때 뜨는 Datail.view 2개
- *		 상세 버튼을 클릭했을 때 뜨는 Detail.view를 위한 Path는 sPath = oEvent.mParameters.rowContext.sPath; 요런식으로 가져옴 
- *		 링크 클릭 시 뜨는 Detail Dialog의 path는 sPath = oEvent.getSource().getBindingContext().getPath(); 요런식으로 가져오는 경우 多
- *		 디버깅 해서 Path 찾는 법, 모델의 데이터가 잘 들어왔는지, getProperty를 하면 데이터를 잘 가져오는지 등을 확인하는 습관을 들이는 게 좋음 ****		
- */

@@ -5,6 +5,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.f"
+	xmlns:card="sap.f.cards"
 	xmlns:w="sap.ui.integration.widgets"
 	xmlns:m="sap.suite.ui.microchart"
 	xmlns:core="sap.ui.core">
@@ -23,19 +24,48 @@
 					<l:Grid containerQuery="true"
 							defaultSpan="XL4 L4 M4 S12">
 						<!--  전표 현황 카드 컴포넌트 -->
-						<w:Card 
-							id="statusListCard" 
-							visible="{authority>/statusListCard}"
-							height="480px"
-							manifest="{cardManifests>/statusList}">
-							<w:customData>
-								<BadgeCustomData value="New" />
-							</w:customData>
-							<w:layoutData>
-								<f:GridContainerItemLayoutData />
-							</w:layoutData>
-						</w:Card>
-						<!-- 사용경비현황 카드 컴포넌트 -->
+
+						<f:Card 
+							height="480px">
+							<f:header>
+								<VBox>
+									<card:Header 
+										title="{/toMonth} 월 전표 현황"
+										statusText="{/sumList} 건"
+										iconSrc="sap-icon://write-new-document"/>
+									<ComboBox
+										class="sapUiTinyMargin"
+										width="95%"
+										selectedKey="{/paymentComboData}"
+										placeholder="From City"
+										selectionChange="onPaymentSelect">
+										<core:Item key="A" text="요청건수 {/iReqList} 건" />
+										<core:Item key="B" text="미결건수 {/iPayList} 건" />
+									</ComboBox>
+								</VBox>
+							</f:header>
+							<f:content>
+								<List
+									id="paymentlist"
+									mode="SingleSelectMaster"
+									height="480px"
+									selectionChange=".onPaymentListSelection"
+									showSeparators="None"
+									items="{/paymentCard}">
+									<CustomListItem>
+										<HBox id="comboHeight" alignItems="Center" justifyContent="SpaceBetween">
+											<VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
+												<Title level="H3" text="{name}" />
+											</VBox>
+											<ObjectStatus
+												class="sapUiTinyMargin sapUiSmallMarginEnd"
+												text="{number} 건"
+												state="{State}" />
+										</HBox>
+									</CustomListItem>
+								</List>
+							</f:content>
+						</f:Card>
 						<w:Card 
 							id="stackedBar" 
 							visible="{authority>/stackedBar}"
@@ -59,9 +89,10 @@
 					</l:Grid>
 				</l:Grid>
 				<!--  메인보드 두번째 라인  -->
-				<l:Grid containerQuery="true"
-						defaultSpan="XL10 L10 M10 S12"
-						defaultIndent="XL1 L1 M1">
+				<l:Grid 
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S12"
+					defaultIndent="XL1 L1 M1">
 					<!--  두번째 라인 컴포넌트 그리드 -->
 					<l:Grid containerQuery="true"
 							defaultSpan="XL6 L6">
@@ -115,12 +146,14 @@
 					</l:Grid>
 				</l:Grid>
 				<!--  메인보드 네번째 라인  -->
-				<l:Grid containerQuery="true"
-						defaultSpan="XL10 L10 M10 S12"
-						defaultIndent="XL1 L1 M1">
+				<l:Grid 
+					containerQuery="true"
+					defaultSpan="XL10 L10 M10 S12"
+					defaultIndent="XL1 L1 M1">
 					<!--  네번째 라인 컴포넌트 그리드 -->
-					<l:Grid containerQuery="true"
-							defaultSpan="XL6 L6 M6 S12">
+					<l:Grid
+						containerQuery="true"
+						defaultSpan="XL6 L6 M6 S12">
 						<!--  관리부서 및 프로젝트 사용경비 카드 컴포넌트 -->
 						<w:Card 
 							id="depExpensesCard" 
@@ -145,6 +178,5 @@
 					</l:Grid>
 				</l:Grid>
 		</l:VerticalLayout>
-		<Button text="임시버튼" press="onTest"></Button>
     </Page>
 </mvc:View>

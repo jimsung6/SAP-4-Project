@@ -89,6 +89,7 @@ sap.ui.define([
          this.getView().setModel(new JSONModel({
             Pcode : "",
             Gcode : "",
+            reportData : [],
             reportTableData : [],
             reportChartData : [],
             reportLineChartData : [],
@@ -113,16 +114,13 @@ sap.ui.define([
 
          var oModel = this.getView().getModel("PaymentRt");
 
-         //테이블 모드 세팅
-         oModel.setProperty("/selectMode", "선택모드");
          //뷰 선택 아이콘 세팅
          oModel.setProperty("/viewSelectIcon", "sap-icon://table-view");
 
          //라우터
          var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-         oRouter.getRoute("PaymentRt").attachPatternMatched(this._onObjectMatched, this);
+         oRouter.getRoute("PaymentRt").attachPatternMatched(this.getParams, this);
 
-         this.onSearch();
          //테이블 데이터 세팅 rfc함수 콜  
         // this.reportDataRFC(TOCUMON, FROMCUMON);
 
@@ -135,12 +133,13 @@ sap.ui.define([
       onAfterRendering : function(){
          var oModel = this.getView().getModel("PaymentRt");
 
-         var oDate = new Date();
+         var oDate = new Date("2020-09");
          oModel.setProperty("/startDate", oDate);
          oModel.setProperty("/endDate", oDate);
 
-         this.onSearch();
-
+        // this.onSearch();
+         this.onSelectionChange();
+         
       },
 
       /**********************************************************************************
@@ -154,8 +153,6 @@ sap.ui.define([
             var oModel = this.getView().getModel("PaymentRt");
             var that = this;
 
-            console.log(EMPNO + AUCODE);
-
             this.getOwnerComponent().rfcCall("ZB_GET_PAYMENTREPORT_AA", {
                //RFC Import 데이터
                I_EMPNO : EMPNO,
@@ -164,24 +161,66 @@ sap.ui.define([
                I_FROMCUMON : FROMCUMON
 
             }).done(function(oResultData){   // RFC호출 완료
-               console.log(oResultData);
+               
+               var depComboData = [];
+               var projComboData = [];
+               
                for(var i=0 ; i < oResultData.T_TAB1.length ; i++){
+                  var checked = true;
                   if(oResultData.T_TAB1[i].PCODE === "Z00"){
+                     if(depComboData.length === 0){
+                        depComboData.push(oResultData.T_TAB1[i]);
+                     }else{
+                        for(var j=0 ; j < depComboData.length ; j++){
+                           if(oResultData.T_TAB1[i].GNAME === depComboData[j]){
+                              checked = false;
+                           }
+                        }
+                        if(checked){
+                           depComboData.push(oResultData.T_TAB1[i]);
+                        }
+                     }
                      oResultData.T_TAB1[i].PNAME = oResultData.T_TAB1[i].GNAME;
+                  }else{
+                     if(projComboData.length === 0){
+                        projComboData.push(oResultData.T_TAB1[i]);
+                     }else{
+                        for(var j=0 ; j < projComboData.length ; j++){
+                           if(oResultData.T_TAB1[i].PNAME === projComboData[j]){
+                              checked = false;
+                           }
+                        }
+                        if(checked){
+                           projComboData.push(oResultData.T_TAB1[i]);
+                        }
+                     }
                   }
                }
-               oModel.setProperty("/projComboData", oResultData.T_TAB2);
-               oModel.setProperty("/depComboData", oResultData.T_TAB3);
+               oModel.setProperty("/projComboData", projComboData);
+               oModel.setProperty("/depComboData", depComboData);
+               oModel.setProperty("/reportData", oResultData.T_TAB1);
+               oModel.setProperty("/reportDetailTableData", []);
 
-               oModel.setProperty("/reportTableData", oResultData.T_TAB1);
-            }).fail(function(sErrorMessage){// 호출 실패
-               alert(sErrorMessage);
-            }).then(function(){
+               that.byId("projMultiCombo").removeAllSelectedItems();
+               that.byId("depMultiCombo").removeAllSelectedItems();
+
+               if(oModel.getProperty("/Pcode")){
+                  that.byId("projMultiCombo").addSelectedKeys([oModel.getProperty("/Pcode")]);
+                  oModel.setProperty("/Pcode", "");
+               }
+               if(oModel.getProperty("/Gcode")){
+                  that.byId("depMultiCombo").addSelectedKeys([oModel.getProperty("/Gcode")]);
+                  oModel.setProperty("/Gcode", "");
+               }
+               
                //총 지금금액 구하기 함수콜
                that.chartDataSetting(oModel.getProperty("/reportTableData"));
                that.lineChartDataSetting(oModel.getProperty("/reportTableData"));
+               that.onSelectionChange();
                that.PaymentSum();
                oModel.refresh();
+            }).fail(function(sErrorMessage){// 호출 실패
+               alert(sErrorMessage);
             });
       },
 
@@ -369,22 +408,34 @@ sap.ui.define([
           
 		oVizFrame.addFeed(feedCategoryAxis);
       oVizFrame.addFeed(feedValueCost);
-      },
+       },
 
       /**********************************************************************************
 		 * 함수 내용 : 파라미터 값 들고오기
 		 * 작성자 : 김성진
 		 **********************************************************************************/
-      _onObjectMatched: function (oEvent) {
+      getParams: function (oEvent) {
 
          if(oEvent.mParameters){
-            var PcodeData = oEvent.mParameters.arguments.Pcode;
-            var GcodeData = oEvent.mParameters.arguments.Gcode;
+            var PcodeData = oEvent.mParameters.arguments.Pcode.split(",");
 
-            this.getView().getModel("PaymentRt").setProperty("/Pcode", PcodeData);
-            this.getView().getModel("PaymentRt").setProperty("/Gcode", GcodeData);
+            switch (PcodeData[0]) {
+               case "P":
+                  this.getView().getModel("PaymentRt").setProperty("/Pcode", PcodeData[1]);
+                  break;
+
+               case "G":
+                  this.getView().getModel("PaymentRt").setProperty("/Gcode", PcodeData[1]);
+                  break;
+            
+               default:
+                  break;
+            }
+
+            this.onSearch();
+            this.onSelectionChange();
+
          }
-
       },
 
        /**********************************************************************************
@@ -556,6 +607,7 @@ sap.ui.define([
             oModel.setProperty("/SearchStartDate", startDate);
             oModel.setProperty("/SearchEndDate", endDate);
 
+
             this.reportDataRFC(startDate, endDate);
 
         }else{
@@ -611,24 +663,32 @@ sap.ui.define([
          var oModel = this.getView().getModel("PaymentRt");
          var tableData = oModel.getProperty("/reportTableData");
          var chartData = oModel.getProperty("/reportChartData");
+         var DetailTableData = oModel.getProperty("/reportDetailTableData");
+         var iconTabBarData = this.byId("iconTabBar").getSelectedKey();
          var sumData = 0;
 
-         if(this.byId("reportTable").getVisible()){
-            if(this.byId("reportTable").getSelectionMode() === "None"){
-               for(var i=0 ; i < tableData.length ; i++){
-                     sumData += tableData[i].PROPR;
-               }
-            }else{
-               for(var i=0 ; i < tableData.length ; i++){
-                  if(tableData[i].checked){
-                     sumData += tableData[i].PROPR;
-                  }
-               }
+         if(iconTabBarData === "__filter1"){
+            for(var i=0 ; i<DetailTableData.length ; i++){
+               sumData += DetailTableData[i].PROPR;
             }
          }else{
-            for(var i=0 ; i < chartData.length ; i++){
-               if(chartData[i].checked){
-                  sumData += chartData[i].PROPR;
+            if(this.byId("reportTable").getVisible()){
+               if(this.byId("reportTable").getSelectionMode() === "None"){
+                  for(var i=0 ; i < tableData.length ; i++){
+                        sumData += tableData[i].PROPR;
+                  }
+               }else{
+                  for(var i=0 ; i < tableData.length ; i++){
+                     if(tableData[i].checked){
+                        sumData += tableData[i].PROPR;
+                     }
+                  }
+               }
+            }else{
+               for(var i=0 ; i < chartData.length ; i++){
+                  if(chartData[i].checked){
+                     sumData += chartData[i].PROPR;
+                  }
                }
             }
          }
@@ -758,7 +818,6 @@ sap.ui.define([
             var index = event.mParameters.data[i].data._context_row_number;
             oModel.setProperty("/reportChartData/"+index+"/checked", true)
          }
-         console.log(oModel.getProperty("/reportChartData"));
          this.PaymentSum();
       },
 
@@ -783,7 +842,6 @@ sap.ui.define([
 		 * 작성자 : 김성진
 		 **********************************************************************************/
       onSelectLineData : function(event){
-
          var selectData = event.mParameters.data
          var oModel = this.getView().getModel("PaymentRt");
          var tableData = oModel.getProperty("/reportTableData");
@@ -797,6 +855,7 @@ sap.ui.define([
             }
          }
 
+         this.PaymentSum();
          oModel.refresh();
 
       },
@@ -818,20 +877,71 @@ sap.ui.define([
             }
          }
 
+         this.PaymentSum();
          oModel.refresh();
       },
-
-		depSelectionChange: function(oEvent) {
-
-        var data =  this.getView().getModel("PaymentRt").getProperty("/depfilterData");
-         
-         console.log(data);
-      },
       
-      projSelectionChange : function(){
-         var data =  this.getView().getModel("PaymentRt").getProperty("/projfilterData");
+      /**********************************************************************************
+		 * 함수 내용 : 멀티콤보 필드 샐랙트 이벤트 함수
+		 * 작성자 : 김성진
+		 **********************************************************************************/
+      onSelectionChange : function(){
+         var oModel = this.getView().getModel("PaymentRt");
+         var projComboData =  oModel.getProperty("/projfilterData");
+         var depComboData =  oModel.getProperty("/depfilterData");
+         var reportData = oModel.getProperty("/reportData");
+         var filterData = [];
+
+         if(!projComboData && !depComboData){
+            filterData = reportData;
+         }else{
+            if(depComboData){
+               if(depComboData.length === 0 && !projComboData){
+                  filterData = reportData;
+               }else{
+                  for(var i=0 ; i < depComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(depComboData[i] === reportData[j].GCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+               }
+            }
+
+            if(projComboData){
+               if(projComboData.length === 0 && !depComboData){
+                  filterData = reportData;
+               }else{
+                  for(var i=0 ; i < projComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(projComboData[i] === reportData[j].PCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+               }
+            }
+         }
          
-         console.log(data);
+         this.byId("reportTable").removeSelectionInterval(0, oModel.getProperty("/reportTableData").length);
+
+         oModel.setProperty("/reportTableData", filterData);
+         this.chartDataSetting(oModel.getProperty("/reportTableData"));
+         this.lineChartDataSetting(oModel.getProperty("/reportTableData"));
+         oModel.setProperty("/reportDetailTableData", []);
+         //총 지급 금액 구하기 함수 콜
+         this.PaymentSum();
+         //this.reportDataRFC();
+
+      },
+
+      /**********************************************************************************
+		 * 함수 내용 : 메뉴바 선택 이벤트
+		 * 작성자 : 김성진
+		 **********************************************************************************/
+      onIconTabBarSelect : function(){
+         this.PaymentSum();
       }
 
 	});

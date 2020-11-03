@@ -66,13 +66,11 @@
 									name="pcode"
 									visibleInFilterBar="true">
 						<filterbar:control>
-							<ComboBox selectedKey="{TEST>/filterbar/pcode}"
-										showSecondaryValues="true"
-										items="{TEST>/oPcode}">
-								<items>
-									<core:ListItem key="{TEST>PCODE}" text="{TEST>PNAME}" additionalText = "{TEST>PCODE}"/>
-								</items>
-							</ComboBox>
+							<MultiInput
+								selectedKey="{TEST>/filterbar/pcode}"
+								value="{TEST>/filterbar/pcode}"
+								valueHelpRequest="handleValueHelp2"
+								/>
 						</filterbar:control>
 					</filterbar:FilterGroupItem>
 					<!-- Category Filter End -->
@@ -87,7 +85,6 @@
 						<filterbar:control>
 							<MultiInput
 								selectedKey="{TEST>/filterbar/empno}"
-								id="multiInput2"
 								value="{TEST>/filterbar/empno}"
 								valueHelpRequest="handleValueHelp"
 								/>
@@ -101,14 +98,12 @@
 									groupName="default"
 									name="codhc"
 									visibleInFilterBar="true">
-						<filterbar:control>
-							<ComboBox selectedKey="{TEST>/filterbar/codhc}"
-									  showSecondaryValues="true"
-									  items="{TEST>/oCodhc}">
-								<items>
-									<core:ListItem key="{TEST>CODHC}" text="{TEST>CODDN}" additionalText = "{TEST>CODHC}"/>
-								</items>
-							</ComboBox>
+							<filterbar:control>
+							<MultiInput
+								selectedKey="{TEST>/filterbar/codhc}"
+								value="{TEST>/filterbar/codhc}"
+								valueHelpRequest="handleValueHelp3"
+								/>
 						</filterbar:control>
 					</filterbar:FilterGroupItem>
 					
@@ -159,7 +154,10 @@
 					<Column width="80px" hAlign="Center">
 						<Text text="계정과목" />
 					</Column>
-					<Column width="90px" hAlign="Center">
+					<Column width="50px" hAlign="Center">
+						<Text text="통제성" />
+					</Column>
+					<Column width="110px" hAlign="Center">
 						<Text text="금액" />
 					</Column>
 					<Column width="100px" hAlign="Center">
@@ -168,7 +166,7 @@
 					<Column width="90px" hAlign="Center">
 						<Text text="회사계좌" />
 					</Column>
-					<Column width="80px" hAlign="Center">
+					<Column width="70px" hAlign="Center">
 						<Text text="상태코드" />
 					</Column>
 					<Column width="70px" hAlign="Center">
@@ -186,6 +184,7 @@
 							<Text text="{TEST>PNAME}" />
 							<Text text="{TEST>JPDAT}" />
 							<Text text="{TEST>CODDN}" />
+							<Text text="{TEST>TJSYN}" />
 							<u:Currency value="{TEST>PROPR}" maxPrecision="0" useSymbol="false"/>
 							<Text text="{TEST>ECACCT}" />
 							<ComboBox showSecondaryValues="true"

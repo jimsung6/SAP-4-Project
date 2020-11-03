@@ -147,12 +147,16 @@ sap.ui.define([
 		//function : 부서별 별 예산 증액
 		onGoDepBudget_YS: function(){
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("DepBudget_YS"); //프로젝트 예산 증액
+			oRouter.navTo("DepBudget_YS", {
+				status : "All"
+			}); //프로젝트 예산 증액
 		},
 		//function : 프로젝트 별 예산 증액
 		onGoProBudget_YS: function(){
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("ProjBudget_YS"); //프로젝트 예산 증액
+			oRouter.navTo("ProjBudget_YS", {
+				status : "All"
+			}); //프로젝트 예산 증액
 		},
 		//function : 부서 별 예산 증액 승인/반려
 		onGoDepBudget_SY: function(){
@@ -187,6 +191,16 @@ sap.ui.define([
 		 onGoExpenseManagement : function(){
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("ExpenseManagement"); //경비 승인/반려
+		 },
+
+		 /*******************************************************
+		 * function : 경비 지급 레포트
+		 * *****************************************************/
+		onGoExpenseReport : function(){
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("PaymentRt", {
+				Pcode : "N"
+			}); //경비 승인/반려
 		 }
 
 

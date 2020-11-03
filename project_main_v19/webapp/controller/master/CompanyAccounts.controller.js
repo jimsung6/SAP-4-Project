@@ -63,10 +63,9 @@ sap.ui.define([
 				]
          
 			});
-		
          
 		},
-		
+
 
         //***************************** 테이블 다시 바인딩하기**************************************
 	  	rebindTable: function(oTemplate, sKeyboardMode) {
@@ -346,7 +345,8 @@ sap.ui.define([
 				this.byId("DeleteAccount").destroy();
 			}
 				
-	    }
+		},
+		
    });
    return TableController;
    
