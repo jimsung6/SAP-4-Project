@@ -1,10 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
+	"sap/m/MessageBox",
 	"sap/m/MessageToast",
+		"sap/ui/core/Fragment",
 	"sap/ui/model/json/JSONModel",
 	 "sap/ui/model/Filter",
 	 "sap/ui/model/FilterOperator"
- ], function (Controller, MessageToast, JSONModel, Filter, FilterOperator) {
+ ], function (Controller, MessageBox, MessageToast, Fragment, JSONModel, Filter, FilterOperator ) {
 	"use strict";
  
 	return Controller.extend("ExpenseManagement.controller.budget.PROBUDLIST", {
@@ -15,33 +17,30 @@ sap.ui.define([
 		var oFilter = this.getView().byId("payFilter"),
 		  that = this;
 			 var oData = {
-				oToday:yesterday,
-			 oToday2:new Date(),
-			 displayFormat: "yyyy-MM-dd",
+			
 				info : [],
+			
+				
+				filterTable : [],
 				   filterbar: {
-						todate: "",
-						fromdate: ""
-					 
+				
+				    fromdate: "",
+					pname : "",
+					pcode : ""
 					 }
 					 
 					 
 				 };
 				var oModel = new JSONModel(oData);
-		  this.getView().setModel(oModel, "TEST");
-	// 상태별 필터      
-	   //달력 초기 세팅
-		  var oDRS = this.byId("DRS");
-		  //모델링
-		  var yesterday = (function(){this.setMonth(this.getMonth()-6); return this}).call(new Date);
-		  oDRS.setDateValue(yesterday);
-		  oDRS.setSecondDateValue(new Date());
-	
+		   	    this.getView().setModel(oModel, "TEST");
+		  
+				this.getView().getModel("TEST").setProperty("/RadioButtonGroup", 0);
+
+ 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        	this._oRouter.attachRouteMatched(this.onAfterRendering, this);
  
- 
- 
- 
- },
+			},
+			
 			onDetail : function(event){
 				
 				var pathData = event.oSource.oBindingContexts.TEST.sPath;
@@ -59,75 +58,133 @@ sap.ui.define([
 			
 	   onAfterRendering : function(){
 	   //랜더링후 필터링 처리작업
-	   this.onFiltering();
+		   this.onFiltering();
+		   this.onFilter();
+	   
 	   },
- 
-	   onFiltering : function(){
-	   var oModel = this.getView().getModel("TEST"); 
-		  var oFilterData = this.getView().getModel("TEST").getData().filterbar;
-				
-				if(oFilterData){
-				   var sFromDate = oFilterData.fromdate;
-				   var sToDate = oFilterData.todate;
- 
- 		//날짜
-  
- 
- 
-	 
-	  
-				   
-				   
- 
- 
- 
- 
-	   //날짜 데이터 원하는 정보 뽑아오기
-			 var odate = this.getView().getModel("TEST").getProperty("/oToday");
-					  var odate2 = this.getView().getModel("TEST").getProperty("/oToday2");
-					  
- 
-		  
-			 if(odate && odate2){
+	   
+		onFilter : function (oEvent) {
+			var oModel = this.getView().getModel("TEST");
+			var searchInfoPname = oModel.getProperty("/searchInfoPname");
 	
-				var sFromDate = new Date(odate);
-				var sToDate = new Date(odate2);
-		  
-				var sFromYear = sFromDate.getFullYear();
-				var sFromMonth = sFromDate.getMonth()+1 >= 10 ? sFromDate.getMonth()+1 : "0"+(sFromDate.getMonth()+1);
-				var sFromDate = sFromDate.getDate() >= 10 ? sFromDate.getDate() : "0"+sFromDate.getDate();
-		  
-				var sToYear = sToDate.getFullYear();
-				var sToMonth = sToDate.getMonth()+1 >= 10 ? sToDate.getMonth()+1 : "0"+(sToDate.getMonth()+1);
-				var sToDate = sToDate.getDate() >= 10 ? sToDate.getDate() : "0"+sToDate.getDate();
-		  
-				var sFromDateInfo = sFromYear.toString()+"-"+sFromMonth.toString()+"-"+sFromDate.toString();
-				var sToDateInfo = sToYear.toString()+"-"+sToMonth.toString()+"-"+sToDate.toString();
-			 }
- 
- 
-	 //테이블 필드 내역 
-		  this.getView().setModel(oModel, "TEST");
+
+			var aFilter = [];
+			//프로젝트명
+			if( searchInfoPname ){
+				aFilter.push(new Filter("PNAME", FilterOperator.Contains, searchInfoPname));
+			}
+		
+			//Filter
+			var oList = this.byId("TEST");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilter);
+		},
+		
+		onFiltering : function(){
+			 var oModel = this.getView().getModel("TEST"); 
+	
+					
+			var RadioButtonGroup = oModel.getProperty("/RadioButtonGroup");
+			
+		//	var RadioButtonGroupData = "";
+			
+			var toDay = new Date();
+			
+			var yyyy = toDay.getFullYear();
+			var mm = toDay.getMonth()+1 >= 10 ? toDay.getMonth()+1 : "0"+(toDay.getMonth()+1);
+			var dd = toDay.getDate() >= 10 ? toDay.getDate() : "0"+toDay.getDate();
+			
+			toDay = yyyy.toString()+mm.toString()+dd.toString();
+			
+		
+	 
 		   this.getOwnerComponent().rfcCall("ZB_BUDGET_PRO", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_SEARCH를 사용
-				I_SDATE : sFromDateInfo,
-				I_EDATE : sToDateInfo
+				// I_SDATE : sFromDateInfo,
+				 I_EDATE : toDay,
+				 I_MODE: RadioButtonGroup
 				//RFC Import 데이터
-			   
 			}).done(function(oResultData){   // RFC호출 완료
 			  console.log(oResultData);
-			   oModel.setProperty("/info", oResultData.T_PROBU);
+			  oModel.setProperty("/info", oResultData.T_PROBU);
 			}).fail(function(sErrorMessage){// 호출 실패
-			   alert(sErrorMessage);
+			  alert(sErrorMessage);
 			}).then(function(){
-				   console.log(oModel.getProperty("/info"));
+							
 			});
  
 	
  
 	
-	}
- 
- }
+	},
+		proOpen2 : function(oEvent){
+			var oView = this.getView();
+			var oModel = oView.getModel("TEST");
+			var sPath = oEvent.getSource().getBindingContext("TEST").getPath();
+			var oSelectData = oModel.getProperty(sPath);
+			oModel.setProperty("/projectData",oSelectData);
+			//create dialog 
+			if(!oView.byId("ProjectForm")) {
+				var oFragmentController = {
+						onCloseDialog : function(){
+							oView.byId("ProjectForm").close();
+							 oModel.setProperty("/projectData",null);
+						}
+				};
+				// load asynchronous XML fragment
+				Fragment.load({
+					id: oView.getId(),
+					name: "ExpenseManagement.view.budget.ProjectForm2",
+					controller : oFragmentController
+				}).then(function(oDialog){
+					oView.addDependent(oDialog);
+					oDialog.open();
+				});
+				//Fragment.load().then()
+			} else{
+				oView.byId("ProjectForm").open();
+			}
+			var PNAME = oSelectData.PNAME;
+				this.getOwnerComponent().rfcCall("ZB_GET_DETAIL_PROJECT",{
+					I_PNAME : PNAME
+				}).done(function(oResultData){
+					// RFC호출 완료
+					console.log(oResultData.ZBPTAB3);
+					oModel.setProperty("/projectData", oResultData.ZBPTAB3);
+				}).fail(function(sErrorMessage){
+					// 호출 실패
+					alert(sErrorMessage);
+				});
+
+		},
+
+	
+  	onLiveChange : function(){
+			var searchData = this.getView().getModel("TEST").getProperty("/filterbar/PName");
+		   
+		   	var aFilter = [];
+		   	
+			if (searchData) {
+				aFilter.push(new Filter("PNAME", FilterOperator.Contains, searchData));
+			}
+
+			// filter binding
+			var oList = this.byId("pbudgetlist");
+			var oBinding = oList.getBinding("items");
+			oBinding.filter(aFilter);
+			
+			var DepartmentBudget = this.getView().getModel("TEST").getProperty("/info");
+			var sumData = 0;
+				
+					for(var i=0 ; i < info.length ; i++){
+				if(info[i].PNAME.
+				indexOf(searchData)!= -1){
+				
+				}
+			}
+			
+		
+			
+		}
  
  
  });

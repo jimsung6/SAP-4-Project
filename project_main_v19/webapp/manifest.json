@@ -1,7 +1,7 @@
 {
 	"_version": "1.12.0",
 	"sap.app": {
-	  "id": "sampleApp",
+	  "id": "ExpenseManagement",
 	  "type": "application",
 	  "i18n": "i18n/i18n.properties",
 	  "title": "{{appTitle}}",
@@ -293,7 +293,7 @@
 		  },
 		  "ExpenseManagement": {
 			"viewId": "ExpenseManagement",
-			"viewName": "expenseManagement/kmg/ExpenseInput"
+			"viewName": "expenseManagement/kmg/ProjectList_MQ"
 		  },
 		  "Approyj": {
 			"viewId": "Approyj",

@@ -19,26 +19,26 @@ sap.ui.define([
 		 * 작성자 : 김성진
 		 ********************************************************************/
 
-		// rfcCall : function(sRfcName, oParameter) {
-		// 	var oDeferred = jQuery.Deferred(),
-		// 	   oRfcParameter = {
-		// 		  FunctionName: sRfcName,
-		// 		  ImportData: JSON.stringify(oParameter)
-		// 	   };
-		// 	$.ajax({
-		// 	   type: 'POST',
-		// 	   url: 'https://rfcprojectkm5k1z9rxq.eu2.hana.ondemand.com/rfcProject/RFCManager',
-		// 	   data: oRfcParameter,
-		// 	   success : function(oResultData){
-		// 		  oDeferred.resolve(oResultData);
+		rfcCall2 : function(sRfcName, oParameter) {
+			var oDeferred = jQuery.Deferred(),
+			   oRfcParameter = {
+				  FunctionName: sRfcName,
+				  ImportData: JSON.stringify(oParameter)
+			   };
+			$.ajax({
+			   type: 'POST',
+			   url: 'https://rfcprojectkm5k1z9rxq.eu2.hana.ondemand.com/rfcProject/RFCManager',
+			   data: oRfcParameter,
+			   success : function(oResultData){
+				  oDeferred.resolve(oResultData);
    
-		// 		},
-		// 		error : function(){
-		// 			oDeferred.resolve('오류발생');
-		// 		}
-		// 	});
-		// 	return oDeferred;
-		// },
+				},
+				error : function(){
+					oDeferred.resolve('오류발생');
+				}
+			});
+			return oDeferred;
+		},
 
 		rfcCall : function (sRfcName, oParameter){
 			var oDeferred = jQuery.Deferred(), oRfcParameter = oParameter || {};

@@ -74,7 +74,7 @@ sap.ui.define([
 				this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
 				var projectModel2 = this.getView().getModel();
 				var projectModel3 = this.getView().getModel();	
-				this.fragmentRfcFunction(projectModel2);
+				this.fragmentRfcFunction(                                                                                                                                                                                                                                                              );
 				this.listRfcFunction(projectModel3, "", "", statusData);
 			 }
 

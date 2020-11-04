@@ -1,0 +1,72 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<Dialog
+		contentWidth="45%"
+		id="ProjectForm"
+		title="프로젝트 상세정보"
+		titleAlignment="Center">
+			<content>
+			<f:Form>
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanS="6"
+						columnsS="1" />
+				<!-- columns는 화면 width에 따라서 FormContainer를 어떻게 배치할 건지 정함 -->		
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="프로젝트명">
+								<f:fields>
+									<Text text="{TEST>/projectData/0/PNAME}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="고객사명">
+								<f:fields>
+									<Text text="{TEST>/projectData/0/ZCLNT}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="계약금">
+								<f:fields>
+							
+									<Text text="{TEST>/projectData/0/PMONEY}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="시작일">
+								<f:fields>
+									<Text text="{TEST>/projectData/0/SDATE}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="종료일">
+								<f:fields>
+									<Text text="{TEST>/projectData/0/EDATE}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+						<f:formElements>
+							<f:FormElement label="출장비 지급유무">
+								<f:fields>
+									<Text text="{TEST>/projectData/0/PTEXP}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+		<beginButton>
+			<Button text="확인"
+					press=".onCloseDialog" />
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>
