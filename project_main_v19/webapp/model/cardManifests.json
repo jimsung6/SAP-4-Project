@@ -1,82 +1,4 @@
 {
-
-	"statusList": {
-		"sap.app": {
-			"id": "mainboard.statusList",
-			"type": "card"
-		},
-		"sap.card": {
-			"type": "List",
-			"header": {
-				"type": "Numeric",
-				"data" : {
-					"json": {
-						"listInfos": {
-							"listData": {
-								"number": 0,
-								"unit": "건",
-								"state": "Critical",
-								"request": {
-									"number": 0
-								},
-								"payment": {
-									"number": 0
-								}
-							}
-							
-						}
-					},
-
-					"path": "/listInfos/listData"
-
-				},
-
-				"title": "전표 현황",
-				"mainIndicator": {
-					"number": "{number}",
-					"unit": "{unit}",
-					"state": "{state}"
-				},
-				"sideIndicators": [
-					{
-						"title": "요청항목",
-						"number": "{request/number}",
-						"unit": "건"
-					},
-					{
-						"title": "미결항목",
-						"number": "{payment/number}",
-						"unit": "건"
-					}
-				]
-			},
-			"content": {
-				"data": {
-					"json": []
-				},
-				"item": {
-					"icon": {
-						"src": "{icon}"
-					},
-					"title":  "{name}",
-					"info": {
-						"value": "{number} 건",
-						"state": "{State}"
-					},
-					"actions": [
-						{
-							"type": "Navigation",
-							"parameters": {
-								"url": "{= ${name} === '부서 예산 증액 요청' ? '/index.html#/DepBudget_YS' : ${name} === '부서 예산 증액 요청 완료' ? '/index.html#/DepBudget_YS' : ${name} === '부서 예산 증액 요청 반려' ? '/index.html#/DepBudget_YS' : ${name} === '프로젝트 예산 증액 요청' ? '/index.html#/ProjBudget_YS' : ${name} === '프로젝트 예산 증액 요청 완료' ? '/index.html#/ProjBudget_YS' : ${name} === '프로젝트 예산 증액 요청 반려' ? '/index.html#/ProjBudget_YS' : ${name} === '부서 예산 증액 요청 미결' ? '/index.html#/DepBudget_SY' : ${name} === '프로젝트 예산 증액 요청 미결' ? '/index.html#/ProjBudget_SY' : ${name} === '임시저장' ? '/index.html#/Approyj' : ${name} === '승인요청' ? '/index.html#/Approyj' : ${name} === '승인요청 반려' ? '/index.html#/Approyj' : ${name} === '승인요청 완료' ? '/index.html#/Approyj' : ${name} === '지급 반려' ? '/index.html#/Approyj' : ${name} === '지급 완료' ? '/index.html#/Approyj' : ${name} === '승인요청 미결' ? '/index.html#/ExpenseManagement' : ${name} === '지급 미결' ? '/index.html#/ExpenseManagement' : '/index.html#/mainBoard'}",
-								"target": "_self"
-							}
-						}
-					]
-				}
-			}
-		}
-	},
-
 	"depExpenses" : {
 		"sap.app": {
 			"id": "card.explorer.bulletChart.list.card",
@@ -113,7 +35,16 @@
 						"scale": "€",
 						"displayValue": "{= format.currency(${expenses}, '사용 경비', {currencyCode:false})} 원",
 						"color": "{ChartColor}"
-					}
+					},
+					"actions": [
+						{
+							"type": "Navigation",
+							"parameters": {
+								"url": "/index.html#/PaymentRt/G,{Gcode}",
+								"target": "_self"
+							}
+						}
+					]
 				}
 			}
 		}
@@ -160,7 +91,7 @@
 						{
 							"type": "Navigation",
 							"parameters": {
-								"url": "/index.html#/PaymentRt/{Pcode}",
+								"url": "/index.html#/PaymentRt/P,{Pcode}",
 								"target": "_self"
 							}
 						}

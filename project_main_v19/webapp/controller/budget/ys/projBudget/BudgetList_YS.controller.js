@@ -44,16 +44,42 @@ sap.ui.define([
 			}));
 
 			//콤보박스 초기 세팅
-			this.getView().getModel().setProperty("/comboData", "All"); // comboData에 All로 초기값 set
+		//	this.getView().getModel().setProperty("/comboData", "All"); // comboData에 All로 초기값 set
 			//캘린더 초기 세팅
 			var nMS = 1000 * 60 * 60 * 24; //milliseconds in a day
 			var today = new Date(); //오늘 날짜 불러오기
 			var oDay = new Date(today.getTime() - nMS*365); //오늘 날짜 - 365일 -> 최근 1년 이내의 데이터를 불러오기
 			this.getView().getModel().setProperty("/startDate", oDay); // startDate에 oDay를 초기값 set해준다.
 			this.getView().getModel().setProperty("/endDate", today);  // endDate에 today를 초기값 set해준다.
-			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-        	this._oRouter.attachRouteMatched(this.onAfterRendering, this);
+			
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.getRoute("ProjBudget_YS").attachPatternMatched(this.getRouteParamse, this);
+
 		},
+
+		/******************************************************************************************************************************************************
+		 * 함수 이름 : 라우트 파라미터 얻기 함수
+		 * 작성자 : 노용석
+		 ******************************************************************************************************************************************************/
+		getRouteParamse : function(oEvent){
+			if(oEvent.mParameters){
+				var statusData = oEvent.mParameters.arguments.status;
+
+				console.log(statusData);
+				//콤보박스 초기 세팅
+				this.getView().getModel().setProperty("/comboData", statusData); // comboData에 All로 초기값 set
+				console.log(this.getView().getModel().getProperty("/comboData"));
+
+
+				this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
+				var projectModel2 = this.getView().getModel();
+				var projectModel3 = this.getView().getModel();	
+				this.fragmentRfcFunction(projectModel2);
+				this.listRfcFunction(projectModel3, "", "", statusData);
+			 }
+
+		},
+
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 첫 뷰가 그려진 후 작동까지 하는 메소드
 		 * 작성자 : 노용석
@@ -81,13 +107,17 @@ sap.ui.define([
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
             })  
-		},		
+		},	
+
 		/******************************************************************************************************************************************************
 	 	* 함수 이름 : 예산증액 요청 리스트 rfc
 	 	* 작성자 : 노용석
 	 	******************************************************************************************************************************************************/
 		listRfcFunction : function(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData){
 			var ZVEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
+			if(comboData === "All" || !comboData){
+				comboData = "";
+			}
 			this.getOwnerComponent().rfcCall("ZB_GET_REQUEST_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_STATUS : comboData,
@@ -142,11 +172,13 @@ sap.ui.define([
 				alert(sErrorMessage);
             })
 		},
+		
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 필터바 메소드
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
 		onFilterSearch : function(sChannelId, sEventId, sData) {
+			
 			//캘린더 데이터 불러오기
 			var startDate = this.getView().getModel().getProperty("/startDate"); //startDate
 			var endDate = this.getView().getModel().getProperty("/endDate");
@@ -244,6 +276,8 @@ sap.ui.define([
 		 ******************************************************************************************************************************************************/
 		onCloseDialog : function(sData) {
 			this.byId("openDialog1").close();
+			this.byId("openDialog1").destroy();
+			delete this.byId("openDialog1");
 			// window.location.reload();
 			var projectModel3 = this.getView().getModel();
 			this.listRfcFunction(projectModel3);
@@ -255,6 +289,7 @@ sap.ui.define([
 		onSaveDialog : function (oEvent) {
 						// collect input controls
 			var oModel = this.getView().getModel();
+			var that = this;
 			var gPath = oModel.oData.projBudgetRequest;
 			// 데이터 불러오기
 			var REQUEST = gPath.REQUEST;
@@ -291,10 +326,11 @@ sap.ui.define([
 							press: function () {
 								var projectModel4 = this.getView().getModel();
 								this.fragmentRfcFunction(projectModel4, REQUEST, REBUD, DEPEM, PCODE, PICODE);
+								this.onCloseDialog();
 								MessageToast.show("접수 완료");
-								this.oApproveDialog.close();
-								this.oApproveDialog.destroy();
-								delete this.oApproveDialog;
+								// this.oApproveDialog.close();
+								// this.oApproveDialog.destroy();
+								//delete this.oApproveDialog;
 							}.bind(this)						
 						}),
 						endButton: new Button({

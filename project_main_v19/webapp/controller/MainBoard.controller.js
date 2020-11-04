@@ -232,7 +232,12 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			var that = this;
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
-			var oCard = this.getView().byId("statusListCard");
+			//현재 년월 구하기
+			var toDay = new Date();
+			var yyyy = toDay.getFullYear();
+			var mm = toDay.getMonth()+1 >= 10 ? toDay.getMonth()+1 : "0"+(toDay.getMonth()+1);
+			var CUMON = yyyy.toString()+mm.toString();
+			oModel.setProperty("/toMonth", toDay.getMonth()+1);
 
 			// 전표 건수를 저장할 숫자타입 변수
 			var iReqList = 0;	//요청전표 건수
@@ -268,7 +273,8 @@ sap.ui.define([
 			// 전표 현황 카드의 content 안에 들어갈 데이터 호출 RFC
 			this.getOwnerComponent().rfcCall("ZB_GET_SLIP_AB", {	//ZB_GET_SLIP_AB rfc사용
 				//RFC Import 데이터
-				I_EMPNO : EMPNOData
+				I_EMPNO : EMPNOData,
+				I_CUMON : CUMON
 			}).done(function(oResultData){	// RFC호출 완료
 				console.log(oResultData);
 				E_SAVENUM = parseInt(oResultData.E_SAVENUM);
@@ -467,8 +473,8 @@ sap.ui.define([
 						that.getView().byId("comboHeight").setHeight("30px");
 					}else if(reqConut > 5){
 						that.getView().byId("comboHeight").setHeight("40px");
-					}else if(reqConut > 3){
-						that.getView().byId("comboHeight").setHeight("100px");
+					}else{
+						that.getView().byId("comboHeight").setHeight("50px");
 					}
 
 				}else{
@@ -476,8 +482,8 @@ sap.ui.define([
 						that.getView().byId("comboHeight").setHeight("30px");
 					}else if(resCount > 5){
 						that.getView().byId("comboHeight").setHeight("40px");
-					}else if(resCount > 3){
-						that.getView().byId("comboHeight").setHeight("100px");
+					}else{
+						that.getView().byId("comboHeight").setHeight("50px");
 					}
 				}
 
@@ -550,7 +556,7 @@ sap.ui.define([
 					// GCODE 의 데이터가 존재하면 부서의 데이터 기준으로 DatamDepExpData 배열에 Data Push
 					if(resultData[i].PCODE === "Z00"){
 						DatamDepExpData.push({
-							Pcode : resultData[i].PCODE,
+							Gcode : resultData[i].GCODE,
 							Name : resultData[i].GNAME,
 							Highlight : "Success",
 							budget : resultData[i].DEPPR,
@@ -1076,14 +1082,6 @@ sap.ui.define([
 
 			}, this);
 
-		},
-
-
-		onTest : function(){
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("PaymentRt", {
-				Pcode : "Z00"
-			});
 		},
 
 		/**********************************************************************************

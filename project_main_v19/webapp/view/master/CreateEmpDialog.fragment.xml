@@ -1,0 +1,123 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:f="sap.ui.layout.form"
+   xmlns:core="sap.ui.core" 
+   xmlns:mvc="sap.ui.core.mvc">
+   <Dialog
+      id="CreateEmployee"
+      title="사원 정보 생성"
+      contentHeight= "1000px"
+      contentWidth= "670px">
+		<content>
+			<f:Form>
+				<f:layout>
+					<f:ResponsiveGridLayout 
+						labelSpanXL="2"
+						labelSpanL="4" 
+						labelSpanM="4" 
+						labelSpanS="12" 
+						columnsXL="2"
+						columnsL="2" 
+						columnsM="2" />
+				</f:layout>                      
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="사원번호"
+											id = "nemployee">
+								<f:fields>
+									<Input
+										id="nempno"
+										placeholder="숫자 11자리 조합으로 입력해주세요."
+										required="true"
+										liveChange= ".onEmployeeChange" />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="사원 이름">
+								<f:fields>
+									<Input
+										id="nename"
+										required="true"
+										class="sapUiSmallMarginBottom"
+									 />
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="비밀번호">
+								<f:fields>
+									<Input
+										id="npnum"
+										class="sapUiSmallMarginBottom"
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="직급">
+								<f:fields>
+									<Input
+										id="njob"
+										class="sapUiSmallMarginBottom"
+									/>
+								</f:fields>
+							</f:FormElement>
+                            <f:FormElement label="부서코드">
+								<f:fields>
+									<Input
+										id="ngcode"
+										class="sapUiSmallMarginBottom"
+										placeholder="숫자 3자리의 조합으로 입력하세요."
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="은행명">
+								<f:fields>
+									<Input
+										id="nbankl"
+										required="true"
+										class="sapUiSmallMarginBottom"
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="계좌번호">
+								<f:fields>
+									<Input
+										id="necacct"
+										required="true"
+										class="sapUiSmallMarginBottom"
+										placeholder="'-'를 제외하고 입력하세요."
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="전화번호">
+								<f:fields>
+									<Input
+										id="npnum"
+										class="sapUiSmallMarginBottom"
+										placeholder="'-'를 제외하고 입력하세요."
+										type="Number"
+									/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="이메일">
+								<f:fields>
+									<Input
+										id="nemail"
+										class="sapUiSmallMarginBottom"
+										
+									/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+   	<beginButton>
+   		<Button text="생성" press=".onCreateEmployee" />
+   	</beginButton>
+   	<endButton>
+   		<Button text="닫기" press=".onCloseDialog" />
+   	</endButton>
+   </Dialog>
+</core:FragmentDefinition>
