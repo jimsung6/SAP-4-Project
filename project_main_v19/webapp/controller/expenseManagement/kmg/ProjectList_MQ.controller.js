@@ -15,10 +15,14 @@ sap.ui.define([
 ], function(Controller, JSONModel, MessageToast, MessageBox, Dialog, DialogType, Fragment, Button, ButtonType, Text, TextArea, Filter,
 	FilterOperator) {
 	"use strict";
-//test
+
 	return Controller.extend("ExpenseManagement.controller.expenseManagement.kmg.ProjectList_MQ", {
-//test2
-		// 테이블 안에 들어가는 정보
+
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 초기 기능 세팅
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+	
 		onInit: function() {
 			
 			
@@ -32,13 +36,11 @@ sap.ui.define([
 						PNAME : "ALL"
 					}],
 					headerTableData : ""
-					
-				
 			}),"Project_MQ");
 			
 			var oData = {
 					info: [], //headerdata
-					tableData: [], // detaildata
+					headerTableData: [], // detaildata
 					tableV: false,
 					OTable: false,
 					table1: false,
@@ -46,80 +48,75 @@ sap.ui.define([
 			};
 			
 			this.getView().setModel(new JSONModel(oData));
-					
 			this.getView().getModel("Project_MQ").setProperty("/comboData", "ALL");
 			this.getView().getModel("Project_MQ").setProperty("/dateData", new Date());
 			this.getView().getModel("Project_MQ").setProperty("/stcodComboData", "B");
-			this.getView().getModel("Project_MQ").setProperty("/tableData", "a");	
+			this.getView().getModel("Project_MQ").setProperty("/headerTableData", "a");	
 			this.getView().getModel("Project_MQ").setProperty("/sButton2", false);	
-			
-			
-
 			this._oGlobalFilter = null;
 			this._oPriceFilter = null;
-			
-
 		},
 		
-			onAfterRendering : function(){
-			//랜더링후 필터링 처리작업
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 랜더링후 필터링 처리작업
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/		
+
+		onAfterRendering : function(){
 			this.onFiltering();
-			// this.onPCodeCall();     // where is it?
 		},
 		
 		// onSave : function(){
-		// // console.log("aaa");
-		// // 	var oModel = this.getView().getModel("Project_MQ");
-		// // 	var sData = oModel.getProperty("/tableData");
+		// 	console.log("aaa");
+		// 	var oModel = this.getView().getModel("Project_MQ");
+		// 	var sData = oModel.getProperty("/tableData");
 		// 	var oView = this.byId("ProjectList_MQ"); // this gives you the view
 		// 	oView.getController().onSave();
 		// },
-	
+		
+		// onReject : function(){
+		// 	console.log("aaa");
+		// 	var oModel = this.getView().getModel("Project_MQ");
+		// 	var sData = oModel.getProperty("/tableData");
+		// 	var oView = this.byId("ProjectList_MQ"); // this gives you the view
+		// 	oView.getController().onReject();
+		// },
+		
+		//요청자 검색
 		onliveChange : function(){
 			var fliterData = this.getView().getModel("Project_MQ").getProperty("/SearchFieldData");
 			var oView = this.byId("ProjectList_MQ");
 			oView.getController().onFilterChange(fliterData);
 		},
 		
-		// onReject : function(){
-		// // console.log("aaa");
-		// // 	var oModel = this.getView().getModel("Project_MQ");
-		// // 	var sData = oModel.getProperty("/tableData");
-		// 	var oView = this.byId("ProjectList_MQ"); // this gives you the view
-		// 	oView.getController().onReject();
-		// },
-		
-		
-		//첫 승인화면
-		onFiltering: function(event) {
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 조회 버튼 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+	
+		onFiltering: function(event){
 			
 			var oModel = this.getView().getModel("Project_MQ");
 			var dateData = oModel.getProperty("/dateData");
 			var comboData = oModel.getProperty("/comboData");
 			var stcodComboData = oModel.getProperty("/stcodComboData");
-			
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
 			
 			this.getView().getModel().setProperty("/tableV", false);
-			oModel.setProperty("/tableData", []);
-
+			oModel.setProperty("/headerTableData", []);
 			this.byId("AppId").clearSelection();
 			
-			//버튼 숨기기
+			// 디테일 승인 및 반려 버튼 숨기기
 			var sButton = this.getView().getModel("Project_MQ").getProperty("/stcodComboData");
-			
-			if(sButton !== "B"){
-				
-				this.getView().getModel("Project_MQ").setProperty("/sButton", false);
-				this.getView().getModel("Project_MQ").setProperty("/sButton2", false);
-			}else{
-				this.getView().getModel("Project_MQ").setProperty("/sButton", true);
-			}
+				if(sButton !== "B"){
+					
+					this.getView().getModel("Project_MQ").setProperty("/sButton", false);
+					this.getView().getModel("Project_MQ").setProperty("/sButton2", false);
+				}else{
+					this.getView().getModel("Project_MQ").setProperty("/sButton", true);
+				}
 
-
-
-
-			//날짜
+			// 날짜 불러오는 기능
 			var realDateData = new Date(dateData);
 			var yyyy = realDateData.getFullYear();
 			var mm = realDateData.getMonth() + 1 >= 10 ? realDateData.getMonth() + 1 : "0" + (realDateData.getMonth() + 1);
@@ -127,19 +124,19 @@ sap.ui.define([
 			var realComboData = comboData;
 			var sPCODE = this.getView().getModel("Project_MQ").getProperty("/info");
 		
+			// 프로젝트 코드 all 리스트
+				if (realComboData === "ALL") {
+					realComboData = "";
+				}
 
-			if (realComboData === "ALL") {
-				realComboData = "";
-			}
+			this.getView().byId("mainTableId").setVisible(false);
+			this.getView().byId("ryuTableId").setVisible(false);
+			this.getView().byId("kyoTableId").setVisible(false);
 
-			console.log(sFromDateInfo);
-			console.log(stcodComboData);
-			console.log(realComboData);
-
-				this.getView().byId("mainTableId").setVisible(false);
-				this.getView().byId("ryuTableId").setVisible(false);
-				this.getView().byId("kyoTableId").setVisible(false);
-
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 화면 첫 조회 테이블 RFC
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
 
 			this.getOwnerComponent().rfcCall("ZB_HEADER_SEARCH", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_SEARCH를 사용
 				I_CUMON: sFromDateInfo,
@@ -173,9 +170,7 @@ sap.ui.define([
 					
 				}
 				oModel.refresh();
-				
-				
-				
+			
 			}).fail(function(sErrorMessage) { // 호출 실패
 				alert(sErrorMessage);
 			});
@@ -185,7 +180,11 @@ sap.ui.define([
 		},
 		
 
-		//셀 클릭시 상세 테이블 뷰 버튼
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 화면 첫 조회 테이블 셀 클릭시 발생하는 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+	
 		onCellClick: function(oEvent) {
 			var rowData = oEvent.mParameters.rowIndex;
 			var oModel = this.getView().getModel();
@@ -196,13 +195,12 @@ sap.ui.define([
 			var oCombo = sModel.getProperty("/stcodComboData");
 			var dateData = new Date(sModel.getProperty("/dateData"));
 		
-
+			// 날짜 불러오는 기능
 			var yyyy = dateData.getFullYear();
 			var mm = dateData.getMonth() + 1 >= 10 ? dateData.getMonth() + 1 : "0" + (dateData.getMonth() + 1);
 			var sFromDateInfo = yyyy.toString() + mm.toString();
-			
-			
-			
+		
+			// 승인상태별 테이블 필드 바꾸는 기능
 			if(oCombo === "B"){
 					this.getView().getModel("Project_MQ").setProperty("/sButton2", true);
 					this.getView().getModel("Project_MQ").setProperty("/RETTEXTVisible", false);
@@ -236,11 +234,14 @@ sap.ui.define([
 			}else{	
 					MessageToast.show("상태코드를 확인해주세요");
 			}
-			
-		
 
 			this.getView().getModel().setProperty("/tableV", true);
-
+			
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 테이블 셀 클릭시 두번째 테이블 불러오는 RFC
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/				
+	
 			this.getOwnerComponent().rfcCall("ZB_HEADER_DETAIL", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_SEARCH를 사용
 				I_CUMON: sFromDateInfo, //해당 월
 				I_EMPNO: EMPNO, //사원 번호
@@ -275,9 +276,7 @@ sap.ui.define([
 					oModel.setProperty("/headerTableData/" + i + "/ACDAT", " ");
 				}
 			}
-				
-				
-				
+
 			}).fail(function(sErrorMessage) { // 호출 실패
 				alert(sErrorMessage);
 			});
@@ -290,22 +289,27 @@ sap.ui.define([
 			
 		},
 
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : row 선택 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+
 		rowSelection: function(event) {
-			//MessageToast.show(event);
+			
 			var oModel = this.getView().getModel();
-			var tableData = oModel.getProperty("/tableData");
+			var headerTableData = oModel.getProperty("/headerTableData");
 			if (event.mParameters.rowContext) {
 				var path = event.mParameters.rowContext.sPath;
 			}
 
 			if (event.mParameters.selectAll) {
-				for (var i = 0; i < tableData.length; i++) {
-					tableData[i].checked = true;
+				for (var i = 0; i < headerTableData.length; i++) {
+					headerTableData[i].checked = true;
 				}
 			} else {
 				if (event.mParameters.rowIndex === -1) {
-					for (var i = 0; i < tableData.length; i++) {
-						tableData[i].checked = false;
+					for (var i = 0; i < headerTableData.length; i++) {
+						headerTableData[i].checked = false;
 					}
 				} else {
 					if (oModel.getProperty(path + "/checked")) {
@@ -316,39 +320,46 @@ sap.ui.define([
 				}
 			}
 
-			//console.log(tableData);
-
 		},
 		
-		//사원 코드 -> 사원 이름으로 보이는 코드
-	onFilterChange : function(fliterData){
-		
-		var realFliterData = fliterData;
-		
-		var aFilter = [];
-		if (realFliterData) {
-			aFilter.push(new Filter("ENAME", FilterOperator.Contains, realFliterData));
-		}
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 요청자 검색 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+	
+		onFilterChange : function(fliterData){
+			
+			var realFliterData = fliterData;
+			
+			var aFilter = [];
+			if (realFliterData) {
+				aFilter.push(new Filter("ENAME", FilterOperator.Contains, realFliterData));
+			}
+	
+			// filter binding
+			var oList = this.byId("tableExample");
+			var oBinding = oList.getBinding("rows");
+			oBinding.filter(aFilter);
+				
+				
+		},
 
-		// filter binding
-		var oList = this.byId("tableExample");
-		var oBinding = oList.getBinding("rows");
-		oBinding.filter(aFilter);
-			
-			
-	},
-		// 승인(헤더)
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 승인 버튼 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+
 		onSave: function() {
 			var that = this;
 			var payModel = this.getView().getModel();
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
-			var selectTable = payModel.getProperty("/tableData");
+			var selectTable = payModel.getProperty("/headerTableData");
 
-			var tableData = [];
+			var headerTableData = [];
 
 			for (var i = 0; i < selectTable.length; i++) {
 				if (selectTable[i].checked) {
-					tableData.push({
+					headerTableData.push({
 						JPNUM: selectTable[i].JPNUM,
 						EMPNO: selectTable[i].EMPNO,
 						PCODE: selectTable[i].PCODE,
@@ -356,65 +367,124 @@ sap.ui.define([
 					});
 				}
 			}
-			console.log(tableData);
-			////   RFC호출
-			this.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
-				//RFC Import 데이터
-				T_TAB1: tableData,
-				I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
-				I_MODE: "A"
-
-			}).done(function(oResultData) { // RFC호출 완료
+			console.log(headerTableData);
 			
-				var dateData = payModel.getProperty("/dateData", dateData);
-				var comboData = payModel.getProperty("/comboData", comboData);
-				var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
-				that.onFiltering();
-				
-			}).fail(function(sErrorMessage) { // 호출 실패
-				MessageToast.show(sErrorMessage);
-			});
+		
+
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 승인 RFC 호출
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+					
+					if( 0<this.getView().byId("AppId").getSelectedIndices().length ) {
+						MessageBox.confirm("승인 하시겠습니까?", {
+                        actions: ["승인", MessageBox.Action.CLOSE],
+                        emphasizedAction: "승인",
+                        onClose: function (sAction) {
+               
+                           if(sAction === "승인"){
+                           
+								that.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
+									//RFC Import 데이터
+									T_TAB1: headerTableData,
+									I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
+									I_MODE: "A"
+								
+								}).done(function(oResultData) { // RFC호출 완료
+								
+									var dateData = payModel.getProperty("/dateData", dateData);
+									var comboData = payModel.getProperty("/comboData", comboData);
+									var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
+									that.onFiltering();
+									
+								}).fail(function(sErrorMessage) { // 호출 실패
+									MessageToast.show(sErrorMessage);
+								});
+                           
+                              MessageToast.show("승인되었습니다");
+                           }else{
+                              MessageToast.show("취소되었습니다");
+                           }
+                        }
+                     });
+					}else {
+							 MessageToast.show("데이터를 선택해주시기 바랍니다!");
+					}
 		},
 
-		// 반려(헤더)
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 반려 버튼 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/
+
 		onReject: function() {
 			var that = this;
 			var payModel = this.getView().getModel();
-			var selectTable = payModel.getProperty("/tableData");
+			var selectTable = payModel.getProperty("/headerTableData");
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
-			var tableData = [];
+			var headerTableData = [];
 
 			for (var i = 0; i < selectTable.length; i++) {
 				if (selectTable[i].checked) {
-					tableData.push({
+					headerTableData.push({
 						JPNUM: selectTable[i].JPNUM,
 						EMPNO: selectTable[i].EMPNO,
 						PCODE: selectTable[i].PCODE,
-						CUMON: selectTable[i].CUMON
+						CUMON: selectTable[i].CUMON,
+						RETTEXT: selectTable[i].RETTEXT
 					});
 				}
 			}
-			console.log(tableData);
-			////   RFC호출
-			this.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
-				//RFC Import 데이터
-				T_TAB1: tableData,
-				I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
-				I_MODE: "B"
+			console.log(headerTableData);
 
-			}).done(function(oResultData) { // RFC호출 완료
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 반려 RFC 호출
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
 
-			}).fail(function(sErrorMessage) { // 호출 실패
-				MessageToast.show(sErrorMessage);
-			}).then(function() {
-
-				var dateData = payModel.getProperty("/dateData", dateData);
-				var comboData = payModel.getProperty("/comboData", comboData);
-
-				var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
-				that.onFiltering();
-			});
+				if( 0<this.getView().byId("AppId").getSelectedIndices().length ) {
+					MessageBox.confirm("반려 하시겠습니까?", {
+                    actions: ["반려", MessageBox.Action.CLOSE],
+                    emphasizedAction: "반려",
+                    onClose: function (sAction) {
+               
+                        if(sAction === "반려"){
+                           
+							that.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
+							//RFC Import 데이터
+							T_TAB1: headerTableData,
+							I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
+							I_MODE: "B"
+				
+			
+							}).done(function(oResultData) { // RFC호출 완료
+				
+							}).fail(function(sErrorMessage) { // 호출 실패
+								MessageToast.show(sErrorMessage);
+							}).then(function() {
+				
+								var dateData = payModel.getProperty("/dateData", dateData);
+								var comboData = payModel.getProperty("/comboData", comboData);
+				
+								var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
+								that.onFiltering();
+							});
+			                           
+                        MessageToast.show("반려되었습니다");
+                        }else{
+                        MessageToast.show("취소되었습니다");
+                        }
+                        }
+                    });
+				}else {
+						 MessageToast.show("데이터를 선택해주시기 바랍니다!");
+					}
 		},
+
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 두번째 계정과목 클릭시 나오는 아이템 뷰
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
 
 		selDetail: function(oEvent) {
 
@@ -457,10 +527,14 @@ sap.ui.define([
 			}
 		},
 
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 식대 테이블 RFC
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+
 		sikTableCall: function(JPNUMData) {
-			//식대 테이블 RFC
+
 			var oModel = this.getView().getModel();
-			// var JPNUM = oModel.getProperty("/JPNUMData");
 
 			this.getOwnerComponent().rfcCall("ZB_INPUT_DISPLAY", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 				//RFC Import 데이터
@@ -482,9 +556,13 @@ sap.ui.define([
 				// 여기다가 rfc 호출후 작업코딩
 			});
 		},
+		
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 유류대 테이블 RFC
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/			
 
 		ryuTableCall: function(JPNUMData) {
-			//유류대 테이블 RFC
 
 			var oModel = this.getView().getModel();
 
@@ -505,8 +583,12 @@ sap.ui.define([
 			});
 		},
 
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 교육훈련비 테이블 RFC
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+
 		kyoTableCall: function(JPNUMData) {
-			//교육훈련비 테이블 RFC호출 테스트 시작
 
 			var oModel = this.getView().getModel();
 
