@@ -133,7 +133,7 @@ sap.ui.define([
       onAfterRendering : function(){
          var oModel = this.getView().getModel("PaymentRt");
 
-         var oDate = new Date("2020-09");
+         var oDate = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
          oModel.setProperty("/startDate", oDate);
          oModel.setProperty("/endDate", oDate);
 

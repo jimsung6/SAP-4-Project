@@ -264,9 +264,6 @@ sap.ui.define([
 			var E_PBUDLSEND = 0;   //프로젝트 예산 증액 요청 미결 건수
 			var E_PBUDCOM = 0;   //프로젝트 예산 증액 요청 완료 건수
 
-			var aaa = oCardModel.getProperty("/statusList/sap.card/configuration/filters/name/value");
-			console.log(aaa);
-
 			// 전표 현황 데이터 배열
 			var statusListData = [];
 
@@ -523,25 +520,11 @@ sap.ui.define([
 
 			//var yesterday = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
 
-			var toDay = new Date();
+			var toDay = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
 
-			var yeardata = 0;
-			var monthdata = 0;
-
-			console.log(toDay.getDate());
-
-			if(toDay.getDate() <= 15){
-				if(monthdata == 1){
-					yeardata = toDay.getFullYear()-1;
-					monthdata = 12;
-				}else{
-					yeardata = toDay.getFullYear();
-					monthdata = toDay.getMonth() >= 10 ? toDay.getMonth() : "0"+toDay.getMonth();
-				}
-			}else{
-				yeardata = toDay.getFullYear();
-				monthdata = toDay.getMonth()+1 >= 10 ? toDay.getMonth()+1 : "0"+toDay.getMonth()+1;
-			}
+			var yeardata = toDay.getFullYear();
+			var monthdata = toDay.getMonth()+1 >= 10 ? toDay.getMonth()+1 : "0"+(toDay.getMonth()+1);
+			
 
 			this.getOwnerComponent().rfcCall("ZB_GET_MANBUDGET_AB", {  //ZB_GET_MANBUDGET_AB rfc사용
 				//RFC Import 데이터
@@ -581,9 +564,15 @@ sap.ui.define([
 
 				// 관리 부서 사용경비 data set
 				oCardModel.setProperty("/depExpenses/sap.card/content/data/json", DatamDepExpData);
-
+				console.log(DatamProjExpData);
 				// 관리 프로젝트 사용경비 data set
 				oCardModel.setProperty("/porjExpenses/sap.card/content/data/json", DatamProjExpData);
+				// 관리 프로젝트 사용경비 제목
+				oCardModel.setProperty("/depExpenses/sap.card/header/title", monthdata+"월 부서 사용 경비");
+				oCardModel.setProperty("/porjExpenses/sap.card/header/title", monthdata+"월 프로젝트 사용 경비");
+
+				oCardModel.setProperty("/depExpenses/sap.card/content/maxItems", DatamDepExpData.length >= 5 ? DatamDepExpData.length : 5);
+				oCardModel.setProperty("/porjExpenses/sap.card/content/maxItems", DatamProjExpData.length >= 5 ? DatamProjExpData.length : 5);	
 
 				// 관리부서 및 프로젝트 사용경비 컴포넌트 새로고침
 				var oModelData = oCardModel.getProperty("/depExpenses");
@@ -606,10 +595,20 @@ sap.ui.define([
 		callDataDepExpTrans : function(oCardModel){
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
 			var AUCODE = this.getOwnerComponent().getCookiy("AUCODE");
-			var STARTDATEData = 202005 //시작날짜 데이터
-			var ENDDATEData = 202010 //끝날짜 데이터
+			
+			var STARTDay = (function(){this.setMonth(this.getMonth()-6); return this}).call(new Date);
+			var ENDDay = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
 
-			var intervalDate = ENDDATEData-STARTDATEData;
+			var startyyyy = STARTDay.getFullYear();
+			var startmm = STARTDay.getMonth()+1 >= 10 ? STARTDay.getMonth()+1 : "0"+(STARTDay.getMonth()+1)
+
+			var ENDyyyy = ENDDay.getFullYear();
+			var ENDmm = ENDDay.getMonth()+1 >= 10 ? ENDDay.getMonth()+1 : "0"+(ENDDay.getMonth()+1)
+
+			var STARTDATEData = startyyyy.toString() + startmm.toString();
+			var ENDDATEData = ENDyyyy.toString() + ENDmm.toString();
+			// 차트 월 기간
+			var intervalDate = 5
 
 			var oCard = this.getView().byId("depExpTransCard");
 
@@ -619,10 +618,8 @@ sap.ui.define([
 			var measuresDepData = [];
 			var measuresProjData = [];
 
-			console.log(EMPNOData);
 			console.log(STARTDATEData);
 			console.log(ENDDATEData);
-			console.log(AUCODE);
 
 			this.getOwnerComponent().rfcCall("ZB_GET_EXPENSETRANS_AB", {	// ZB_GET_EXPENSETRANS_AB RFC 호출 
 				//RFC Import 데이터
@@ -1092,8 +1089,7 @@ sap.ui.define([
 			var oCardModel = this.getView().getModel("cardManifests");
 			this.callDataStatusList(oCardModel);
 		},
-
-		
+	
 		/**********************************************************************************
 		 * 함수 내용 : 전표현황 카트 리스트 클릭 이벤트
 		 * 작성자 : 김성진

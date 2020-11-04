@@ -7,12 +7,9 @@
 		"sap.card": {
 			"type": "List",
 			"header": {
-				"title": "관리부서 사용경비",
+				"title": "",
 				"icon": {
 					"src": "sap-icon://paper-plane"
-				},
-				"status": {
-					"text": "지급처리"
 				}
 			},
 			"content": {
@@ -58,12 +55,9 @@
 		"sap.card": {
 			"type": "List",
 			"header": {
-				"title": "관리프로젝트 사용경비",
+				"title": "",
 				"icon": {
 					"src": "sap-icon://paper-plane"
-				},
-				"status": {
-					"text": "지급처리"
 				}
 			},
 			"content": {
@@ -116,12 +110,9 @@
 		"sap.card": {
 			"type": "Analytical",
 			"header": {
-				"title": "관리 부서 경비사용 추이",
+				"title": "부서 사용경비 추이",
 				"icon": {
 					"src": "sap-icon://line-chart"
-				},
-				"status": {
-					"text": "지급처리"
 				}
 			},
 			"content": {
@@ -189,12 +180,9 @@
 		"sap.card": {
 			"type": "Analytical",
 			"header": {
-				"title": "관리 프로젝트 경비사용 추이",
+				"title": "프로젝트 사용경비 추이",
 				"icon": {
 					"src": "sap-icon://line-chart"
-				},
-				"status": {
-					"text": "지급처리"
 				}
 			},
 			"content": {
