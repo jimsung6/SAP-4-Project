@@ -113,6 +113,8 @@ sap.ui.define([
 
 			var DetailData = [colData, GCODE, startYear, startMonth, endYear, endMonth]
 			var aDetailData = DetailData.join();
+
+			//routing with a parameter
 			if(GCODE) {
 				var oRouter = UIComponent.getRouterFor(this);
 				oRouter.navTo("DepDetail", {

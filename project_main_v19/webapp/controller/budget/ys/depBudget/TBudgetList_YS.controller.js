@@ -106,6 +106,9 @@ sap.ui.define([
 	 	******************************************************************************************************************************************************/
 		listRfcFunction : function(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData){
 			var ZVEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
+			if(comboData === "All" || !comboData){
+				comboData = "";
+			}
 			this.getOwnerComponent().rfcCall("ZB_GET_TREQUEST_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_STATUS : comboData,
@@ -261,9 +264,9 @@ sap.ui.define([
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
 		onCloseDialog : function (sData) {
-			this.byId("openDialog1").close();
 			var projectModel3 = this.getView().getModel();
 			this.listRfcFunction(projectModel3);
+			this.byId("openDialog1").close();
 		},
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 예산 증액 요청 FRAGMENT 요청 메소드
