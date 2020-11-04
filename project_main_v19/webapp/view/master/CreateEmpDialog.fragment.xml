@@ -45,7 +45,8 @@
 							<f:FormElement label="비밀번호">
 								<f:fields>
 									<Input
-										id="npnum"
+										id="npword"
+                                        required="true"
 										class="sapUiSmallMarginBottom"
 										type="Number"
 									/>
@@ -72,9 +73,7 @@
 								<f:fields>
 									<Input
 										id="nbankl"
-										required="true"
 										class="sapUiSmallMarginBottom"
-										type="Number"
 									/>
 								</f:fields>
 							</f:FormElement>
@@ -82,20 +81,26 @@
 								<f:fields>
 									<Input
 										id="necacct"
-										required="true"
 										class="sapUiSmallMarginBottom"
-										placeholder="'-'를 제외하고 입력하세요."
 										type="Number"
 									/>
 								</f:fields>
 							</f:FormElement>
+                            <f:FormElement label="권한코드">
+								<f:fields>
+									<Input
+										id="naucode"
+										class="sapUiSmallMarginBottom"
+									/>
+                            </f:fields>
+                            </f:FormElement>	
 							<f:FormElement label="전화번호">
 								<f:fields>
 									<Input
 										id="npnum"
 										class="sapUiSmallMarginBottom"
-										placeholder="'-'를 제외하고 입력하세요."
 										type="Number"
+                                        placeholder="'-' 포함하여 입력하세요."
 									/>
 								</f:fields>
 							</f:FormElement>
