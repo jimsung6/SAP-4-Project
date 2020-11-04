@@ -15,6 +15,7 @@ sap.ui.define([
 
    return Controller.extend("ExpenseManagement.controller.expenseManagement.kyj.Approyj", {
 	  //formatter: formatter,
+	  //Test
       onInit : function(){
   //    	this.getOwnerComponent().getModel('testModel').setProperty('/', {test:123});
 		// console.log(this.getOwnerComponent().getModel('testModel').getProperty('/'));
