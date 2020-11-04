@@ -158,10 +158,9 @@
 						<w:Card 
 							id="depExpensesCard" 
 							visible="{authority>/depExpensesCard}"
-							height="500px"
 							manifest="{cardManifests>/depExpenses}">
 							<w:layoutData>
-								<f:GridContainerItemLayoutData rows="4" columns="4" />
+								<f:GridContainerItemLayoutData minRows="7" columns="4" />
 							</w:layoutData>
 
 						</w:Card>
