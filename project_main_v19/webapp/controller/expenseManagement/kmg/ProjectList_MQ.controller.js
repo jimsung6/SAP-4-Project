@@ -15,9 +15,9 @@ sap.ui.define([
 ], function(Controller, JSONModel, MessageToast, MessageBox, Dialog, DialogType, Fragment, Button, ButtonType, Text, TextArea, Filter,
 	FilterOperator) {
 	"use strict";
-
+//test
 	return Controller.extend("ExpenseManagement.controller.expenseManagement.kmg.ProjectList_MQ", {
-
+//test2
 		// 테이블 안에 들어가는 정보
 		onInit: function() {
 			
