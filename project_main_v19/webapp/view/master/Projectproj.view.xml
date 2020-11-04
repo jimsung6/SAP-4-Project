@@ -72,9 +72,9 @@
 							<Text text="{project>PNAME}"/>
 							<Text text="{project>AUEMP}"/>
 							<Text text="{project>AUTNM}"/>
-							<Text text="{project>PMONEY}"/>
-									<!-- path: 'project>PMONEY',
-									formatter: '.setComma'}"/> -->
+							<Text text="{
+									path: 'project>PMONEY',
+									formatter: '.setComma'}"/>
 							<Text text="{project>SDATE}"/>
 			                       <!-- path: 'group>SDATE',-->
 			                     <!--   type: 'sap.ui.model.type.Date',-->

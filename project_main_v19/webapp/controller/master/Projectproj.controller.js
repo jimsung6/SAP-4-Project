@@ -20,36 +20,37 @@ sap.ui.define([
 		
 	   
 		onInit : function() {
-		  
+        
 			var oModel = new JSONModel({currency: "KRW"});
 			this.getView().setModel(oModel, "project");
 			
-			this.getOwnerComponent().rfcCall2("ZB_GET_PCODE", {   
- 
-		  }).done(function(oResultData){   // RFC호출 완료
-			// console.log(oResultData)
-			 for (var i=0; i<oResultData.T_TAB1.length; i++) {
-				var aaa = oResultData.T_TAB1[i].PMONEY.toString().split("");
-				var bbb = "";
-				var cnt = 0;
-
-				for(var j = aaa.length-1 ; j >= 0 ; j--){
-					cnt++
-					bbb = aaa[j] + bbb;
-					if(cnt % 3 === 0 && cnt !== aaa.length ){
-						bbb = "," + bbb;
-					}
-				}
-				oResultData.T_TAB1[i].PMONEY = bbb;
-
-				// if (oResultData.T_TAB1[i].SDATE === "0000-00-00") {
-				//    oResultData.T_TAB1[i].SDATE = "0";
-				// }
-				   oModel.setData(oResultData);
-			 }   
-		  }).fail(function(sErrorMessage){
-			 alert(sErrorMessage);
-		  });
+			this.getOwnerComponent().rfcCall("ZB_GET_PCODE", {   
+	 
+			}).done(function(oResultData){   // RFC호출 완료
+			 console.log(oResultData)
+			//   for (var i=0; i<oResultData.T_TAB1.length; i++) {
+			// 	var aaa = oResultData.T_TAB1[i].PMONEY.toString().split("");
+			// 	var bbb = "";
+			// 	var cnt = 0;
+	
+			// 	for(var j = aaa.length-1 ; j >= 0 ; j--){
+			// 	   cnt++
+			// 	   bbb = aaa[j] + bbb;
+			// 	   if(cnt % 3 === 0 && cnt !== aaa.length ){
+			// 		  bbb = "," + bbb;
+			// 	   }
+			// 	}
+			// 	oResultData.T_TAB1[i].PMONEY = bbb;
+	
+			// 	// if (oResultData.T_TAB1[i].SDATE === "0000-00-00") {
+			// 	//    oResultData.T_TAB1[i].SDATE = "0";
+			// 	// }
+			// 	   oModel.setData(oResultData);
+			//   }   
+			oModel.setData(oResultData);
+			}).fail(function(sErrorMessage){
+			  alert(sErrorMessage);
+			});
 		  
 		 this.oTable = this.byId("Projectproj");
 		 
@@ -95,6 +96,24 @@ sap.ui.define([
 				 ]
 			 });
 		 },
+
+		 setComma : function (sText) {
+            var bbb = "";
+            var cnt = 0;
+
+			if( sText ) {
+				sText = "" + sText;
+				for(var j = sText.length-1 ; j >= 0 ; j--){
+					cnt++
+					bbb = sText[j] + bbb;
+					if(cnt % 3 === 0 && cnt !== sText.length ){
+					   bbb = "," + bbb;
+					}
+				 }
+			}
+           
+            return bbb;
+       },
 
 		 
 		 
