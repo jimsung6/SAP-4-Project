@@ -106,6 +106,9 @@ sap.ui.define([
 	 	******************************************************************************************************************************************************/
 		listRfcFunction : function(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData){
 			var ZVEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
+			if(comboData === "All" || !comboData){
+				comboData = "";
+			}
 			this.getOwnerComponent().rfcCall("ZB_GET_TREQUEST_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_STATUS : comboData,
