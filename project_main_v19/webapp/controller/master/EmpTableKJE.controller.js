@@ -113,6 +113,8 @@ sap.ui.define([
 					 throw new ValidateException();
 				 }else if (oInput.getValue().length > 11) {
 					 throw new ValidateException();
+				 }else if (oInput.getValue().length < 11) {
+					throw new ValidateException();
 				 }else if (bDupl) {
 					 throw new ValidateException();
 				 }
@@ -183,9 +185,6 @@ sap.ui.define([
 				 this.getOwnerComponent().rfcCall("ZB_CREATE_EMP", {
 				 I_EMP: NewEmployee
 				  }).done(function(oResultData){   // RFC호출 완료
-					//  for (var j=0; j<oResultData.T_TAB2.length; j++) {
-						   
-					//  }
 					 oModel.setData(oResultData);
 				  }).fail(function(sErrorMessage){
 					 alert(sErrorMessage);
@@ -219,7 +218,6 @@ sap.ui.define([
 		 onDeleteEmployee : function() {
  
 			 var oModel = this.getView().getModel("employeeKJE");
-			 var aTab = oModel.getData().T_TAB2;
 			 var oTable = this.byId("emptable");
 			 var aSelectedPaths = oTable._aSelectedPaths;
 			 var aSelectedEmployee = new Array();
@@ -232,8 +230,8 @@ sap.ui.define([
 				 onClose: function(sAction){
 				 if(sAction ===  "YES") {
 					 for (var i=0; i<aSelectedPaths.length; i++) {
-						 var aIndex = parseInt(aSelectedPaths[i].replace("/T_TAB2/",""));
-						 aSelectedEmployee.push(that.getView().getModel("employeeKJE").getData().T_TAB2[aIndex]);         
+						 var aIndex = parseInt(aSelectedPaths[i].replace("/T_TAB1/",""));
+						 aSelectedEmployee.push(that.getView().getModel("employeeKJE").getData().T_TAB1[aIndex]);         
 					 }
 					 aSelectedPaths.length = 0;
 					 
@@ -248,7 +246,6 @@ sap.ui.define([
 					  
 					 that.rebindTable(that.oReadOnlyTemplate, "Navigation");
 					 MessageToast.show("사원 정보가 삭제되었습니다.");
-					 
 				 }else {
 					 MessageToast.show("작업이 취소되었습니다.");
 				 }
