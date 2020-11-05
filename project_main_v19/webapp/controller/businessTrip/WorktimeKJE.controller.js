@@ -282,6 +282,7 @@ sap.ui.define([
 					//예를 눌렀을 때만 실행되도록 (index 나옴)
 					var oModel = that.getView().getModel();
 					var oDate = oModel.getProperty("/WORKYM");
+					oDate = oDate.replace("-", "");
 					var inputWorkTime = oModel.getProperty("/tableInfo");
 						for(var i=0; i<inputWorkTime.length; i++){
 						inputWorkTime[i].WORKYM = oDate;
@@ -359,7 +360,8 @@ sap.ui.define([
                onClose: function(sAction) {
                   if(sAction ===  "YES") {
             
-                     console.log(oDate);
+					 console.log(oDate);
+					 oDate = oDate.replace("-", "");
                      
                      
                      that.getOwnerComponent().rfcCall("ZB_CALC_PAYMENT", {  //RFC Import 데이터
