@@ -56,7 +56,7 @@ controllerName="TableExample.controller.List26"
 						<f:formElements>
 							<f:FormElement label="첨부">
 								<f:fields>
-									<Text text="{TEST>/Oitem/0/ADDIM}" />
+									<Link href="{TEST>/Oitem/0/ADDIM}" text="영수증 첨부 자료" target="_blank"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

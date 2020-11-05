@@ -43,9 +43,6 @@
                                                     showMeasure: false
                                                 }
                                             }" />
-						<!--<Text text="{BUDGET>/sumData}"></Text>-->
-						<!--<u:Currency-->
-      <!--          	          value="{BUDGET>/sumData}" maxPrecision="0" useSymbol="false"/>-->
 						<Text text="원"></Text>
 					</OverflowToolbar>
 				</infoToolbar>
@@ -63,7 +60,7 @@
 								<Column width="300px"   hAlign="Center">
 						<Text text="프로젝트명" />
 					</Column>
-				<Column width="180px"  hAlign="Center">
+				<Column width="130px"  hAlign="Center">
 						<Text text="요청사유"/>
 					</Column>
 					
@@ -79,7 +76,9 @@
 					<Column width="148px" hAlign="Center">
 						<Text text="요청예산(원)" />
 					</Column>
-			
+			<Column width="92px" hAlign="Center">
+						<Text text="담당자" />
+					</Column>
 					<Column width="148px"  hAlign="Center">
 						<Text text="승인일"/>
 					</Column>
@@ -96,10 +95,10 @@
 							<Text text="{detailModel>PICODE}" />
 							
 							<Text text="{detailModel>DPDATE}" />
-							<Text text="{detailModel>ENAME}" />
+							<Text text="{detailModel>AUNAME}" />
 					       		<u:Currency
                           value="{detailModel>REBUD}"  maxPrecision="0" useSymbol="false"/>
-							
+								<Text text="{detailModel>PYNAME}" />
 							
 							<Text text="{detailModel>ACCDATE}" />
 						

@@ -133,7 +133,7 @@ sap.ui.define([
       onAfterRendering : function(){
          var oModel = this.getView().getModel("PaymentRt");
 
-         var oDate = new Date("2020-09");
+         var oDate = (function(){this.setMonth(this.getMonth()-1); return this}).call(new Date);
          oModel.setProperty("/startDate", oDate);
          oModel.setProperty("/endDate", oDate);
 
@@ -161,7 +161,7 @@ sap.ui.define([
                I_FROMCUMON : FROMCUMON
 
             }).done(function(oResultData){   // RFC호출 완료
-               
+               console.log(oResultData);
                var depComboData = [];
                var projComboData = [];
                
@@ -892,30 +892,72 @@ sap.ui.define([
          var reportData = oModel.getProperty("/reportData");
          var filterData = [];
 
-         if(!projComboData && !depComboData){
-            filterData = reportData;
+         console.log(reportData);
+
+         if(!projComboData){
+            if(!depComboData){
+               console.log("1");
+               filterData = reportData;
+            }else if(depComboData.length === 0){
+               console.log("2");
+               filterData = reportData;
+            }else{
+               console.log("3");
+               for(var i=0 ; i < depComboData.length ; i++){
+                  for(var j=0 ; j < reportData.length ; j++){
+                     if(depComboData[i] === reportData[j].GCODE && reportData[j].PCODE === "Z00"){
+                        filterData.push(reportData[j]);
+                     }
+                  }
+               }
+            }
          }else{
-            if(depComboData){
-               if(depComboData.length === 0 && !projComboData){
+            if(projComboData.length === 0){
+               if(!depComboData){
+                  filterData = reportData;
+               }else if(depComboData.length === 0){
+                  console.log("4");
                   filterData = reportData;
                }else{
+                  console.log("5");
                   for(var i=0 ; i < depComboData.length ; i++){
                      for(var j=0 ; j < reportData.length ; j++){
-                        if(depComboData[i] === reportData[j].GCODE){
+                        if(depComboData[i] === reportData[j].GCODE && reportData[j].PCODE === "Z00"){
                            filterData.push(reportData[j]);
                         }
                      }
                   }
                }
-            }
-
-            if(projComboData){
-               if(projComboData.length === 0 && !depComboData){
-                  filterData = reportData;
-               }else{
+            }else{
+               if(!depComboData){
                   for(var i=0 ; i < projComboData.length ; i++){
                      for(var j=0 ; j < reportData.length ; j++){
                         if(projComboData[i] === reportData[j].PCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+               }else if(depComboData.length === 0){
+                  console.log("6");
+                  for(var i=0 ; i < projComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(projComboData[i] === reportData[j].PCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+               }else{
+                  console.log("7");
+                  for(var i=0 ; i < projComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(projComboData[i] === reportData[j].PCODE){
+                           filterData.push(reportData[j]);
+                        }
+                     }
+                  }
+                  for(var i=0 ; i < depComboData.length ; i++){
+                     for(var j=0 ; j < reportData.length ; j++){
+                        if(depComboData[i] === reportData[j].GCODE && reportData[j].PCODE === "Z00"){
                            filterData.push(reportData[j]);
                         }
                      }
