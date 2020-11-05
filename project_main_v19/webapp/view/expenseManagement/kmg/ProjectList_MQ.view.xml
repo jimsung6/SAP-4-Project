@@ -15,10 +15,6 @@
 				<l:VerticalLayout
 						width="100%"
 						class="gridWrapper">
-					<l:Grid
-						containerQuery="true"
-						defaultSpan="XL10 L12 M12 S12"
-						defaultIndent="XL1">
 						<OverflowToolbar>
 							<HBox>
 								<DatePicker
@@ -49,16 +45,16 @@
 									<SearchField class="sapUiTinyMarginBegin" liveChange="onliveChange" value="{Project_MQ>/SearchFieldData}" placeholder="요청자 검색">
 									</SearchField>
 							</HBox>
+							
 							<ToolbarSpacer></ToolbarSpacer>
-		
+							
 							<HBox justifyContent="End">
-								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/sButton}" text="승인" press=".onSave"></Button>
-								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/sButton}" text="반려" press=".onReject"></Button>
 								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/sfilter}" text="조회" press=".onFiltering"></Button>
+								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/CButton}" text="승인" press=".onSaveHD"></Button>
+								<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/DButton}" text="반려" press=".onRejectHD"></Button>
 							</HBox>
 							
 						</OverflowToolbar>
-					</l:Grid>
 				</l:VerticalLayout>
 	
 	
@@ -70,7 +66,7 @@
 					cellClick=".onCellClick"
 					rows="{Project_MQ>/info}"
 					rowSelectionChange=".rowSelection"
-					selectionMode="None"
+					selectionMode="MultiToggle"
 					selectionBehavior="Row">
 
 						<t:columns>
@@ -113,15 +109,15 @@
 						</t:columns>	
 					</t:Table>
 				
-				
-			<!--<HBox justifyContent="End">-->
-			<!--					<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/sButton2}" text="승인" press=".onSaveDT"></Button>-->
-			<!--					<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/sButton2}" text="반려" press=".onRejectDT"></Button>-->
-			<!--</HBox>-->
+			<OverflowToolbar>	
+				<ToolbarSpacer></ToolbarSpacer>
 			
+				<HBox justifyContent="End">
+					<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/AButton}" text="승인" press=".onSave"></Button>
+					<Button class="sapUiTinyMarginBegin sapUiTinyMarginEnd" visible="{Project_MQ>/BButton}" text="반려" press=".onReject"></Button>
+				</HBox>
+			</OverflowToolbar>
 			
-				
-				
 			<!--승인 헤더 상세-->
 			<t:Table
 	            id="AppId"
