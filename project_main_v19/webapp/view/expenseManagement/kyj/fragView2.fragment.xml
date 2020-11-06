@@ -47,7 +47,7 @@
                             selectionMode="Single"
                             selectionBehavior="Row"
                             rows="{/eCodhc}"
-                            visibleRowCount="10">
+                            visibleRowCount="13">
                             <t:columns>
                                 <t:Column>
                                     <Label text="회계코드"></Label>
@@ -74,7 +74,7 @@
 				<buttons>
 					
                 <Button text="입력" press=".onCoData"/>
-                <Button text="취소" press=".onCoDialog"/>
+                <!--<Button text="취소" press=".onCoDialog"/>-->
             </buttons>
    </Dialog>
 
