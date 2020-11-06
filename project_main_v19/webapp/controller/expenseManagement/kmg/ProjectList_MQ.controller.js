@@ -244,7 +244,7 @@ sap.ui.define([
 					this.getView().getModel("Project_MQ").setProperty("/RDATEVisible", true);
 					this.getView().getModel("Project_MQ").setProperty("/ACDATVisible", false);
 			}else{	
-					MessageToast.show("상태코드를 확인해주세요");
+					MessageToast.show("확인해주세요");
 			}
 
 			this.getView().getModel().setProperty("/tableV", true);
@@ -639,7 +639,7 @@ sap.ui.define([
                         	}
                         	
                         }else {
-							MessageToast.show("상태코드를 확인해주세요");
+							MessageToast.show("취소되었습니다.");
 						}
 					}
 				});
@@ -752,7 +752,7 @@ sap.ui.define([
                         	}
                         	
                         }else {
-							MessageToast.show("상태코드를 확인해주세요");
+							MessageToast.show("취소되었습니다.");
 						}
 					}
 				});
