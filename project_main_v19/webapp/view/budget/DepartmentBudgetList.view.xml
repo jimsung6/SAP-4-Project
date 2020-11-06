@@ -1,59 +1,59 @@
 <!-- 정은혜 : 부서예산 조회 -->
 <mvc:View 
-	controllerName="ExpenseManagement.controller.budget.DepartmentBudgetList"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:filterbar="sap.ui.comp.filterbar"
-	xmlns:popover="sap.m.Popover"
-	xmlns:scroll="sap.m.ScrollContainer"
-	xmlns:u="sap.ui.unified">
-	
-	<Page>
-		<content>
-
-			<Table id="dbudgetlist"
-				   items="{BUDGET>/DepartmentBudget}">
-				<headerToolbar height="100px">
-					<OverflowToolbar height="80px">
-						<content>
-
-							<Title titleStyle="H2" text="부서별 예산 조회" />
-
-							<ToolbarSpacer/>
-							<SearchField
-								width="200px"
-								class="sapUiTinyMarginTop"
-								liveChange=".onLiveChange"
-								value="{BUDGET>/filterbar/eName}"/>
-							<ComboBox 
-								class="sapUiTinyMarginTop"
-								placeholder="부서" 
-								selectedKey="{BUDGET>/filterbar/gname}"
-								items="{BUDGET>/DepartmentInfo}">
-								<items>
-									<core:ListItem key="{BUDGET>GCODE}" 
-												   text="{BUDGET>GNAME}" 
-												   additionalText="{BUDGET>GCODE}"/>
-								</items>
-							</ComboBox>
-							<DatePicker
-								id="bDatePicker"
-								class="sapUiTinyMarginTop"
-								width="150px"
-								dateValue="{BUDGET>/dateData}"
-								displayFormat="y-MM"
-								change="handleChange" />
-							<Button class="sapUiTinyMarginTop" press=".onFilterSearch" text="조회" type="Emphasized"></Button>
-
-						</content>
-					</OverflowToolbar>
-				</headerToolbar>
-				<infoToolbar>
-					<OverflowToolbar visible="true" id="ToolbarId">
-						<ToolbarSpacer/>
-						<Text text="합계 : "></Text>
-						<Text text="{
+   controllerName="ExpenseManagement.controller.budget.DepartmentBudgetList"
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core"
+   xmlns:filterbar="sap.ui.comp.filterbar"
+   xmlns:popover="sap.m.Popover"
+   xmlns:scroll="sap.m.ScrollContainer"
+   xmlns:u="sap.ui.unified">
+   
+   <Page>
+      <content>
+         <Table id="dbudgetlist"
+               items="{BUDGET>/DepartmentBudget}">
+            <headerToolbar height="100px">
+               <OverflowToolbar height="80px">
+                  <content>
+                     <Title titleStyle="H2" text="부서별 예산 조회" />
+                     <ToolbarSpacer/>
+                  <!--Search Filtering-->
+                     <SearchField
+                        width="200px"
+                        class="sapUiTinyMarginTop"
+                        liveChange=".onLiveChange"
+                        value="{BUDGET>/filterbar/eName}"/>
+                  <!--Department Filtering-->
+                     <ComboBox 
+                        class="sapUiTinyMarginTop"
+                        placeholder="부서" 
+                        selectedKey="{BUDGET>/filterbar/gname}"
+                        items="{BUDGET>/DepartmentInfo}">
+                        <items>
+                           <core:ListItem key="{BUDGET>GCODE}" 
+                                       text="{BUDGET>GNAME}" 
+                                       additionalText="{BUDGET>GCODE}"/>
+                        </items>
+                     </ComboBox>
+                     <DatePicker id="bDatePicker"
+                              class="sapUiTinyMarginTop"
+                              width="150px"
+                              dateValue="{BUDGET>/dateData}"
+                              displayFormat="y-MM"
+                              change="handleChange" />
+                     <Button class="sapUiTinyMarginTop" 
+                           press=".onFilterSearch" 
+                           text="조회" 
+                           type="Emphasized" />
+                  </content>
+               </OverflowToolbar>
+            </headerToolbar>
+            <infoToolbar>
+               <OverflowToolbar visible="true" id="ToolbarId">
+                  <ToolbarSpacer/>
+                  <Text text="합계 : "></Text>
+                  <Text text="{
                                                 parts: [
                                                     {path: 'BUDGET>/sumData'},
                                                     {path: 'BUDGET>/currency'}
@@ -64,63 +64,56 @@
                                                     showMeasure: false
                                                 }
                                             }" />
-						<!--<Text text="{BUDGET>/sumData}"></Text>-->
-						<!--<u:Currency-->
-      <!--          	          value="{BUDGET>/sumData}" maxPrecision="0" useSymbol="false"/>-->
-						<Text text="원"></Text>
-					</OverflowToolbar>
-				</infoToolbar>
+                  <Text text="원"></Text>
+               </OverflowToolbar>
+            </infoToolbar>
 
-				<columns>
-					<Column hAlign="Center" width="50px" minScreenWidth="Tablet">
-						<Text text="부서코드" />
-					</Column>
-					<Column hAlign="Center" width="80px" minScreenWidth="Tablet">
-						<Text text="부서명" />
-					</Column>
-					<Column hAlign="Center" width="60px" minScreenWidth="Tablet">
-						<Text text="예산년월" />
-					</Column>
-					<Column hAlign="Center" width="100px" minScreenWidth="Tablet">
-						<Text text="배정일자" />
-					</Column>
-					<Column hAlign="Center" width="90px" minScreenWidth="Tablet">
-						<Text text="배정금액(원)" />
-					</Column>
-					<Column hAlign="Center" width="100px" minScreenWidth="Tablet">
-						<Text text="담당자번호" />
-					</Column>
-					<Column hAlign="Center" width="50px" minScreenWidth="Tablet">
-							<!-- mergeDuplicates="true" -->
-						<Text text="담당자명" />
-					</Column>
-					<Column hAlign="Center" width="90px" minScreenWidth="Tablet">
-							<!-- mergeDuplicates="true" -->
-						<Text text="잔여예산" />
-					</Column>
-					<!--<Column hAlign="Center" width="50px" minScreenWidth="Tablet">-->
-					<!--	<Text text="긴급여부" />-->
-					<!--</Column>-->
-				</columns>
-				<items>
-					<ColumnListItem type="Navigation" press=".onDetail">
-						<cells>
-							<Text text="{BUDGET>GCODE}" />
-							<Text text="{BUDGET>GNAME}" />
-							<Text text="{BUDGET>BUDYM}" />
-							<Text text="{BUDGET>DEPDY}" />
-							<u:Currency
-                			 value="{BUDGET>DEPPR}" maxPrecision="0" useSymbol="false"/>
-							<Text text="{BUDGET>EMPNO}" />
-							<Text text="{BUDGET>ENAME}" />
-							<u:Currency
-                			 value="{BUDGET>REMBUD}" maxPrecision="0" useSymbol="false"/>
-							<!--<Text text="{BUDGET>DEPEM}" />-->
-						</cells>
-					</ColumnListItem>
-				</items>	   
-			</Table>
-		</content>
-	</Page>
-	
+            <columns>
+               <Column hAlign="Center" width="50px" minScreenWidth="Tablet">
+                  <Text text="부서코드" />
+               </Column>
+               <Column hAlign="Center" width="80px" minScreenWidth="Tablet">
+                  <Text text="부서명" />
+               </Column>
+               <Column hAlign="Center" width="60px" minScreenWidth="Tablet">
+                  <Text text="예산년월" />
+               </Column>
+               <Column hAlign="Center" width="100px" minScreenWidth="Tablet">
+                  <Text text="배정일자" />
+               </Column>
+               <Column hAlign="Center" width="90px" minScreenWidth="Tablet">
+                  <Text text="배정금액(원)" />
+               </Column>
+               <Column hAlign="Center" width="100px" minScreenWidth="Tablet">
+                  <Text text="담당자번호" />
+               </Column>
+               <Column hAlign="Center" width="50px" minScreenWidth="Tablet">
+                     <!-- mergeDuplicates="true" -->
+                  <Text text="담당자명" />
+               </Column>
+               <Column hAlign="Center" width="90px" minScreenWidth="Tablet">
+                  <Text text="잔여예산" />
+               </Column>
+            </columns>
+            <items>
+               <!--로우 클릭 시 Detail View로 이동-->
+               <ColumnListItem type="Navigation" press=".onDetail">
+                  <cells>
+                     <Text text="{BUDGET>GCODE}" />
+                     <Text text="{BUDGET>GNAME}" />
+                     <Text text="{BUDGET>BUDYM}" />
+                     <Text text="{BUDGET>DEPDY}" />
+                     <!--Currency Type 변환-->
+                     <u:Currency
+                          value="{BUDGET>DEPPR}" maxPrecision="0" useSymbol="false"/>
+                     <Text text="{BUDGET>EMPNO}" />
+                     <Text text="{BUDGET>ENAME}" />
+                     <u:Currency
+                          value="{BUDGET>REMBUD}" maxPrecision="0" useSymbol="false"/>
+                  </cells>
+               </ColumnListItem>
+            </items>      
+         </Table>
+      </content>
+   </Page>
 </mvc:View>

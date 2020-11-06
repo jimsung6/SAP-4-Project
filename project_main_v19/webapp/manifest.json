@@ -198,6 +198,11 @@
 		 "pattern": "Approyj",
 		 "name": "Approyj",
 		 "target": "Approyj"
+	   },
+	   {
+		"pattern": "DEPBUDDETAIL_EH/{DATA}",
+		"name": "DEPBUDDETAIL_EH",
+		"target": "DEPBUDDETAIL_EH"
 	   }
 
 		  
@@ -298,7 +303,11 @@
 		  "Approyj": {
 			"viewId": "Approyj",
 			"viewName": "expenseManagement/kyj/Approyj"
-		  }
+		  },
+		  "DEPBUDDETAIL_EH": {
+			"viewId": "DEPBUDDETAIL_EH",
+			"viewName": "budget/DepartmentBudgetDetail"
+		   }
 		  
 		 
 		}
