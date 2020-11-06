@@ -39,6 +39,7 @@ sap.ui.define([
 
 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this._oRouter.attachRouteMatched(this.onAfterRendering, this);
+			
 
 		},
 		
@@ -69,7 +70,6 @@ sap.ui.define([
 		onAfterRendering : function(event){
 
 			var oCardModel = this.getView().getModel("cardManifests");
-
 			//로그인 화면으로 나갈때 세팅없이 리턴
 			if(event.mParameters.name === "login"){
 				return 0;
@@ -524,6 +524,8 @@ sap.ui.define([
 
 			var yeardata = toDay.getFullYear();
 			var monthdata = toDay.getMonth()+1 >= 10 ? toDay.getMonth()+1 : "0"+(toDay.getMonth()+1);
+
+			console.log(EMPNOData+"/"+yeardata.toString() + monthdata.toString()+"/"+AUCODE);
 			
 
 			this.getOwnerComponent().rfcCall("ZB_GET_MANBUDGET_AB", {  //ZB_GET_MANBUDGET_AB rfc사용
@@ -1030,54 +1032,62 @@ sap.ui.define([
 		 * 작성자 : 김성진
 		 **********************************************************************************/
 		cardEventConnect : function(oCardModel){
-			
-			var oModel = this.getView().getModel("authority");
 
-			// 관리 부서 및 프로젝트 사용 경비 이벤트 연결
-			var ExpensesCard = this.getView().byId("depExpensesCard");
-			var depExpensesData = oCardModel.getProperty("/depExpenses");
-			var porjExpensesData = oCardModel.getProperty("/porjExpenses");
+			if(!this.getView().getModel("employeeLog").getProperty("/depEventCk")){
+				this.getView().getModel("employeeLog").setProperty("/depEventCk", true);
+				var oModel = this.getView().getModel("authority");
 
-			ExpensesCard.attachBrowserEvent("click", function(event) {
-				console.log(event);
-				if(event.toElement.classList[0] == "sapMTextMaxLine" || event.toElement.classList[0] == "sapFCardHeaderTextFirstLine"
-					|| event.toElement.classList[0] == "sapFCardHeader"){
-					
-					if(oModel.getProperty("/ExpensesCardHandle")){
-						ExpensesCard.setManifest(depExpensesData);
-						oModel.setProperty("/ExpensesCardHandle", false);
-					
-					}else{
-						ExpensesCard.setManifest(porjExpensesData);
-						oModel.setProperty("/ExpensesCardHandle", true);
-					
+				// 관리 부서 및 프로젝트 사용 경비 이벤트 연결
+				var ExpensesCard = this.getView().byId("depExpensesCard");
+				var depExpensesData = oCardModel.getProperty("/depExpenses");
+				var porjExpensesData = oCardModel.getProperty("/porjExpenses");
+	
+				ExpensesCard.attachBrowserEvent("click", function(event) {
+					console.log(event)
+					if(event.toElement.classList[0] == "sapMTextMaxLine" || event.toElement.classList[0] == "sapFCardHeaderTextFirstLine"
+						|| event.toElement.classList[0] == "sapFCardHeader"){
+						
+						if(oModel.getProperty("/ExpensesCardHandle")){
+							console.log("false");
+							ExpensesCard.setManifest(depExpensesData);
+							oModel.setProperty("/ExpensesCardHandle", false);
+						
+						}else{
+							console.log("true");
+							ExpensesCard.setManifest(porjExpensesData);
+							oModel.setProperty("/ExpensesCardHandle", true);
+						
+						}
+						ExpensesCard.refresh();
 					}
-					ExpensesCard.refresh();
-				}
-				console.log(oModel.getProperty("/ExpensesCardHandle"));
+	
+				}, this);
+			}
 
-			}, this);
 
-			//관리 부서 및 프로젝트 사용 경비 추이 이벤트 연결
-			var ExpTransCard = this.getView().byId("depExpTransCard");
-			var depExpTransData = oCardModel.getProperty("/depExpTrans");
-			var projExpTransData = oCardModel.getProperty("/projExpTrans");
+			if(!this.getView().getModel("employeeLog").getProperty("/projEventCk")){
+				this.getView().getModel("employeeLog").setProperty("/projEventCk", true);
+				//관리 부서 및 프로젝트 사용 경비 추이 이벤트 연결
+				var ExpTransCard = this.getView().byId("depExpTransCard");
+				var depExpTransData = oCardModel.getProperty("/depExpTrans");
+				var projExpTransData = oCardModel.getProperty("/projExpTrans");
 
-			ExpTransCard.attachBrowserEvent("click", function(event) {
+				ExpTransCard.attachBrowserEvent("click", function(event) {
 
-				if(event.toElement.classList[0] == "sapMTextMaxLine"){
-					if(oModel.getProperty("/ExpTransCardHandle")){
-						ExpTransCard.setManifest(depExpTransData);
-						oModel.setProperty("/ExpTransCardHandle", false);
-					}else{
-						ExpTransCard.setManifest(projExpTransData);
-						oModel.setProperty("/ExpTransCardHandle", true);
+					if(event.toElement.classList[0] == "sapMTextMaxLine"){
+						if(oModel.getProperty("/ExpTransCardHandle")){
+							ExpTransCard.setManifest(depExpTransData);
+							oModel.setProperty("/ExpTransCardHandle", false);
+						}else{
+							ExpTransCard.setManifest(projExpTransData);
+							oModel.setProperty("/ExpTransCardHandle", true);
+						}
+						ExpTransCard.refresh();
 					}
-					ExpTransCard.refresh();
-				}
-				console.log(oModel.getProperty("/ExpTransCardHandle"));
+					console.log(oModel.getProperty("/ExpTransCardHandle"));
 
-			}, this);
+				}, this);
+			}
 
 		},
 

@@ -185,7 +185,7 @@
 								</t:Column>
 
 								<t:Column visible="{PaymentRt>/exportDataSet/5/visible}">
-									<Label text="지급 금액"></Label>
+									<Label text="지급 금액(원)"></Label>
 									<t:template>
 										<Text text="{PaymentRt>PROPR}"/>
 									</t:template>
@@ -198,6 +198,7 @@
 							</OverflowToolbar>
 							<viz:VizFrame 
 								id="reportChart"
+								vizProperties="{ title: {text : '경비 사용 현황', visible : true}}"
 								visible="false"
 								selectData=".onSelectData"
 								deselectData=".onDeselectData"
@@ -217,8 +218,9 @@
 								<l:Grid
 										containerQuery="true"
 										defaultSpan="XL6 L6 M6 S6">
-									<viz:VizFrame 
+									<viz:VizFrame
 										id="reportLineChart"
+										vizProperties="{ title: {text : '경비 사용 추이', visible : true}}"
 										selectData=".onSelectLineData"
 										deselectData=".onDeselectLineData"
 										xmlns="sap.viz" 
@@ -263,7 +265,7 @@
 										</t:Column>
 
 										<t:Column visible="{PaymentRt>/exportDataSet/5/visible}">
-											<Label text="지급 금액"></Label>
+											<Label text="지급 금액(원)"></Label>
 											<t:template>
 												<Text text="{PaymentRt>PROPR}"/>
 											</t:template>
