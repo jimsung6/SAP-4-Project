@@ -275,7 +275,7 @@ sap.ui.define([
 		onSaveDialog : function (oEvent) {
 			// collect input controls
 			var oModel = this.getView().getModel();
-			var gPath = oModel.oData.teamBudgetRequest;
+			var sPath = oModel.getProperty("/teamBudgetRequest");
 			// 데이터 불러오기
 			var RTREQ = gPath.RTREQ;
 			var TREBUD = gPath.TREBUD;
@@ -324,6 +324,7 @@ sap.ui.define([
 								this.oApproveDialog.close();
 								this.oApproveDialog.destroy();
 								delete this.oApproveDialog;
+								this.onCloseDialog();
 							}.bind(this)						
 						}),
 						endButton: new Button({
