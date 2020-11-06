@@ -15,7 +15,6 @@ sap.ui.define([
 
    return Controller.extend("ExpenseManagement.controller.expenseManagement.kyj.Approyj", {
 	  //formatter: formatter,
-	  //Test
       onInit : function(){
   //    	this.getOwnerComponent().getModel('testModel').setProperty('/', {test:123});
 		// console.log(this.getOwnerComponent().getModel('testModel').getProperty('/'));
@@ -31,6 +30,7 @@ sap.ui.define([
 			OilTable: [],
 			ryuItems: [],
 			kyoinfo:[],
+			sikTable : false
 			// realDate: ""
 			// OilItem:[{
 			// 	code : "A",
@@ -43,16 +43,14 @@ sap.ui.define([
 			// 	Name : "휘발유"
 			// }]
 
-         };
-			this.getView().byId("mainTableId").setVisible(false);
-			this.getView().byId("ryuTableId").setVisible(false);
-			this.getView().byId("kyoTableId").setVisible(false);
+		 };
+		 
        var oModel = new JSONModel(odata);
 		 this.getView().setModel(oModel);
 		 this.getView().getModel().setProperty("/OTable", false);
 		 this.getView().getModel().setProperty("/KTable", false);
-         
-         
+
+
 		//SIKDAE테이블 로우 초기 세팅
 		var tableRowcont = this.getView().getModel().getProperty("/info").length;
 		this.getView().getModel().setProperty("/tableRow", tableRowcont);
@@ -67,8 +65,8 @@ sap.ui.define([
 		   // 여기다가 rfc 호출후 작업코딩
 		});
          //초기 세팅
-         
-         
+
+
          var oDate = new Date();
 
          var yyyy = oDate.getFullYear();
@@ -77,34 +75,69 @@ sap.ui.define([
          this.getView().getModel().setProperty("/comboData", "A");
          //this.getView().getModel().setProperty("/dateData", yyyy+"."+mm);
         this.getView().byId("DP10").setDateValue(oDate);
-         
+
          //this.onDisplay();
-      },
-  //     pressTest2: function() {
-		// var testModel = this.getOwnerComponent().getModel("testModel").getProperty('/');
-		//   sap.ui.controller("Appro.controller.home").callFunc01(testModel);
-	 // },
+	  },
+	  
+	  onAfterRendering : function(){
+		this.byId("mainTableId").setVisible(false);
+		this.byId("ryuTableId").setVisible(false);
+		this.byId("kyoTableId").setVisible(false);
+	  },
+
+	 onChange: function(e) {
+				var sPath = e.getSource().getBindingContext().getPath(); 
+		 		let self = this
+				const files = e.getParameters().files
+				// imgur url
+				const apiUrl = 'https://api.imgur.com/3/image'
+				// imgur client key
+				const apiKey = '0b48328889c6e27'
+				let form = new FormData();
+				form.append('image', files[0])
+				const settings = {
+					async: false,
+					crossDomain: true,
+					processData: false,
+					contentType: false,
+					type: 'POST',
+					url: apiUrl,
+					headers: {
+						Authorization: 'Client-ID ' + apiKey,
+						Accept: 'application/json'
+					},
+					mimeType: 'multipart/form-data',
+					data: form
+				}
+				$.ajax(settings).done(response => {
+					console.log('suc')
+					const res = JSON.parse(response)
+					// uploadFile = { REPHO: res.data.link}
+					self.getView().getModel().setProperty(sPath+'/REPHO', res.data.link)
+					console.log(self.getView().getModel().getProperty('/tableData'))
+				})
+	 },
 
 	  selDetail: function(event) {
 		console.log(event.getSource().data("flag"));
 		console.log("test selDetail");
-		
+
 
 
 
 		//row 데이터 뽑기
-		
+
 		var sPath = event.getSource().getBindingContext().getPath();
-		
+
 		//전표 번호 데이터
-	
+
 		var JPNUMData = this.getView().getModel().getProperty(sPath).JPNUM;
 		//전표 번호 데이터 모델에 넣어주기
 		this.getView().getModel().setProperty("/JPNUMData",JPNUMData);
-		
+
 		var comboData = this.getView().getModel().getProperty("/comboData");
 		// var ryuTable = this.getView().getModel().getProperty("/OilTable")[0].CARTY
-		
+
 
 		console.log(JPNUMData);
 		//	테이블 입력칸 작업
@@ -114,14 +147,22 @@ sap.ui.define([
 		  this.getView().getModel().setProperty("/Oinput", true); // 승인요청 상태일때 테스트
 		  this.getView().getModel().setProperty("/Otext", false);
 		  this.getView().getModel().setProperty("/ryuButton", true);
+		  this.getView().getModel().setProperty("/sikInput", true);
+		  this.getView().getModel().setProperty("/sikView", false);
+
+		  this.byId("multiInput").setEnabled(true);
 		}else{
 		  this.getView().getModel().setProperty("/input", false);
 		  this.getView().getModel().setProperty("/text", true);
 		  this.getView().getModel().setProperty("/Oinput", false); // 승인요청 상태일때 테스트
 		  this.getView().getModel().setProperty("/Otext", true);
 		  this.getView().getModel().setProperty("/ryuButton", false);
-		}		
-		
+		  this.getView().getModel().setProperty("/sikInput", false);
+		  this.getView().getModel().setProperty("/sikView", true);
+		  this.byId("multiInput").setEnabled(false);
+
+		}
+
 		// 유류대 테이블 RFC 호출 테스트 끝
 
 		// 1 선택한 로우의 정보를 가져온다.
@@ -133,20 +174,20 @@ sap.ui.define([
 			this.getView().byId("mainTableId").setVisible(true);
 			this.getView().byId("ryuTableId").setVisible(false);
 			this.getView().byId("kyoTableId").setVisible(false);
-			this.sikTableCall(JPNUMData);
+			var PROPR = this.getView().getModel().getProperty(sPath).PROPR;
+			this.getView().getModel().setProperty("/PROPR", PROPR);
+			this.sikTableCall(JPNUMData, PROPR);
+
 		} else if(selFlag=='0002') {
 			//유류대 RFC 호출
-		
-
-			
 			this.getView().byId("mainTableId").setVisible(false);
 			this.getView().byId("ryuTableId").setVisible(true);
 			this.getView().byId("kyoTableId").setVisible(false);
 			this.ryuTableCall(JPNUMData);
-			
-			
+
+
 			// if(ryuTable)
-			// {	
+			// {
 			// 	this.getView().getModel().setProperty("/Oinput", false);
 			// 	this.getView().getModel().setProperty("/Otext", true);
 			// }else
@@ -164,24 +205,24 @@ sap.ui.define([
 			this.getView().byId("ryuTableId").setVisible(false);
 			this.getView().byId("kyoTableId").setVisible(false);
 		}
-		
+
 	  },
 
       onAfterRendering : function(){
          this.onDisplay();
          },
-	
+
    ryuTableCall : function(JPNUMData){
       //유류대 테이블 RFC호출 테스트 시작
 
       var oModel = this.getView().getModel();
-      
+
 
       this.getOwnerComponent().rfcCall("ZB_INPUT_DISPLAY", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
          //RFC Import 데이터
          I_MODE : "C" ,  //모드
          I_JPNUM : JPNUMData
-         
+
          }).done(function(oResultData){   // RFC호출 완료
             for(var i=oResultData.TAB3.length-1 ; i > 0 ; i--){
                if(!oResultData.TAB3[i].CARTY){
@@ -189,7 +230,21 @@ sap.ui.define([
                }
             }
             oModel.setProperty("/OilTable", oResultData.TAB3);
-            oModel.setProperty("/OTableRowData", oResultData.TAB3.length)
+			oModel.setProperty("/OTableRowData", oResultData.TAB3.length);
+			
+			for(var i=0 ; i < oResultData.TAB3.length ; i++){									//이미지 저장상태 및 링크
+				var img = oResultData.TAB3[i].ADDIM;
+
+				if(oResultData.TAB3[i].ADDIM){
+						oModel.setProperty("/OilTable/"+i+"/IMAGE", "저장 됨");
+						// that.getView().byId("img").setHref(img).setTarget("_blank");
+						console.log("hihihi");
+				}else{
+					oModel.setProperty("/OilTable/"+i+"/IMAGE", "저장 안됨"); 
+				}
+
+			}
+
             console.log(oResultData.TAB3);
             //oResultData.TAB1[0].NOTE
          }).fail(function(sErrorMessage){// 호출 실패
@@ -208,7 +263,7 @@ onkyoItemSave : function(){
 
 
 	  var kyoinfoData = oModel.getProperty("/kyoinfo");
-	  
+
 
 	  MessageBox.confirm("교육훈련 아이템뷰를 저장하시겠습니까??", {
 		actions: ["저장", MessageBox.Action.CLOSE],
@@ -218,16 +273,16 @@ onkyoItemSave : function(){
 			if(sAction === "저장"){
 
 				if(JPNUMData){
-         
+
 					that.getOwnerComponent().rfcCall("ZB_INPUT_APPRO", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 					   //RFC Import 데이터
-					   
+
 					   I_MODE : "E" ,  //모드
 					   I_JPNUM : JPNUMData,
 					   TAB4 : kyoinfoData
-					   
-					   
-					   
+
+
+
 					   }).done(function(oResultData){   // RFC호출 완료
 						  oModel.setProperty("/kyoinfo", oResultData.TAB4);
 						  console.log(oResultData.TAB4);
@@ -236,7 +291,7 @@ onkyoItemSave : function(){
 						  MessageToast.show(sErrorMessage);
 					   }).then(function(){
 						  oModel.refresh();
-					   });         
+					   });
 				 }
 
 
@@ -258,7 +313,7 @@ onkyoItemSave : function(){
 
       //    kyoinfoData[i].FDATE = parseInt(yyyy.toString()+"-"+mm.toString()+"-"+dd.toString());
       // }
-      
+
       // for(var i=0 ; i < kyoinfoData.length ; i++){
       //    var date = new Date(kyoinfoData[i].TDATE);
       //    var yyyy = date.getFullYear();
@@ -271,8 +326,8 @@ onkyoItemSave : function(){
       console.log(kyoinfoData);
 
       // oModel.getProperty("/kyoinfo")[0].JPNUM = JPNUMData
-      
-   
+
+
 
       // var oCARTY = this.getView().getModel().getProperty("/OilTable")[0].CARTYData;
       // var oOILTY = this.getView().getModel().getProperty("/OilTable")[0].OILTYData;
@@ -281,13 +336,13 @@ onkyoItemSave : function(){
       // var InBIGO = this.getView().getModel().getProperty("/OilTable")[0].InBIGO;
 
 
-      
+
 
       // var OilItem = this.byId("OilItem").mAggregations.items[0].mProperties.text;
 
       // console.log(OilItem);
-      
-      
+
+
 
 
 
@@ -304,9 +359,88 @@ onkyoItemSave : function(){
       //    }
       // ]
 
- 
+
 
    },
+
+   	   /***********************
+	   * 이미지 저장 펑션(유류대 뷰)*******
+	   ************************/
+
+	  onryuChange: function(e) {
+
+		var sPath = e.getSource().getBindingContext().getPath(); 
+		 let self = this
+		const files = e.getParameters().files
+		// imgur url
+		const apiUrl = 'https://api.imgur.com/3/image'
+		// imgur client key
+		const apiKey = '0b48328889c6e27'
+		let form = new FormData();
+		form.append('image', files[0])
+		const settings = {
+			async: false,
+			crossDomain: true,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			url: apiUrl,
+			headers: {
+				Authorization: 'Client-ID ' + apiKey,
+				Accept: 'application/json'
+			},
+			mimeType: 'multipart/form-data',
+			data: form
+		}
+		$.ajax(settings).done(response => {
+			console.log('suc')
+			const res = JSON.parse(response)
+			// uploadFile = { REPHO: res.data.link}
+			self.getView().getModel().setProperty(sPath+'/ADDIM', res.data.link)
+			console.log(self.getView().getModel().getProperty('/OilTable'))
+			console.log('good')
+		})
+},
+
+
+   	  /***********************
+	   * 이미지 저장 펑션(교육훈련 뷰)*******
+	   ************************/
+
+	  onkyoChange: function(e) {
+
+		var sPath = e.getSource().getBindingContext().getPath(); 
+		 let self = this
+		const files = e.getParameters().files
+		// imgur url
+		const apiUrl = 'https://api.imgur.com/3/image'
+		// imgur client key
+		const apiKey = '0b48328889c6e27'
+		let form = new FormData();
+		form.append('image', files[0])
+		const settings = {
+			async: false,
+			crossDomain: true,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			url: apiUrl,
+			headers: {
+				Authorization: 'Client-ID ' + apiKey,
+				Accept: 'application/json'
+			},
+			mimeType: 'multipart/form-data',
+			data: form
+		}
+		$.ajax(settings).done(response => {
+			console.log('suc')
+			const res = JSON.parse(response)
+			// uploadFile = { REPHO: res.data.link}
+			self.getView().getModel().setProperty(sPath+'/ADDIM', res.data.link)
+			console.log(self.getView().getModel().getProperty('/kyoinfo'))
+			console.log('good')
+		})
+},
 
 
    /****************************************
@@ -320,40 +454,51 @@ onkyoItemSave : function(){
       //유류대 테이블 RFC호출 테스트 시작
 
 	  var oModel = this.getView().getModel();
-	  
-      
-      
+
+
+
 
       this.getOwnerComponent().rfcCall("ZB_INPUT_DISPLAY", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
          //RFC Import 데이터
          I_MODE : "D" ,  //모드
          I_JPNUM : JPNUMData
-         
+
          }).done(function(oResultData){   // RFC호출 완료
             // for(var i=oResultData.TAB3.length-1 ; i > 0 ; i--){
             //    if(!oResultData.TAB3[i].CARTY){
             //       oResultData.TAB3.splice(i, 1);
             //    }
 			// }
-			
+
 			for(var i=0 ; i < oResultData.TAB4.length ; i++){
 				oResultData.TAB4[i].FDATE = new Date(oResultData.TAB4[i].FDATE);
 				oResultData.TAB4[i].TDATE = new Date(oResultData.TAB4[i].TDATE);
-				
+
 				// var yyyy = (oResultData.TAB4[i].FDATE).getFullYear();
 				// var mm = (oResultData.TAB4[i].FDATE).getMonth();
 				// var dd = (oResultData.TAB4[i].FDATE).getDate();
 
 				// oResultData.TAB4[i].FDATE = parseInt(yyyy + "-" + mm + "-" + dd);
-				
-				
 
-            }
-
+			}
+			
 			oModel.setProperty("/kyoinfo", oResultData.TAB4);
-            oModel.setProperty("/kyoinfoRowData", oResultData.TAB4.length);
-           
-          
+			oModel.setProperty("/kyoinfoRowData", oResultData.TAB4.length);
+			
+			for(var i=0 ; i < oResultData.TAB4.length ; i++){									//이미지 저장상태 및 링크
+				var img = oResultData.TAB4[i].ADDIM;
+
+				if(oResultData.TAB4[i].ADDIM){
+						oModel.setProperty("/kyoinfo/"+i+"/IMAGE", "저장 됨");
+						// that.getView().byId("img").setHref(img).setTarget("_blank");
+						console.log("hihihi");
+				}else{
+					oModel.setProperty("/kyoinfo/"+i+"/IMAGE", "저장 안됨"); 
+				}
+
+			}
+
+
             console.log(oResultData.TAB4);
             //oResultData.TAB1[0].NOTE
          }).fail(function(sErrorMessage){// 호출 실패
@@ -368,15 +513,24 @@ onkyoItemSave : function(){
     * **************************************/
 
    handleChangeF: function(oEvent) {
-      var oModel = this.getView().getModel(), 
+      var oModel = this.getView().getModel(),
          sPath = oEvent.getSource().getBindingContext().getPath(),
          oSelectData = oModel.getProperty(sPath),         //선택한 라인 경로
          sSelectDate = oEvent.getSource().getValue();      //datePicker에서 선택한 날짜 가져오기
-      
-      oSelectData.FDATE = sSelectDate;                  //선택한 날짜 저장
-   
+
+	  oSelectData.FDATE = sSelectDate;                  //선택한 날짜 저장
+	  
+		// *************2020 10 28 추가	
+		 //************************************* */
+
+	  if(oSelectData.FDATE > oSelectData.TDATE){
+		MessageBox.error("시작기간이 종료기간보다 앞으로 지정되어야 합니다.");
+		this.getView().getModel().setProperty("/kyoinfo/0/FDATE", new Date("0000-00-00"));
+		// oModel.refresh();
+	}
+
     },
-    
+
    handleChangeT: function(oEvent) {
       var oModel = this.getView().getModel();
         //  sPath = oEvent.getSource().getBindingContext().getPath(),
@@ -384,9 +538,16 @@ onkyoItemSave : function(){
 		//  sSelectDate = oEvent.getSource().getValue();      //datePicker에서 선택한 날짜 가져오기
 		var oSelectData = oModel.getProperty("/kyoinfo/0");
 		var sSelectDate = oEvent.getSource().mProperties.value;
-      
-      
-      oSelectData.TDATE = sSelectDate;            //선택한 날짜 저장
+
+
+	  oSelectData.TDATE = sSelectDate;            //선택한 날짜 저장
+	  
+		// *************2020 10 28 추가
+		//***************************************** */
+		if(oSelectData.FDATE > oSelectData.TDATE){
+			MessageBox.error("종료기간이 시작기간보다 뒤로 지정되어야 합니다.");
+			this.getView().getModel().setProperty("/kyoinfo/0/TDATE", new Date("0000-00-00"));
+		}
     },
 
 	/****************************************
@@ -403,7 +564,7 @@ onkyoItemSave : function(){
 			//RFC Import 데이터
 			I_MODE : "B" ,  //모드
 			I_JPNUM : JPNUM
-			
+
 			}).done(function(oResultData){   // RFC호출 완료
 
 				for(var i=0 ; i < oResultData.TAB2.length ; i++){
@@ -427,7 +588,7 @@ onkyoItemSave : function(){
 	OTableRowAdd : function(){
 		MessageToast.show("추가");
 		var oModel = this.getView().getModel();
-		
+
 		var OilTableData = oModel.getProperty("/OilTable");
 
 		OilTableData.push({
@@ -450,9 +611,9 @@ onkyoItemSave : function(){
 	KTableRowAdd : function(){
 		MessageToast.show("추가");
 		var oModel = this.getView().getModel();
-		
+
 		var kyoinfo = oModel.getProperty("/kyoinfo");
-		
+
 		kyoinfo.push({
 			FDATE : "",
 			TDATE : "",
@@ -531,7 +692,7 @@ onkyoItemSave : function(){
 		// 	var dd = date.getDate() >= 10 ? date.getDate() : "0"+date.getDate();
 
 		// 	kyoinfoData[i].FDATE = yyyy.toString()+"-"+mm.toString()+"-"+dd.toString();
-		
+
 
 		/***********************
 		 * 아이템뷰 저장 메세지   2020-10-22 김성윤
@@ -544,16 +705,16 @@ onkyoItemSave : function(){
 				if(sAction === "저장"){
 
 					if(JPNUMData){
-			
+
 						that.getOwnerComponent().rfcCall("ZB_INPUT_APPRO", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 							//RFC Import 데이터
-							
+
 							I_MODE : "C" ,  //모드
 							I_JPNUM : JPNUMData,
 							TAB3 : ryuItem
-							
-							
-							
+
+
+
 							}).done(function(oResultData){   // RFC호출 완료
 								oModel.setProperty("/OilTable", oResultData.TAB3);
 								console.log(oResultData.TAB3);
@@ -562,7 +723,7 @@ onkyoItemSave : function(){
 								MessageToast.show(sErrorMessage);
 							}).then(function(){
 								oModel.refresh();
-							});			
+							});
 					}
 
 
@@ -573,11 +734,11 @@ onkyoItemSave : function(){
 			}
 		});
 
-		
+
 
 		// oModel.getProperty("/OilTable")[0].JPNUM = JPNUMData
-		
-	
+
+
 
 		// var oCARTY = this.getView().getModel().getProperty("/OilTable")[0].CARTYData;
 		// var oOILTY = this.getView().getModel().getProperty("/OilTable")[0].OILTYData;
@@ -586,13 +747,13 @@ onkyoItemSave : function(){
 		// var InBIGO = this.getView().getModel().getProperty("/OilTable")[0].InBIGO;
 
 
-		
+
 
 		// var OilItem = this.byId("OilItem").mAggregations.items[0].mProperties.text;
 
 		// console.log(OilItem);
-		
-		
+
+
 
 
 
@@ -609,14 +770,13 @@ onkyoItemSave : function(){
 		// 	}
 		// ]
 
-	
+
 
 	},
 
 
 
       //저장 버튼 이벤트 함수
-      
 		onSave: function() {
 				var comboData = this.getView().getModel().getProperty("/comboData");
 				// var PaywaData = this.getView().getModel().getProperty("/PAYWA");
@@ -628,17 +788,23 @@ onkyoItemSave : function(){
 				var Count = false;
 				var cnt = 0;
 				// var comDate = 
-				var oDate = new Date();
-				var yyyy = oDate.getFullYear();
+				// var oDate = new Date();
+					var dateData = this.getView().byId("DP10").getDateValue();
+				// var yyyy = oDate.getFullYear();
 				// var mm = oDate.getMonth()+1 >= 10 ? oDate.getMonth()+1 : "0"+(oDate.getMonth()+1);
-				var mm = oDate.getMonth() + 1 >= 10 ? oDate.getMonth() + 1 : "0" + (oDate.getMonth() + 1);
+				// var mm = oDate.getMonth() + 1 >= 10 ? oDate.getMonth() + 1 : "0" + (oDate.getMonth() + 1);
 				// var NOTE = oModel.getProperty("/PNAME");
-				mm = String(mm);
-				var dd = oDate.getDate();
-				var dateDD = yyyy + mm + dd;
-
+				// mm = String(mm);
+				// var dd = oDate.getDate();
+				// var dateDD = yyyy + mm + dd;
+				var sYear = dateData.getFullYear();
+				var sMonth = "";
+				sMonth = dateData.getMonth() + 1 >= 10 ? dateData.getMonth() + 1 : "0" + (dateData.getMonth() + 1);
+				sMonth = String(sMonth);
+				var dateValue = sYear + sMonth;
 				var sTest = realTable;
-
+				   var logData = this.getOwnerComponent().getCookiy("EMPNO");
+            var logGcod = this.getOwnerComponent().getCookiy("GCODE");
 				//var dateValue = sYear + sMonth;
 				if(comboData === "B" || comboData === "C" || comboData === "E" || comboData === "F") {
 						MessageBox.warning("상태필드를 확인해 주세요.");
@@ -658,56 +824,112 @@ onkyoItemSave : function(){
 
 						
 					} else {
+						console.log(realTable[i].realDate);
 						for (var i = 0; i < realTable.length; i++) {
+							
+							if(realTable[i].realDate){
+								realTable[i].realDate = realTable[i].realDate
+							}else{
+								realTable[i].realDate = new Date("0000-00-00");
+							}
+							var	yyyy = realTable[i].realDate.getFullYear();
+							var  mm = realTable[i].realDate.getMonth()+1 >= 10 ? realTable[i].realDate.getMonth()+1 : "0"+(realTable[i].realDate.getMonth()+1);
+							var  dd = realTable[i].realDate.getDate() >= 10 ? realTable[i].realDate.getDate() : "0"+realTable[i].realDate.getDate();
+							
 							if (realTable[i].checked) {
 								Count = true;
 								if (!realTable[i].JPNUM) {
 									realTable[i].JPNUM = "0";
 								}
-								realTable[i].EMPNO = "20201200010";
-								realTable[i].GCODE = "120";
-								realTable[i].CUMON = yyyy + mm;
+								realTable[i].PROPR = parseInt(realTable[i].PROPR);
+								realTable[i].EMPNO = logData;
+								realTable[i].GCODE = logGcod;
+								realTable[i].CUMON = dateValue;
 								// realTable[i].REDATE = realTable[i].realDate;
-								//realTable[i].REDATE = "";
+								// realTable[i].REDATE = "";
+								realTable[i].REDATE = yyyy.toString()+mm.toString()+dd.toString()
 								realTable[i].APPDAT = "";
 								realTable[i].RDATE = "";
 								realTable[i].ACDAT = "";
 								delete realTable[i].checked;
 								realNothing.push(realTable[i]);
+
+
 							}
 						}
+							for (var i = 0; i < realTable.length; i++) {
+							if (realTable[i].checked) {
+								Count = true;
+								if (!realTable[i].JPNUM) {
+									realTable[i].JPNUM = "0";
+								}
+								if (realTable[i].REPHO !== "" || realTable[i].REPHO !== null) 
+								{realTable[i].REPHO = "첨부완료";};
+							}
+						}
+						
 						//oModel.setProperty("/tableRow", parseInt(oModel.getProperty("/tableRow"))-cnt);
 						console.log(realNothing);
 
+
 						if (Count) {
-							this.getOwnerComponent().rfcCall("ZB_INPUT_APPRO", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-								//RFC Import 데이터
-								I_MODE: 'B',
-								TAB1: realNothing
-							}).done(function(oResultData) { // RFC호출 완료
-								console.log(oResultData);
-								//oResultData.TAB1[0].NOTE
-							}).fail(function(sErrorMessage) { // 호출 실패
-								MessageToast.show(sErrorMessage);
-							}).then(function() {
 
-								// that.byId("AppId").removeSelectionInterval(realTable[i]);
+					
+							MessageBox.confirm("입력한 경비를 저장하시겠습니까??", {
+								actions: ["저장", MessageBox.Action.CLOSE],
+								emphasizedAction: "저장",
+								onClose: function (sAction) {
+					
+									if(sAction === "저장"){
 
-								that.byId("AppId").removeSelectionInterval(0, realTable.length);
 
-								for (var i = 0; i < realTable.length; i++) {
-									if (realTable[i].checked) {
-										realTable[i].checked = false;
-										oModel.refresh();
+					
+									
+										that.getOwnerComponent().rfcCall("ZB_INPUT_APPRO", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+											//RFC Import 데이터
+											I_MODE: 'B',
+											TAB1: realNothing
+										}).done(function(oResultData) { // RFC호출 완료
+											console.log(oResultData);
+											//oResultData.TAB1[0].NOTE
+										}).fail(function(sErrorMessage) { // 호출 실패
+											MessageToast.show(sErrorMessage);
+										}).then(function() {
+			
+											// that.byId("AppId").removeSelectionInterval(realTable[i]);
+			
+											that.byId("AppId").removeSelectionInterval(0, realTable.length);
+			
+											for (var i = 0; i < realTable.length; i++) {
+												if (realTable[i].checked) {
+													realTable[i].checked = false;
+													oModel.refresh();
+												}
+											}
+			
+											that.onDisplay();
+											var tableRowdata = that.getView().getModel().getProperty("/tableData").length;
+											oModel.setProperty("/tableRow", tableRowdata);
+			
+											that.getView().getModel().refresh();
+										});
+									
+										
+					
+					
+										MessageToast.show("저장되었습니다");
+									}else{
+										MessageToast.show("취소되었습니다");
 									}
 								}
-
-								that.onDisplay();
-								var tableRowdata = that.getView().getModel().getProperty("/tableData").length;
-								oModel.setProperty("/tableRow", tableRowdata);
-
-								that.getView().getModel().refresh();
 							});
+
+
+
+
+
+							
+						
 						} else {
 							MessageBox.warning("선택한 전표가 없습니다 ●_● ");
 						}
@@ -732,12 +954,16 @@ onkyoItemSave : function(){
 		} else if (comboData === "A" || comboData === "D") {
 			for (var i = 0; i < realTable.length; i++) {
 				if (realTable[i].checked) {
-					if (realTable[i].PROPR == "" || realTable[i].PROPR == null
-						|| realTable[i].REDATE.trim() == "" ||realTable[i].REDATE == null 
-						|| realTable[i].PAYWA.trim() == "" ||realTable[i].PAYWA == null) {
-						MessageBox.error("빈값을 채워주세요.");
-						return;
-					} else {
+					// if (realTable[i].PROPR == "" || realTable[i].PROPR == null
+					// 	|| realTable[i].REDATE.trim() == "" ||realTable[i].REDATE == null
+					// 	|| realTable[i].PAYWA.trim() == "" ||realTable[i].PAYWA == null) {
+					// 	MessageBox.error("빈값을 채워주세요.");
+					// 	return;
+					if(!realTable[i].PROPR || !realTable[i].REDATE ||realTable[i].REDATE === "NaN0-Na-N0" || !realTable[i].PAYWA){
+							MessageBox.error("빈값을 채워주세요.");
+							return;
+						} 
+						else {
 						Count = true;
 						realTable[i].ACDAT = "";
 						realTable[i].APPDAT = "";
@@ -762,6 +988,16 @@ onkyoItemSave : function(){
 
 				}).done(function(oResultData) { // RFC호출 완료
 					console.log(oResultData);
+
+					if(oResultData.E_MESSAGE === "승인요청 되었습니다."){
+						MessageBox.error("승인요청 되었습니다.");
+					}else if(oResultData.E_MESSAGE === "유류대 아이템을 입력하세요."){
+						MessageBox.error("유류대 아이템을 입력하세요.");
+					}else if(oResultData.E_MESSAGE === "교육 아이템을 입력하세요."){
+						MessageBox.error("교육 아이템을 입력하세요.");
+					}else if(oResultData.E_MESSAGE === "식수 인원 대비 금액을 초과합니다."){
+						MessageBox.error("식수 인원 대비 금액을 초과합니다.");
+					}
 					//oResultData.TAB1[0].NOTE
 				}).fail(function(sErrorMessage) { // 호출 실패
 					MessageToast.show(sErrorMessage);
@@ -792,7 +1028,7 @@ onkyoItemSave : function(){
 
 				});
 			} else {
-				MessageBox.warning("선택한 전표가 없습니다 ●_● ");
+				MessageBox.warning("선택한 전표가 없습니다.");
 			}
 
 		}
@@ -853,6 +1089,7 @@ onkyoItemSave : function(){
 	onDisplay: function() {
 
 		var aaa = this.getView().byId("DP10").getDateValue();
+		var that = this;
 
 		// 데이터 들고오기
 		var comboData = this.getView().getModel().getProperty("/comboData");
@@ -865,6 +1102,8 @@ onkyoItemSave : function(){
 			this.getView().getModel().setProperty("/Otext", false);
 			this.getView().getModel().setProperty("/OTable", false);
 			this.getView().getModel().setProperty("/KTable", false);
+			this.getView().getModel().setProperty("/sikTable", false);
+			this.getView().getModel().setProperty("/sikTableButton", true);
 		} else {
 			this.getView().getModel().setProperty("/input", false);
 			this.getView().getModel().setProperty("/text", true);
@@ -872,6 +1111,8 @@ onkyoItemSave : function(){
 			this.getView().getModel().setProperty("/Otext", false);
 			this.getView().getModel().setProperty("/OTable", false);
 			this.getView().getModel().setProperty("/KTable", false);
+			this.getView().getModel().setProperty("/sikTable", false);
+			this.getView().getModel().setProperty("/sikTableButton", false);
 		}
 
 		var oModel = this.getView().getModel();
@@ -884,7 +1125,7 @@ onkyoItemSave : function(){
 		sMonth = dateData.getMonth() + 1 >= 10 ? dateData.getMonth() + 1 : "0" + (dateData.getMonth() + 1);
 		sMonth = String(sMonth);
 		var dateValue = sYear + sMonth;
-
+		var logData = this.getOwnerComponent().getCookiy("EMPNO");
 		console.log(dateValue);
 
 		//var monthData = dateData.split(".")[1].trim() >= 10 ? dateData.split(".")[0] + dateData.split(".")[1].trim() : dateData.split(".")[0] + "0" + dateData.split(".")[1].trim();
@@ -895,11 +1136,28 @@ onkyoItemSave : function(){
 			//RFC Import 데이터
 			I_CUMON: dateValue, //해당 월
 			I_MODE: "A", //모드
-			I_EMPNO: "20201200010", //사원 번호
+			I_EMPNO: logData, //사원 번호
 			I_STCOD: stcoData
 
 		}).done(function(oResultData) { // RFC호출 완료
 			oModel.setProperty("/tableData", oResultData.TAB1);
+
+			if (comboData === "B" || comboData === "C" || comboData === "E") {
+
+				for(var i=0 ; i < oResultData.TAB1.length ; i++){
+					var img = oResultData.TAB1[i].REPHO;
+
+					if(oResultData.TAB1[i].REPHO){
+							oModel.setProperty("/tableData/"+i+"/IMAGE", "저장 됨");
+							that.getView().byId("img").setHref(img).setTarget("_blank");
+							console.log("hihihi");
+					}else{
+						oModel.setProperty("/tableData/"+i+"/IMAGE", "저장 안됨");
+					}
+
+				}
+			}
+
 			console.log(oResultData.TAB1);
 			//oResultData.TAB1[0].NOTE
 		}).fail(function(sErrorMessage) { // 호출 실패
@@ -941,20 +1199,23 @@ onkyoItemSave : function(){
 
 			}
 
+			
+
+
 		});
 
 	},
       onGo:function(){
       	MessageToast.show("d");
       },
-      
-      
+
+
        rowSelection : function(oEvent){
 	      	var allData = oEvent.mParameters.selectAll;
 	      	var cancData = oEvent.mParameters.rowIndex;
 	      	var oModel = this.getView().getModel();
 	      	var tableArray = oModel.getProperty("/tableData");
-	      	
+
 	      	if(allData){
 	      		for(var i=0 ; i < tableArray.length ; i++){
 	      			if(!tableArray[i].checked){
@@ -967,32 +1228,32 @@ onkyoItemSave : function(){
 		      				tableArray[i].checked = false;
 	      			}
 	      		}
-	      	
+
 	      	}else{
 	      		if(oEvent.getParameters("rowContextParameters").rowContext){
 		      		var sPath = oEvent.getParameters("rowContextParameters").rowContext.sPath;
-		      		
+
 		      		if(oModel.getProperty(sPath + "/checked")){
-			      		MessageToast.show(oModel.getProperty(sPath + "/checked"));
+			      		// MessageToast.show(oModel.getProperty(sPath + "/checked"));
 			      		oModel.setProperty(sPath + "/checked", false);
-			      		//delete// data 
+			      		//delete// data
 			      	}else{
-			      		MessageToast.show(oModel.getProperty(sPath + "/checked"));
+			      		// MessageToast.show(oModel.getProperty(sPath + "/checked"));
 			      		oModel.setProperty(sPath + "/checked", true);
 			      		//add data
-		    		}	
+		    		}
 	      		}
-	      
+
       	}
-      	
+
       	console.log(tableArray);
-      	
+
       },
-    	
+
     	//프로젝트 fragment
-    	
-    	
-    
+
+
+
     	ProValueHelp: function(oEvent) {
 		// var target = oEvent.oSource.oParent.sId;
 		// // var targetData = target.replace("__table0-rows-row","").trim();
@@ -1026,6 +1287,8 @@ onkyoItemSave : function(){
 
 		var oModel = this.getView().getModel();
 		var proData = oModel.getProperty("/proData");
+		var sDate = [];
+		
 		// var nameSearchData = oModel.getProperty("/proSearch");
 
 		// MessageToast.show(proData+"/"+nameSearchData);
@@ -1035,12 +1298,33 @@ onkyoItemSave : function(){
 			I_PCODE: proData
 		}).done(function(oResultData) { // RFC호출 완료
 			console.log(oResultData.TAB1);
+			
+
+			// for(var i=0 ; i<oResultData.TAB1.length ; i++){
+
+			// 	var sYY = new Date(oResultData.TAB1[i].EDATE).getFullYear();
+			// 	var sMM = new Date(oResultData.TAB1[i].EDATE).getMonth();
+			// 	var yy = new Date().getFullYear();
+			// 	var mm = new 
+				
+			// 	if(sYY+sMM === new Date().getMonth()-1){
+
+			// 		sDate.push(oResultData.TAB1[i]);
+			// 		oModel.setProperty("/proInfo", sDate);
+				
+			// 	}
+
+			// }
+
 			oModel.setProperty("/proInfo", oResultData.TAB1);
+			
 		}).fail(function(sErrorMessage) { // 호출 실패
 			alert(sErrorMessage);
 		}).then(function() {
 			// 여기다가 rfc 호출후 작업코딩
 		});
+
+		oModel.getProperty("/proInfo");
 
 	},
 
@@ -1329,12 +1613,28 @@ onkyoItemSave : function(){
 		var oBinding = oList.getBinding("rows");
 		oBinding.filter(aFilter);
 	},
-    
-    
+
+
 		onsikSave : function(){
 			var oModel = this.getView().getModel();
 			var tableData = oModel.getProperty("/info");
 			var JPNUM = oModel.getProperty("/JPNUMData");
+			var that = this;
+			var ck = 0;
+
+			var PROPR = parseInt(this.getView().getModel().getProperty("/PROPR"))/100;
+			var siksu = PROPR / 8000;
+
+			for(var i=0 ; i < tableData.length ; i++){
+				ck += parseInt(tableData[i].SIKSU);
+			}
+
+			if((PROPR/ck) > 80){
+				MessageToast.show("금액 대비 식수인원이 초과합니다.");
+				return -1;
+			}
+
+			
 
 			this.getOwnerComponent().rfcCall("ZB_INPUT_APPRO", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 				//RFC Import 데이터
@@ -1342,31 +1642,44 @@ onkyoItemSave : function(){
 				I_JPNUM : JPNUM,
 				TAB2: tableData
 			 }).done(function(oResultData){   // RFC호출 완료
-				for(var i=0 ; i < oResultData.TAB2.length ; i++){
-					oResultData.TAB2[i].HANGN = parseInt(oResultData.TAB2[i].HANGN);
-					oResultData.TAB2[i].SIKSU = parseInt(oResultData.TAB2[i].SIKSU);
+				if(oResultData.E_MESSAGE === "저장되었습니다."){
+					for(var i=0 ; i < oResultData.TAB2.length ; i++){
+						MessageToast.show("저장 성공");
+						oResultData.TAB2[i].HANGN = parseInt(oResultData.TAB2[i].HANGN);
+						oResultData.TAB2[i].SIKSU = parseInt(oResultData.TAB2[i].SIKSU);
+						oModel.setProperty("/info", oResultData.TAB2);
+
+						that.byId("mainTableId").removeSelectionInterval(0, tableData.length);
+					}
+				}else{
+					MessageToast.show("저장 실패");
 				}
-				oModel.setProperty("/info", oResultData.TAB2);
 			 }).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
 			 }).then(function(){
+				 
+				var siktableData = oModel.getProperty("/info");
+		
+				for (var i = siktableData.length - 1; i >= 0; i--) {
+					siktableData[i].checked = false;
+				}
 				oModel.refresh();
 			 });
 
 
 
 		},
-			handleChange: function(oEvent) {
-		var oModel = this.getView().getModel(), 
+	handleChange: function(oEvent) {
+		var oModel = this.getView().getModel(),
 			sPath = oEvent.getSource().getBindingContext().getPath(),
 			oSelectData = oModel.getProperty(sPath),			//선택한 라인 경로
 			sSelectDate = oEvent.getSource().getValue();		//datePicker에서 선택한 날짜 가져오기
-		
+
 		oSelectData.REDATE = sSelectDate;						//선택한 날짜 저장
 	},
 
 
- 
+
 
 
 
