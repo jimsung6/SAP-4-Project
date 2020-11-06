@@ -49,6 +49,7 @@ sap.ui.define([
 			//캘린더 초기 세팅
 			var nMS = 1000 * 60 * 60 * 24; //milliseconds in a day
 			var today = new Date(); //오늘 날짜 불러오기
+			this.getView().getModel().setProperty("/today", today);
 			var oDay = new Date(today.getTime() - nMS*365); //오늘 날짜 - 365일 -> 최근 1년 이내의 데이터를 불러오기
 			this.getView().getModel().setProperty("/startDate", oDay); // startDate에 oDay를 초기값 set해준다.
 			this.getView().getModel().setProperty("/endDate", today);  // endDate에 today를 초기값 set해준다.
@@ -275,7 +276,7 @@ sap.ui.define([
 		onSaveDialog : function (oEvent) {
 			// collect input controls
 			var oModel = this.getView().getModel();
-			var gPath = oModel.oData.teamBudgetRequest;
+			var gPath = oModel.getProperty("/teamBudgetRequest");
 			// 데이터 불러오기
 			var RTREQ = gPath.RTREQ;
 			var TREBUD = gPath.TREBUD;
@@ -324,6 +325,7 @@ sap.ui.define([
 								this.oApproveDialog.close();
 								this.oApproveDialog.destroy();
 								delete this.oApproveDialog;
+								this.onCloseDialog();
 							}.bind(this)						
 						}),
 						endButton: new Button({
