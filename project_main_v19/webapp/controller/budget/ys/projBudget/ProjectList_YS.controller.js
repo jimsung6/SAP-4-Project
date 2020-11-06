@@ -174,11 +174,13 @@ sap.ui.define([
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/ 			
 		onCloseDialog : function (oEvent, sChannelId, sEventId, sData) {
+			//BudgetList_YS로 데이터 보내기
 			sap.ui.getCore().getEventBus().publish(
 				"SomeChannel2",
 				"SomeEvent2",
 				{text : this.getView().getModel().getProperty("/projBudgetRequest/PCODE")}
 			);
+			//다이얼로그 닫기
 			this.byId("openDialog1").close();
 		},
 		/******************************************************************************************************************************************************
@@ -187,10 +189,7 @@ sap.ui.define([
 		 ******************************************************************************************************************************************************/ 		
 		onSaveDialog : function () {
 			var oModel = this.getView().getModel();
-			// var tableData = this.getView().getModel().getProperty("/projTableData");
-			
 			var sPath = oModel.getProperty("/projBudgetRequest");
-
 			// // 데이터 불러오기
 			var PCODE = sPath.PCODE;
 			var REQUEST = sPath.REQUEST;
@@ -251,7 +250,7 @@ sap.ui.define([
 		onSelectionChange : function (oEvent, sChannelId, sEventId, sData) {		
 			var sPath = oEvent.mParameters.rowContext.sPath ;  //선택된 레코드의 경로 찾기
 			var selectChange = this.getView().getModel().getProperty(sPath+"/PCODE");
-			console.log(selectChange)
+			//BudgetList_YS로 데이터 보내기
 			this.getView().getModel().setProperty("/PCODE" ,selectChange)
 			sap.ui.getCore().getEventBus().publish(
 				"SomeChannel",
