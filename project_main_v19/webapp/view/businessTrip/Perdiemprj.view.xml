@@ -68,7 +68,7 @@ height="100%">
                      <m:Text text="{Perdiem>WORKD}" />
                   </template>
                </Column>
-               <Column width="90px"
+               <Column width="110px"
                sortOrder="Descending">
                   <m:Label text="지급금액" />
                   <template>
