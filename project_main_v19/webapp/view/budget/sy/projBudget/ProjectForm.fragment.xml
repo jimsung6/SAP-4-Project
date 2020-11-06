@@ -1,7 +1,8 @@
 <core:FragmentDefinition
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
-	xmlns:f="sap.ui.layout.form">
+	xmlns:f="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified">
 	<Dialog
 		contentWidth="45%"
 		id="ProjectForm"
@@ -33,8 +34,13 @@
 						</f:formElements>
 						<f:formElements>
 							<f:FormElement label="수주금액">
-								<f:fields>
-									<Text text="{projectinitsun>/projectData/0/PMONEY}" />
+								<f:fields >
+									<Text text="{projectinitsun>/projectData/0/PMONEY} KRW" />
+									<!-- <u:Currency value="{projectinitsun>/projectData/0/PMONEY}" 
+								width="100px"
+								maxPrecision="0" 
+								useSymbol="false" 
+								currency="KRW"/> -->
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

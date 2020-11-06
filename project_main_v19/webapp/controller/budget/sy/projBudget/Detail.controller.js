@@ -425,6 +425,21 @@ sap.ui.define([
 				}).done(function(oResultData){
 					// RFC호출 완료
 					console.log(oResultData.ZBPTAB3);
+
+					//수주금액 단위
+						var bMoney = "";
+						var cnt = 0;
+						var aMoney = oResultData.ZBPTAB3[0].PMONEY.toString().split("");
+						for(var j = aMoney.length-1 ; j >= 0 ; j--){
+						   cnt++
+						   bMoney = aMoney[j] + bMoney;
+						   if(cnt % 3 === 0 && cnt !== aMoney.length ){
+							bMoney = "," + bMoney;
+						   } 
+						 }
+						 oResultData.ZBPTAB3[0].PMONEY = bMoney;
+					 
+					//Model setting
 					oModel.setProperty("/projectData", oResultData.ZBPTAB3);
 				}).fail(function(sErrorMessage){
 					// 호출 실패

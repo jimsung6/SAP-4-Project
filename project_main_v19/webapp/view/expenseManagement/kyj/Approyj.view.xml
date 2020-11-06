@@ -173,7 +173,7 @@
 		                <Label text="금액" />
 		                <table:template>
 		                    	<u:Currency
-						value="{PROPR}" maxPrecision="0" useSymbol="false" currency="KRW"/>
+						value="{PROPR}" maxPrecision="0" useSymbol="false" />
 		                </table:template>
 		            </table:Column>
 		            
@@ -201,19 +201,19 @@
 		        
 		        
 		        <table:Column hAlign="Center" visible="{/input}" width="20%">
-		                <Label text="영수증 첨부" />
-		                <table:template>
-		                    <Input value="{REPHO}" />
-		                </table:template>
-		            </table:Column>
+							<Label text="영수증 첨부" />
+							<table:template>
+								<u:FileUploader buttonOnly="true" change="onChange($event)"/>
+							</table:template>
+						</table:Column>
 		            
 		               	
 					<table:Column hAlign="Center" visible="{/text}"  width="20%">
-		                <Label text="영수증 첨부" />
-		                <table:template>
-		                     <Text text="{REPHO}" />
-		                </table:template>
-		            </table:Column>
+						<Label text="영수증 첨부" />
+							<table:template>
+									<Link id="img" text="{IMAGE}" href="{REPHO}" target="_blank"/>
+							</table:template>
+					</table:Column>
 		        
 		        	    <table:Column hAlign="Center" width="20%">
 		                <Label text="승인자" />
@@ -229,12 +229,7 @@
 		                </table:template>
 		            </table:Column>
 			
-		    	   <table:Column hAlign="Center" width="20%">
-		                <Label text="상태" />
-		                <table:template>
-		                    <Link text="{STCODNA}" press=".selDetail" app:flag="{CODHC}" />
-		                </table:template>
-		            </table:Column>
+		    
 				    <table:Column hAlign="Center" width="24%">
 		                <Label text="승인/반려 일자" />
 		                <table:template>
@@ -261,6 +256,12 @@
 							  
 						<!--	</t:template>-->
 						<!--</t:Column>-->
+							   <table:Column hAlign="Center" width="20%">
+		                <Label text="상태" />
+		                <table:template>
+		                    <Link text="{STCODNA}" press=".selDetail" app:flag="{CODHC}" />
+		                </table:template>
+		            </table:Column>
 	
 	            </table:columns>
 	        </table:Table>
@@ -285,31 +286,32 @@
 					id="mainTableId"
 					rows="{/info}"
 					rowSelectionChange="onMainTableSelect"
-					visibleRowCount="{/tableRow2}">
+					visibleRowCount="{/tableRow2}"
+					visible="{/sikTable}">
 					<t:extension>
-						<HBox justifyContent="End">
-							<Button class="sapUiSmallMarginEnd" text="행추가" press="onRowAdd2"></Button>
-							<Button class="sapUiSmallMarginEnd" text="행삭제" press="onRowDel"></Button>
-							<Button text="저장" press="onsikSave"></Button>
-						</HBox>
+					   <HBox justifyContent="End">
+                   <Button class="sapUiSmallMarginEnd" icon="sap-icon://add" press="onRowAdd2" visible="{/sikTableButton}"></Button>
+                     <Button class="sapUiSmallMarginEnd" icon="sap-icon://less" press="onRowDel" visible="{/sikTableButton}"></Button>
+                     <Button text="저장" press="onsikSave" visible="{/sikTableButton}"></Button>
+                  </HBox>
 					</t:extension>
 					<t:columns>
 
-						<t:Column width="200px">
+						<t:Column visible="{/sikInput}" width="200px">
 							<Label text="전표번호"></Label>
 							<t:template>
 								<Text text="{JPNUM}"> </Text>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="80px">
+						<t:Column visible="{/sikInput}" width="80px">
 							<Label text="항목번호"></Label>
 							<t:template>
 								<Text text="{HANGN}"> </Text>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="80px">
+						<t:Column visible="{/sikInput}" width="80px">
 							<Label text="식수인원"></Label>
 							<t:template>
 								<Input value="{SIKSU}"> </Input>
@@ -317,7 +319,7 @@
 						</t:Column>
 
 					    
-						<t:Column width="200px">
+						<t:Column visible="{/sikInput}" width="200px">
 							<Label text="사원번호"></Label>
 							<t:template>
 
@@ -330,7 +332,7 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="150px">
+						<t:Column visible="{/sikInput}" width="150px">
 							<Label text="사원이름"></Label>
 							<t:template>
 								<Text text="{ENAME}" width="100%">
@@ -338,13 +340,51 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column>
+						<t:Column visible="{/sikInput}"> 
 							<Label text="비고"></Label>
 							<t:template>
 								<Input value="{REMARK}"> </Input>
 							</t:template>
 						</t:Column>
-					
+					 	
+
+
+
+						<t:Column visible="{/sikView}" width="200px">
+							<Label text="전표번호"></Label>
+							<t:template>
+								<Text text="{JPNUM}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column visible="{/sikView}" width="80px">
+							<Label text="항목번호"></Label>
+							<t:template>
+								<Text text="{HANGN}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column visible="{/sikView}" width="80px">
+							<Label text="식수인원"></Label>
+							<t:template>
+								<Text text="{SIKSU}"> </Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column visible="{/sikView}" width="150px">
+							<Label text="사원이름"></Label>
+							<t:template>
+								<Text text="{ENAME}" width="100%">
+								</Text>
+							</t:template>
+						</t:Column>
+
+						<t:Column visible="{/sikView}">
+							<Label text="비고"></Label>
+							<t:template>
+								<Text text="{REMARK}"> </Text>
+							</t:template>
+						</t:Column>
 						
 						
 						
@@ -380,7 +420,7 @@
 					</t:extension>
 					<t:columns>
 
-						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="300px" visible="{/Oinput}" hAlign="Center">
 							<Label text="차종"></Label>
 							<t:template>
 								<!-- <Input value="{CARTY}"> </Input> -->
@@ -394,7 +434,7 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="300px" visible="{/Otext}" hAlign="Center">
 							<Label text="차종"></Label>
 							<t:template>
 								<Text text="{CARTY}"> </Text>
@@ -403,7 +443,7 @@
 
 
 
-						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="300px" visible="{/Oinput}" hAlign="Center">
 							<Label text="유류"></Label>
 							<t:template>
 								<!-- <Input value="{OILTY}"> </Input> -->
@@ -417,7 +457,7 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="300px" visible="{/Otext}" hAlign="Center">
 							<Label text="유류"></Label>
 							<t:template>
 								<Text text="{OILTY}"> </Text>
@@ -426,14 +466,14 @@
 
 
 
-						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="300px" visible="{/Oinput}" hAlign="Center">
 							<Label text="거리"></Label>
 							<t:template>
 								<Input value="{HOMET}" textAlign="Right"> </Input>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="300px" visible="{/Otext}" hAlign="Center">
 							<Label text="거리"></Label>
 							<t:template Align="Right">
 								<Text text="{HOMET}" Align="Right"> </Text>
@@ -441,28 +481,28 @@
 						</t:Column>
 
 					    
-						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
-							<Label text="금액"></Label>
-							<t:template>
-							<Input value="{PROPR}" textAlign="Right"> </Input>
-							</t:template>
-						</t:Column>
+						<!--<t:Column width="200px" visible="{/Oinput}" hAlign="Center">-->
+						<!--	<Label text="금액"></Label>-->
+						<!--	<t:template>-->
+						<!--	<Input value="{PROPR}" textAlign="Right"> </Input>-->
+						<!--	</t:template>-->
+						<!--</t:Column>-->
 
-						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
-							<Label text="금액"></Label>
-							<t:template>
-								<Text text="{PROPR}" textAlign="Right"> </Text>
-							</t:template>
-						</t:Column>
+						<!--<t:Column width="200px" visible="{/Otext}" hAlign="Center">-->
+						<!--	<Label text="금액"></Label>-->
+						<!--	<t:template>-->
+						<!--		<Text text="{PROPR}" textAlign="Right"> </Text>-->
+						<!--	</t:template>-->
+						<!--</t:Column>-->
 
-						<t:Column width="21.65rem" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="450px" visible="{/Oinput}" hAlign="Center">
 							<Label text="비고"></Label>
 							<t:template>
 								<Input value="{BIGO}"> </Input>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="21.65rem" visible="{/Otext}" hAlign="Center">
+						<t:Column width="450px" visible="{/Otext}" hAlign="Center">
 							<Label text="비고"></Label>
 							<t:template>
 								<Text text="{BIGO}" width="100%" textAlign="Center">
@@ -473,19 +513,18 @@
 
 
 
-						<t:Column width="5.8rem" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="315px" visible="{/Oinput}" hAlign="Center">
 							<Label text="이미지"></Label>
-							<t:template>
-								<Button text="첨부" width="100%">
-								</Button>
-							</t:template>
+								<t:template>
+									<u:FileUploader buttonOnly="true" change="onryuChange($event)"/>
+								</t:template>
 						</t:Column>
 
-							<t:Column width="5.8rem" visible="{/Otext}" hAlign="Center">
+							<t:Column width="315px" visible="{/Otext}" hAlign="Center">
 							<Label text="이미지"></Label>
-							<t:template>
-								<Link text="첨부" width="100%"/>
-							</t:template>
+								<t:template>
+									<Link text="{IMAGE}" href="{ADDIM}" target="_blank" width="100%"/>
+								</t:template>
 						</t:Column>
 					</t:columns>
 				</t:Table>
@@ -524,7 +563,7 @@
 
 					
 
-						<t:Column width="150px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
 							<Label text="날짜(From)"></Label>
 							<t:template>
 								   <DatePicker
@@ -535,7 +574,7 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="150px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
 							<Label text="날짜(To)"></Label>
 							<t:template>
 								 <DatePicker
@@ -546,40 +585,39 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="300px" visible="{/Oinput}" hAlign="Center">
 							<Label text="교육명"></Label>
 							<t:template>
 								<Input value="{EDUNA}"/>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="200px" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="300px" visible="{/Oinput}" hAlign="Center">
 							<Label text="교육기관명"></Label>
 							<t:template>
 								<Input value="{EDUOR}"/>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="120px" visible="{/Oinput}" hAlign="Center">
-							<Label text="금액"></Label>
-							<t:template>
-								<Input value="{PROPR}" textAlign="Right"/>
-							</t:template>
-						</t:Column>
+						<!--<t:Column width="120px" visible="{/Oinput}" hAlign="Center">-->
+						<!--	<Label text="금액"></Label>-->
+						<!--	<t:template>-->
+						<!--		<Input value="{PROPR}" textAlign="Right"/>-->
+						<!--	</t:template>-->
+						<!--</t:Column>-->
 						
-						<t:Column width="21.65rem" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="370px" visible="{/Oinput}" hAlign="Center">
 							<Label text="비고"></Label>
 							<t:template>
 								<Input value="{BIGO}"/>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="4.6rem" visible="{/Oinput}" hAlign="Center">
+						<t:Column width="295px" visible="{/Oinput}" hAlign="Center">
 							<Label text="이미지"></Label>
-							<t:template>
-								<Button text="첨부" width="100%">
-								</Button>
-							</t:template>
+								<t:template>
+									<u:FileUploader buttonOnly="true" change="onkyoChange($event)"/>
+								</t:template>
 						</t:Column>
 
 
@@ -587,7 +625,7 @@
 			
 
 						
-						<t:Column width="150px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
 							<Label text="날짜(From)"></Label>
 							<t:template>
 								 <DatePicker
@@ -598,7 +636,7 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="150px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
 							<Label text="날짜(To)"></Label>
 							<t:template>
 								 <DatePicker
@@ -616,32 +654,32 @@
 							</t:template>
 						</t:Column>
 
-						<t:Column width="200px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="300px" visible="{/Otext}" hAlign="Center">
 							<Label text="교육기관명"></Label>
 							<t:template>
 								<Text text="{EDUOR}"> </Text>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="120px" visible="{/Otext}" hAlign="Center">
+						<t:Column width="300px" visible="{/Otext}" hAlign="Center">
 							<Label text="금액"></Label>
 							<t:template>
 								<Text text="{PROPR}"/>
 							</t:template>
 						</t:Column>
 						
-						<t:Column width="21.65rem" visible="{/Otext}" hAlign="Center">
+						<t:Column width="370px" visible="{/Otext}" hAlign="Center">
 							<Label text="비고"></Label>
 							<t:template>
 								<Text text="{BIGO}"/>
 							</t:template>
 						</t:Column>
 
-						<t:Column width="4.6rem" visible="{/Otext}" hAlign="Center">
+						<t:Column width="295px" visible="{/Otext}" hAlign="Center">
 							<Label text="이미지"></Label>
-							<t:template>
-								<Link text="첨부" width="100%"/>
-							</t:template>
+								<t:template>
+									<Link text="{IMAGE}" href="{ADDIM}" target="_blank" width="100%"/>
+								</t:template>
 						</t:Column>
 
 

@@ -137,7 +137,7 @@
 						<w:Card 
 							id="stackedColumn2" 
 							visible="{authority>/stackedColumn2}"
-							height="500px" 
+							height="500px"
 							manifest="{cardManifests>/stackedColumn2}">
 							<w:layoutData>
 								<f:GridContainerItemLayoutData rows="4" columns="4" />
