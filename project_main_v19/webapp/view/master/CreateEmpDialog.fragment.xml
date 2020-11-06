@@ -28,7 +28,7 @@
 								<f:fields>
 									<Input
 										id="nempno"
-										placeholder="숫자 11자리 조합으로 입력해주세요."
+										placeholder="입사년도 4자리 + 부서코드 3자리 + 0001~9999"
 										required="true"
 										liveChange= ".onEmployeeChange" />
 								</f:fields>

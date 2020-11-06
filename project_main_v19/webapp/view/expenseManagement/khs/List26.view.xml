@@ -196,7 +196,7 @@
 									<core:ListItem key="{TEST>CACNR}" text="{TEST>CACNR}" additionalText = "{TEST>BANKL}"/>
 							</items>
 							</ComboBox>	
-							<Text text="{TEST>STCOD}" />
+							<Text text="{TEST>STCODNA}" />
 							<ComboBox showSecondaryValues="true"
 							enabled = "{TEST>/comboEnable}"
 							selectedKey="{TEST>/sRetcode}"

@@ -86,9 +86,9 @@ sap.ui.define([
             MessageToast.show(sErrorMessage);
          }).then(function(){
          });
-
+		 
 			this.getOwnerComponent().rfcCall("ZB_PCODE_97", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-            //RFC Import 데이터
+			//RFC Import 데이터
          }).done(function(oResultData){   // RFC호출 완료
             oModel.setProperty("/oPcode", oResultData.T_ZBMDT0030);
          }).fail(function(sErrorMessage){// 호출 실패
@@ -203,8 +203,27 @@ sap.ui.define([
        ******************************************************************************************************************************************************/ 
 	  handleValueHelp2 : function(oEvent){	       
 		var oView = this.getView();
+		var pModel = this.getView().getModel('TEST');
+		var pfToday = pModel.oData.fToday;
+		var pfToday2 = pModel.oData.fToday2;
+		var sFromDate = new Date(pfToday);
+		var sToDate = new Date(pfToday2);
+
+		var sFromYear = sFromDate.getFullYear();
+		var sFromMonth = sFromDate.getMonth()+1 >= 10 ? sFromDate.getMonth()+1 : "0"+(sFromDate.getMonth()+1);
+		var sFromDate = sFromDate.getDate() >= 10 ? sFromDate.getDate() : "0"+sFromDate.getDate();
+
+		var sToYear = sToDate.getFullYear();
+		var sToMonth = sToDate.getMonth()+1 >= 10 ? sToDate.getMonth()+1 : "0"+(sToDate.getMonth()+1);
+		var sToDate = sToDate.getDate() >= 10 ? sToDate.getDate() : "0"+sToDate.getDate();
+
+		var sFromDateInfo = sFromYear.toString()+sFromMonth.toString()+sFromDate.toString();
+		var sToDateInfo = sToYear.toString()+sToMonth.toString()+sToDate.toString();
+
 	         this.getOwnerComponent().rfcCall("ZB_PCODE_97", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
-             //RFC Import 데이터
+			 //RFC Import 데이터
+			 I_SDATE : sFromDateInfo,
+			 I_EDATE : sToDateInfo
 	         }).done(function(oResultData){   // RFC호출 완료
 	        	oView.getModel("TEST").setProperty("/oPcode", oResultData.T_ZBMDT0030);
 	         }).fail(function(sErrorMessage){// 호출 실패
@@ -358,15 +377,20 @@ sap.ui.define([
 			// 		oResultData.T_PAYTAB[i].STCOD = "반려"
 			// 	}
 			// }
-            oModel.setProperty("/View", oResultData.T_PAYTAB); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
+			oModel.setProperty("/View", oResultData.T_PAYTAB); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
+				var sRetcode = oModel.setProperty("/sRetcode", null);
+				var sCacnr = oModel.setProperty("/sCacnr", null);
+				// for(var i = 0; i<sRetcode.length; i++){
+				// 	sRetcode[i] = "";
+				// 	sCacnr[i] = "";
+				// }
          }).fail(function(sErrorMessage){// 호출 실패
             MessageToast.show(sErrorMessage);
-		 }).then(function(){	// 여기다가 rfc 호출후 작업코딩
-			
 		 });
-		 	//SelectedIndex 초기화
-			 this.byId("cbotable").removeSelections(0,oModel.getData().View.length);
-		},
+			//SelectedIndex 초기화
+			this.byId("cbotable").removeSelections(0,oModel.getData().View.length);
+			 
+			},
 	   /******************************************************************************************************************************************************
        * 함수 이름 : FRAGMENT 띄우기
        * 작성자 : 김현석
