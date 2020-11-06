@@ -19,14 +19,14 @@
                     <l:Grid
                         containerQuery="true"
                         defaultSpan="XL12 L12 M12 S12">
-                            <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
-                                <HBox>
+                            <!--<OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">-->
+                            <!--    <HBox>-->
 
-                                    <SearchField liveChange="proSearchChange" value="{/proSearch}" placeholder="프로젝트 이름검색" width ="200px"></SearchField>
-                                </HBox> 
-                                <ToolbarSpacer/> 
-                                <Button width ="60px" text="조회" press="proSearch2"></Button>  
-                            </OverflowToolbar>
+                            <!--        <SearchField liveChange="proSearchChange" value="{/proSearch}" placeholder="프로젝트 이름검색" width ="200px"></SearchField>-->
+                            <!--    </HBox> -->
+                            <!--    <ToolbarSpacer/> -->
+                            <!--    <Button width ="60px" text="조회" press="proSearch2"></Button>  -->
+                            <!--</OverflowToolbar>-->
 
                     </l:Grid>
                 </l:VerticalLayout>
@@ -44,7 +44,7 @@
                             selectionMode="Single"
                             selectionBehavior="Row"
                             rows="{/proInfo}"
-                            visibleRowCount="5">
+                            visibleRowCount="13">
                             <t:columns>
 
                                 <t:Column>
@@ -54,7 +54,7 @@
                                     </t:template>
                                 </t:Column>
 
-                                <t:Column>
+                                   <t:Column filterProperty="PNAME">
                                     <Label text="프로젝트 이름"></Label>
                                     <t:template>
                                         <Text text="{PNAME}"> </Text>
@@ -71,7 +71,7 @@
 
             <buttons>
                 <Button text="입력" press=".onproData"/>
-                <Button text="취소" press=".onproDialog"/>
+                <!--<Button text="취소" press=".onproDialog"/>-->
             </buttons>
 
    </Dialog>
