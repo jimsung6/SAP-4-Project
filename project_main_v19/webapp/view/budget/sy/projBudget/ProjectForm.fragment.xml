@@ -34,9 +34,10 @@
 						</f:formElements>
 						<f:formElements>
 							<f:FormElement label="수주금액">
-								<f:fields>
+								<f:fields >
 									<Text text="{projectinitsun>/projectData/0/PMONEY}" />
 									<!-- <u:Currency value="{projectinitsun>/projectData/0/PMONEY}" 
+								width="100px"
 								maxPrecision="0" 
 								useSymbol="false" 
 								currency="KRW"/> -->
