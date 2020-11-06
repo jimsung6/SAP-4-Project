@@ -377,15 +377,20 @@ sap.ui.define([
 			// 		oResultData.T_PAYTAB[i].STCOD = "반려"
 			// 	}
 			// }
-            oModel.setProperty("/View", oResultData.T_PAYTAB); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
+			oModel.setProperty("/View", oResultData.T_PAYTAB); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
+				var sRetcode = oModel.setProperty("/sRetcode", null);
+				var sCacnr = oModel.setProperty("/sCacnr", null);
+				// for(var i = 0; i<sRetcode.length; i++){
+				// 	sRetcode[i] = "";
+				// 	sCacnr[i] = "";
+				// }
          }).fail(function(sErrorMessage){// 호출 실패
             MessageToast.show(sErrorMessage);
-		 }).then(function(){	// 여기다가 rfc 호출후 작업코딩
-			
 		 });
-		 	//SelectedIndex 초기화
-			 this.byId("cbotable").removeSelections(0,oModel.getData().View.length);
-		},
+			//SelectedIndex 초기화
+			this.byId("cbotable").removeSelections(0,oModel.getData().View.length);
+			 
+			},
 	   /******************************************************************************************************************************************************
        * 함수 이름 : FRAGMENT 띄우기
        * 작성자 : 김현석
