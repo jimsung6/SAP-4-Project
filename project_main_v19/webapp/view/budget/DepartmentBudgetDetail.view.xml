@@ -1,92 +1,93 @@
 <!--정은혜 : 부서별 예산 조회 디테일 뷰-->
 <mvc:View
    controllerName="ExpenseManagement.controller.budget.DepartmentBudgetDetail"
-	xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m"
-	xmlns:f="sap/ui/layout/form"
-	xmlns:core="sap.ui.core"
-	xmlns:filterbar="sap.ui.comp.filterbar"
-	xmlns:popover="sap.m.Popover"
-	xmlns:scroll="sap.m.ScrollContainer"
-	xmlns:u="sap.ui.unified">
-	
-	<Page showNavButton="true"
-	      navButtonPress=".onNavBack">
-    	<content>
-			<Table id="BUDGET"
-				   items="{depdetailModel>/depdetailTableData}">
-			<headerToolbar height="100px">
-			   <OverflowToolbar height="80px">
-				   <content>
-					   <Title titleStyle="H2" text="부서별 예산 조회" />
+   xmlns:mvc="sap.ui.core.mvc"
+   xmlns="sap.m"
+   xmlns:f="sap/ui/layout/form"
+   xmlns:core="sap.ui.core"
+   xmlns:filterbar="sap.ui.comp.filterbar"
+   xmlns:popover="sap.m.Popover"
+   xmlns:scroll="sap.m.ScrollContainer"
+   xmlns:u="sap.ui.unified">
+   
+   <Page showNavButton="true"
+         navButtonPress=".onNavBack">
+       <content>
+         <Table id="BUDGET"
+               items="{depdetailModel>/depdetailTableData}">
+         <headerToolbar height="100px">
+            <OverflowToolbar height="80px">
+               <content>
+                  <Title titleStyle="H2" 
+                       text="부서별 예산 조회" />
                    </content>
-		       </OverflowToolbar>
-			</headerToolbar>
-		    <infoToolbar>
-			   <OverflowToolbar visible="true" id="ToolbarId">
-			   <ToolbarSpacer/>
-				  <Text text="합계 : "></Text>
-				  <Text text="{
+             </OverflowToolbar>
+         </headerToolbar>
+          <infoToolbar>
+            <OverflowToolbar visible="true" id="ToolbarId">
+            <ToolbarSpacer/>
+              <Text text="합계 : "></Text>
+              <Text text="{
                                 parts : [
-                                        	{path: 'depdetailModel>/sumData'},
-                                            {path: 'depdetailModel>/currency'}
+                                           {path : 'depdetailModel>/sumData'},
+                                            {path : 'depdetailModel>/currency'}
                                          ],
                                 type : 'sap.ui.model.type.Currency',
-                                		formatOptions: {
+                                      formatOptions: {
                                                 currencyCode: false,
                                                 showMeasure: false
                                                         }
                                             }" />
-					<Text text="원"></Text>
-				</OverflowToolbar>
-			</infoToolbar>
+               <Text text="원"></Text>
+            </OverflowToolbar>
+         </infoToolbar>
 
-					
-				
-			
-			<columns>
-				<Column width="90px"  hAlign="Center">
-					<Text text="긴급여부" />
-				</Column>
-				<Column width="90px"  hAlign="Center">
-					<Text text="부서코드" />
-				</Column>
-				<Column width="100px"   hAlign="Center">
-					<Text text="부서명" />
-				</Column>
-				<Column width="110px"  hAlign="Center">
-					<Text text="요청사유"/>
-				</Column>
-				<Column width="100px"   hAlign="Center">
-					<Text text="기안코드" />
-				</Column>
-				<Column width="130px"  hAlign="Center">
-					<Text text="기안일" />
-				</Column>
-				<Column width="130px" hAlign="Center">
-					<Text text="요청예산(원)" />
-				</Column>
-				<Column width="130px"  hAlign="Center">
-					<Text text="승인일"/>
-				</Column>
-			</columns>
-			<items>
-				<ColumnListItem type="ACTIVE">
-					<cells>
-						<core:Icon src="sap-icon://circle-task-2" color = "{depdetailModel>Depembtn}" />
-							<Text text="{depdetailModel>GCODE}" />
-							<Text text="{depdetailModel>GNAME}" />
-							<Button text="사유" emphasized="true" press=".open" />
-							<Text text="{depdetailModel>TPICODE}" />
-							<Text text="{depdetailModel>DTDATE}" />
-							<!--<Text text="{depdetailModel>ENAME}" />-->
-					       	<u:Currency
-                        		value="{depdetailModel>TREBUD}" maxPrecision = "0" useSymbol = "false"/>
-							<Text text="{depdetailModel>TACCDATE}" />
-					</cells>
-				</ColumnListItem>
-			</items>	   
-			</Table>
-		</content>
-	</Page>
+               
+         <!--Table Frame-->
+         <columns>
+            <Column width="90px"  hAlign="Center">
+               <Text text="긴급여부" />
+            </Column>
+            <Column width="90px"  hAlign="Center">
+               <Text text="부서코드" />
+            </Column>
+            <Column width="100px"   hAlign="Center">
+               <Text text="부서명" />
+            </Column>
+            <Column width="110px"  hAlign="Center">
+               <Text text="요청사유"/>
+            </Column>
+            <Column width="100px"   hAlign="Center">
+               <Text text="기안코드" />
+            </Column>
+            <Column width="130px"  hAlign="Center">
+               <Text text="기안일" />
+            </Column>
+            <Column width="130px" hAlign="Center">
+               <Text text="요청예산(원)" />
+            </Column>
+            <Column width="130px"  hAlign="Center">
+               <Text text="승인일"/>
+            </Column>
+         </columns>
+         <items>
+            <ColumnListItem type="ACTIVE">
+               <cells>
+                  <!--Table Data = RFC Data-->
+                  <core:Icon src="sap-icon://circle-task-2" color = "{depdetailModel>Depembtn}" />
+                     <Text text="{depdetailModel>GCODE}" />
+                     <Text text="{depdetailModel>GNAME}" />
+                     <Button text="사유" emphasized="true" press=".open" />
+                     <Text text="{depdetailModel>TPICODE}" />
+                     <Text text="{depdetailModel>DTDATE}" />
+                     <!--<Text text="{depdetailModel>ENAME}" />-->
+                         <u:Currency
+                              value="{depdetailModel>TREBUD}" maxPrecision = "0" useSymbol = "false"/>
+                     <Text text="{depdetailModel>TACCDATE}" />
+               </cells>
+            </ColumnListItem>
+         </items>      
+         </Table>
+      </content>
+   </Page>
 </mvc:View>
