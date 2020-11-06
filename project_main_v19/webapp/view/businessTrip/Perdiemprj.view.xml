@@ -56,7 +56,6 @@ height="100%">
                </Column>
                <Column width="80px"
                sortOrder="Descding">
-               sortOrder="Descending">
                   <m:Label text="사원이름" />
                   <template>
                      <m:Text text="{Perdiem>ENAME}" />
@@ -70,7 +69,6 @@ height="100%">
                   </template>
                </Column>
                <Column width="90px"
-               <Column width="110px"
                sortOrder="Descending">
                   <m:Label text="지급금액" />
                   <template>
