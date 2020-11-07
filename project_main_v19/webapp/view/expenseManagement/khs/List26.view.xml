@@ -185,6 +185,7 @@
 							<Text text="{TEST>JPDAT}" />
 							<Text text="{TEST>CODDN}" />
 							<Text text="{TEST>TJSYN}" />
+							<!-- <Link href="{TEST>REPHO}" text="영수증 첨부 자료" target="_blank"/> -->
 							<u:Currency value="{TEST>PROPR}" maxPrecision="0" useSymbol="false"/>
 							<Text text="{TEST>ECACCT}" />
 							<ComboBox showSecondaryValues="true"
