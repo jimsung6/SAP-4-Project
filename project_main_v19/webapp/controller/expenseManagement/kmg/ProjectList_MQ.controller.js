@@ -69,8 +69,19 @@ sap.ui.define([
 		//요청자 검색
 		onliveChange : function(){
 			var fliterData = this.getView().getModel("Project_MQ").getProperty("/SearchFieldData");
-			var oView = this.byId("ProjectList_MQ");
-			oView.getController().onFilterChange(fliterData);
+			
+			var aFilter = [];
+			if (fliterData) {
+				aFilter.push(new Filter("ENAME", FilterOperator.Contains, fliterData));
+			}
+	
+			// filter binding
+			var oList = this.byId("tableExample");
+			var oBinding = oList.getBinding("rows");
+			oBinding.filter(aFilter);
+				
+
+
 		},
 		
 	/******************************************************************************************************************************************************
@@ -369,27 +380,6 @@ sap.ui.define([
 
 		},
 		
-	/******************************************************************************************************************************************************
-		 * 함수 이름 : 요청자 검색 기능
-		 * 작성자 : 김민규
-	******************************************************************************************************************************************************/	
-	
-		onFilterChange : function(fliterData){
-			
-			var realFliterData = fliterData;
-			
-			var aFilter = [];
-			if (realFliterData) {
-				aFilter.push(new Filter("ENAME", FilterOperator.Contains, realFliterData));
-			}
-	
-			// filter binding
-			var oList = this.byId("tableExample");
-			var oBinding = oList.getBinding("rows");
-			oBinding.filter(aFilter);
-				
-				
-		},
 		
 	/******************************************************************************************************************************************************
 		 * 함수 이름 : 승인 헤더 버튼 기능
