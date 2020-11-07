@@ -378,7 +378,7 @@ sap.ui.define([
 		},
 		
 		onCloseDialog : function () {
-			  aaaa
+			  
 		   if(this.byId("CreateProject")) {
 			  this.byId("CreateProject").destroy();
 		   }else if(this.byId("DeleteProject")) {

@@ -20,9 +20,17 @@ sap.ui.define([
 
 			}).done(function(oResultData){	// RFC호출 완료
 				for (var i=0; i<oResultData.T_TAB1.length; i++) {
-					if (oResultData.T_TAB1[i].MDATE === "0000-00-00") {
-						oResultData.T_TAB1[i].MDATE = "0";
+					var oTab = oResultData.T_TAB1;
+					if (oTab[i].BDATE === "0000-00-00" ) {
+						oTab[i].BDATE = "";
 					}
+					if (oTab[i].CDATE === "0000-00-00") {
+						oTab[i].CDATE = "";
+					}
+					if (oTab[i].DDATE === "0000-00-00") {
+						oTab[i].DDATE = "";
+					}
+					
 						oModel.setData(oResultData);
 				}	
 			}).fail(function(sErrorMessage){

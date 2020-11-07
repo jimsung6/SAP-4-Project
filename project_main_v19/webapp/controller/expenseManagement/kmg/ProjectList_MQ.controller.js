@@ -85,6 +85,9 @@ sap.ui.define([
 			var comboData = oModel.getProperty("/comboData");
 			var stcodComboData = oModel.getProperty("/stcodComboData");
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
+			var that = this;
+			var deletetable = this.byId("tableExample");
+			var selectTable = this.getView().getModel("Project_MQ").getProperty("/info");
 			
 			this.getView().getModel().setProperty("/tableV", false);
 			oModel.setProperty("/headerTableData", []);
@@ -149,6 +152,7 @@ sap.ui.define([
 				var table = oModel.getProperty("/info");
 				var comboData = oModel.getProperty("/oPcode");
 				
+				
 				for(var i=0 ; i < table.length; i++){
 
 					if(comboData.length === 1){
@@ -166,13 +170,18 @@ sap.ui.define([
 					}
 					
 				}
+				
 				oModel.refresh();
+				
+				that.byId("tableExample").removeSelectionInterval(0, selectTable.length-1);
 			
 			}).fail(function(sErrorMessage) { // 호출 실패
 				alert(sErrorMessage);
 			});
 				
 			this._oGlobalFilter = null;
+			
+			
 
 		},
 		
@@ -189,6 +198,7 @@ sap.ui.define([
 			var PCODE = sModel.getProperty("/info/" + rowData + "/PCODE");
 			var EMPNO = sModel.getProperty("/info/" + rowData + "/EMPNO");
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
+		
 			var oCombo = sModel.getProperty("/stcodComboData");
 			var dateData = new Date(sModel.getProperty("/dateData"));
 		
@@ -234,7 +244,7 @@ sap.ui.define([
 					this.getView().getModel("Project_MQ").setProperty("/RDATEVisible", true);
 					this.getView().getModel("Project_MQ").setProperty("/ACDATVisible", false);
 			}else{	
-					MessageToast.show("상태코드를 확인해주세요");
+					MessageToast.show("확인해주세요");
 			}
 
 			this.getView().getModel().setProperty("/tableV", true);
@@ -291,9 +301,43 @@ sap.ui.define([
 				this.getView().byId("kyoTableId").setVisible(false);
 			
 		},
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : row 헤더 선택 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/	
+
+		rowSelectionHR: function(event) {
+			
+			var oModel = this.getView().getModel("Project_MQ");
+			var infoTableData = oModel.getProperty("/info");
+			if (event.mParameters.rowContext) {
+				var path = event.mParameters.rowContext.sPath;
+			}
+
+			if (event.mParameters.selectAll) {
+				for (var i = 0; i < infoTableData.length; i++) {
+					infoTableData[i].checked = true;
+				}
+			} else {
+				if (event.mParameters.rowIndex === -1) {
+					for (var i = 0; i < infoTableData.length; i++) {
+						infoTableData[i].checked = false;
+					}
+				} else {
+					if (oModel.getProperty(path + "/checked")) {
+						oModel.setProperty(path + "/checked", false);
+					} else {
+						oModel.setProperty(path + "/checked", true);
+					}
+				}
+			}
+			
+			console.log(infoTableData);
+
+		},		
 
 	/******************************************************************************************************************************************************
-		 * 함수 이름 : row 선택 기능
+		 * 함수 이름 : row 상세 선택 기능
 		 * 작성자 : 김민규
 	******************************************************************************************************************************************************/	
 
@@ -350,66 +394,69 @@ sap.ui.define([
 	/******************************************************************************************************************************************************
 		 * 함수 이름 : 승인 헤더 버튼 기능
 		 * 작성자 : 김민규
-	******************************************************************************************************************************************************/	
+    ******************************************************************************************************************************************************/ 
 
-		// onSaveHD: function() {
-		// 	var that = this;
-		// 	var payModel = this.getView().getModel();
-		// 	var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
-		// 	var selectTable = payModel.getProperty("Project_MQ>/info");
+		onSaveHD: function() {
+			var that = this;
+			var payModel = this.getView().getModel();
 
-		// 	var info = [];
+			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
+			var selectTable = this.getView().getModel("Project_MQ").getProperty("/info");
+			var deletetable = this.byId("tableExample");
+			var info = [];
 			
 			
-		// 	for (var i = 0; i < selectTable.length; i++) {
-		// 		if (selectTable[i].checked) {
-		// 			info.push({
-		// 				JPNUM: selectTable[i].JPNUM,
-		// 				EMPNO: selectTable[i].EMPNO,
-		// 				PCODE: selectTable[i].PCODE,
-		// 				CUMON: selectTable[i].CUMON
-		// 			});
-		// 		}
-		// 	}
-		// 	console.log(info);
-			
-		
+			for (var i = 0; i < selectTable.length; i++) {
+				if (selectTable[i].checked) {
+					info.push({
+						JPNUM: selectTable[i].JPNUM,
+						EMPNO: selectTable[i].EMPNO,
+						PCODE: selectTable[i].PCODE,
+						CUMON: selectTable[i].CUMON,
+						STCOD: "B"
+					});
+				}
+			}
 					
-		// 			if( 0<this.getView().byId("tableExample").getSelectedIndices().length ) {
-		// 				MessageBox.confirm("승인 하시겠습니까?", {
-  //                      actions: ["승인", MessageBox.Action.CLOSE],
-  //                      emphasizedAction: "승인",
-  //                      onClose: function (sAction) {
+					if( 0<this.getView().byId("tableExample").getSelectedIndices().length ) {
+						MessageBox.confirm("승인 하시겠습니까?", {
+                        actions: ["승인", MessageBox.Action.CLOSE],
+                        emphasizedAction: "승인",
+                        onClose: function (sAction) {
                
-  //                         if(sAction === "승인"){
+                           if(sAction === "승인"){
                            
-		// 						that.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
-		// 							//RFC Import 데이터
-		// 							T_TAB1: info,
-		// 							I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
-		// 							I_MODE: "A"
+								that.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
+									//RFC Import 데이터
+									T_TAB1: info,
+									I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
+									I_MODE: "A"
 								
-		// 						}).done(function(oResultData) { // RFC호출 완료
-								
-		// 							var dateData = payModel.getProperty("/dateData", dateData);
-		// 							var comboData = payModel.getProperty("/comboData", comboData);
-		// 							var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
-		// 							that.onFiltering();
+								}).done(function(oResultData) { // RFC호출 완료
+									var auModel = that.getView().getModel("Project_MQ");
+									var dateData = auModel.getProperty("/dateData", dateData);
+									var comboData = auModel.getProperty("/comboData", comboData);
+									var stcodComboData = auModel.getProperty("/stcodComboData", stcodComboData);
+									that.onFiltering();
 									
-		// 						}).fail(function(sErrorMessage) { // 호출 실패
-		// 							MessageToast.show(sErrorMessage);
-		// 						});
+									that.byId("tableExample").removeSelectionInterval(0, selectTable.length-1);
+									MessageBox.information(oResultData.E_MESSAGE);	
+									
+									
+								}).fail(function(sErrorMessage) { // 호출 실패
+									MessageToast.show(sErrorMessage);
+								});
                            
-  //                            MessageToast.show("승인되었습니다");
-  //                         }else{
-  //                            MessageToast.show("취소되었습니다");
-  //                         }
-  //                      }
-  //                   });
-		// 			}else {
-		// 					MessageBox.error("데이터를 선택해주시기 바랍니다!");
-		// 			}
-		// },	
+                       
+                           }else{
+                              MessageToast.show("취소되었습니다");
+                           }
+                        }
+                     });
+					}else {
+							MessageBox.error("데이터를 선택해주시기 바랍니다!");
+					}
+		},	
 		
 		
 		
@@ -427,6 +474,10 @@ sap.ui.define([
 			var payModel = this.getView().getModel();
 			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
 			var selectTable = payModel.getProperty("/headerTableData");
+			
+			var deletetableHD = this.byId("tableExample");				
+			var deletetable = this.byId("AppId");
+
 
 			var headerTableData = [];
 
@@ -459,17 +510,20 @@ sap.ui.define([
 									I_MODE: "A"
 								
 								}).done(function(oResultData) { // RFC호출 완료
-								
 									var dateData = payModel.getProperty("/dateData", dateData);
 									var comboData = payModel.getProperty("/comboData", comboData);
 									var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
 									that.onFiltering();
 									
+									MessageBox.information(oResultData.E_MESSAGE);
+									
+									that.byId("tableExample").removeSelectionInterval(0, selectTable.length-1);
+									that.byId("AppId").removeSelectionInterval(0, selectTable.length-1);
+									
 								}).fail(function(sErrorMessage) { // 호출 실패
 									MessageToast.show(sErrorMessage);
 								});
                            
-                              MessageToast.show("승인되었습니다");
                            }else{
                               MessageToast.show("취소되었습니다");
                            }
@@ -479,6 +533,121 @@ sap.ui.define([
 							MessageBox.error("데이터를 선택해주시기 바랍니다!");
 					}
 		},
+		
+	/******************************************************************************************************************************************************
+		 * 함수 이름 : 반려 헤더 버튼 기능
+		 * 작성자 : 김민규
+	******************************************************************************************************************************************************/
+
+		onRejectHD: function() {
+			var that = this;
+			var payModel = this.getView().getModel();
+			var selectTable = this.getView().getModel("Project_MQ").getProperty("/info");
+			var EMPNOData = this.getOwnerComponent().getCookiy("EMPNO");
+			var info = [];
+			var zvmode = "";
+			var stcodComboData = this.getView().getModel("Project_MQ").getProperty("/stcodComboData");
+			
+			var deletetable = this.byId("tableExample");
+
+
+		
+			
+
+			for (var i = 0; i < selectTable.length; i++ ) {
+				if(stcodComboData === "F"){zvmode = "C";}
+				else if(stcodComboData === "B"){zvmode = "B";}
+			}	
+			
+			for (var i = 0; i < selectTable.length; i++) {
+				if (selectTable[i].checked) {
+					info.push({
+						JPNUM: selectTable[i].JPNUM,
+						EMPNO: selectTable[i].EMPNO,
+						PCODE: selectTable[i].PCODE,
+						CUMON: selectTable[i].CUMON,
+						RETTEXT: selectTable[i].RETTEXT,
+						STCOD: "B"
+					});
+				}
+			}
+	
+
+
+
+				if( 0<this.getView().byId("tableExample").getSelectedIndices().length) {
+					MessageBox.confirm("반려 하시겠습니까? 미 입력시에도 반려가 가능합니다!", {
+                    actions: ["반려", MessageBox.Action.CLOSE],
+                    emphasizedAction: "반려",
+                    onClose: function (sAction) {
+               
+                        if(sAction === "반려"){
+                        	
+                        	if(zvmode === "C"){
+							that.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
+							//RFC Import 데이터
+							T_TAB1: info,
+							I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
+							I_MODE: zvmode = "C"
+				
+			
+							}).done(function(oResultData) { // RFC호출 완료
+									console.log(oResultData);
+							}).fail(function(sErrorMessage) { // 호출 실패
+								MessageToast.show(sErrorMessage);
+							}).then(function() {
+				
+									var auModel = that.getView().getModel("Project_MQ");
+									var dateData = auModel.getProperty("/dateData", dateData);
+									var comboData = auModel.getProperty("/comboData", comboData);
+									var stcodComboData = auModel.getProperty("/stcodComboData", stcodComboData);
+									
+								that.onFiltering();
+								
+								that.byId("tableExample").removeSelectionInterval(0, selectTable.length);
+							});
+			                           
+                        MessageToast.show("반려되었습니다");
+                        	}else if(zvmode === "B"){
+                        		
+							that.getOwnerComponent().rfcCall("ZB_HEADER_CONFIRM", { // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 ZB_HEADER_CONFIRM를 사용
+							//RFC Import 데이터
+							T_TAB1: info,
+							I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
+							I_MODE: zvmode = "B"
+				
+			
+							}).done(function(oResultData) { // RFC호출 완료
+									
+							}).fail(function(sErrorMessage) { // 호출 실패
+								MessageToast.show(sErrorMessage);
+							}).then(function() {
+				
+									var auModel = that.getView().getModel("Project_MQ");
+									var dateData = auModel.getProperty("/dateData", dateData);
+									var comboData = auModel.getProperty("/comboData", comboData);
+									var stcodComboData = auModel.getProperty("/stcodComboData", stcodComboData);
+								
+								that.onFiltering();
+								
+								that.byId("tableExample").removeSelectionInterval(0, selectTable.length);
+							});
+			                           
+                        MessageToast.show("반려되었습니다");
+                        		
+                        		
+                        	}
+                        	
+                        }else {
+							MessageToast.show("취소되었습니다.");
+						}
+					}
+				});
+			 }else {
+					MessageBox.error("데이터를 선택해주시기 바랍니다!");
+				}
+		},		
+		
 
 	/******************************************************************************************************************************************************
 		 * 함수 이름 : 반려 상세 버튼 기능
@@ -493,6 +662,9 @@ sap.ui.define([
 			var headerTableData = [];
 			var zvmode = "";
 			var stcodComboData = this.getView().getModel("Project_MQ").getProperty("/stcodComboData");
+			
+			var deletetableHD = this.byId("tableExample");				
+			var deletetable = this.byId("AppId");
 
 			for (var i = 0; i < selectTable.length; i++ ) {
 				if(stcodComboData === "F"){zvmode = "C";}
@@ -515,7 +687,7 @@ sap.ui.define([
 
 
 				if( 0<this.getView().byId("AppId").getSelectedIndices().length) {
-					MessageBox.confirm("반려 하시겠습니까?", {
+					MessageBox.confirm("반려 하시겠습니까? 미 입력시에도 반려가 가능합니다!", {
                     actions: ["반려", MessageBox.Action.CLOSE],
                     emphasizedAction: "반려",
                     onClose: function (sAction) {
@@ -527,7 +699,7 @@ sap.ui.define([
 							//RFC Import 데이터
 							T_TAB1: headerTableData,
 							I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
-							I_MODE: zvmode = "C"
+							I_MODE: zvmode
 				
 			
 							}).done(function(oResultData) { // RFC호출 완료
@@ -541,6 +713,11 @@ sap.ui.define([
 				
 								var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
 								that.onFiltering();
+								
+								that.byId("tableExample").removeSelectionInterval(0, selectTable.length);
+								that.byId("AppId").removeSelectionInterval(0, selectTable.length);
+								
+								
 							});
 			                           
                         MessageToast.show("반려되었습니다");
@@ -550,7 +727,7 @@ sap.ui.define([
 							//RFC Import 데이터
 							T_TAB1: headerTableData,
 							I_AUEMP: EMPNOData, //로그인해서 사원정보를 빼와야한다
-							I_MODE: zvmode = "B"
+							I_MODE: zvmode
 				
 			
 							}).done(function(oResultData) { // RFC호출 완료
@@ -564,6 +741,9 @@ sap.ui.define([
 				
 								var stcodComboData = payModel.getProperty("/stcodComboData", stcodComboData);
 								that.onFiltering();
+								
+								that.byId("tableExample").removeSelectionInterval(0, selectTable.length-1);
+								that.byId("AppId").removeSelectionInterval(0, selectTable.length-1);
 							});
 			                           
                         MessageToast.show("반려되었습니다");
@@ -572,7 +752,7 @@ sap.ui.define([
                         	}
                         	
                         }else {
-							MessageToast.show("상태코드를 확인해주세요");
+							MessageToast.show("취소되었습니다.");
 						}
 					}
 				});

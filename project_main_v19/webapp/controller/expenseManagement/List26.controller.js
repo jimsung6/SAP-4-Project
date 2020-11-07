@@ -414,7 +414,6 @@ sap.ui.define([
             oModel.setProperty("/Oitem", oResultData.T_TAB2); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
             oModel.setProperty("/Sitem", oResultData.T_TAB3); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
             sCodhc = oResultData.E_CODHC;
-            console.log(oModel.getProperty("/Mitem"));
             switch (sCodhc){
     case "0001" :
 			// create dialog lazily
