@@ -1165,7 +1165,7 @@ sap.ui.define([
 					break;
 				case "프로젝트 예산 증액 요청 미결":
 					this.byId("paymentlist").removeSelections();
-					oRouter.navTo("ProjBudget_YS", {
+					oRouter.navTo("ProjBudget_SY", { 
 						status : 0
 					});
 					break;
