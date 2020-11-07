@@ -42,7 +42,7 @@
 						<f:formElements>
 							<f:FormElement label="첨부">
 								<f:fields>
-									<Link href="{TEST>/Sitem/0/ADDIM}" text="영수증 첨부 자료" target="_blank"/>
+									<Link href="{TEST>/Sitem/0/ADDIM}" text="첨부 자료" target="_blank"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

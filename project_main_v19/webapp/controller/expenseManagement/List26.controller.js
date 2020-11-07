@@ -522,7 +522,7 @@ sap.ui.define([
 		 actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
 		 onClose: function (sAction) {
 			if(sAction === "OK"){
-				if(payModel.getProperty("/sCacnr").length === 0){
+				if(payModel.getProperty("/sCacnr")=== null){
 					MessageBox.error("회사계좌를 선택해주세요");
 				}  else{
 			var selectTable = payModel.getProperty("/test");
@@ -557,7 +557,7 @@ sap.ui.define([
 	  actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
 	  onClose: function (sAction) {
 		 if(sAction === "OK"){
-			 if(payModel.getProperty("/sRetcode").length === 0)
+			 if(payModel.getProperty("/sRetcode") === null)
 				 MessageBox.error("반려코드를 선택해주세요");
 			else {
 				var selectTable = payModel.getProperty("/test");
