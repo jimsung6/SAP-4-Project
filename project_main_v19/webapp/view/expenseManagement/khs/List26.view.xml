@@ -157,6 +157,9 @@
 					<Column width="50px" hAlign="Center">
 						<Text text="통제성" />
 					</Column>
+					<Column width="50px" hAlign="Center">
+						<Text text="영수증" />
+					</Column>
 					<Column width="110px" hAlign="Center">
 						<Text text="금액" />
 					</Column>
@@ -185,7 +188,7 @@
 							<Text text="{TEST>JPDAT}" />
 							<Text text="{TEST>CODDN}" />
 							<Text text="{TEST>TJSYN}" />
-							<!-- <Link href="{TEST>REPHO}" text="영수증 첨부 자료" target="_blank"/> -->
+							<Link href="{TEST>REPHO}" text="영수증" target="_blank"/>
 							<u:Currency value="{TEST>PROPR}" maxPrecision="0" useSymbol="false"/>
 							<Text text="{TEST>ECACCT}" />
 							<ComboBox showSecondaryValues="true"
