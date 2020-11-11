@@ -246,6 +246,7 @@ sap.ui.define([
 		onSelectionChange : function (oEvent, sChannelId, sEventId, sData) {			
 			var sPath = oEvent.mParameters.rowContext.sPath ;  //선택된 레코드의 경로 찾기
 			var selectChange = this.getView().getModel().getProperty(sPath+"/GCODE");
+			console.log(selectChange);
 			this.getView().getModel().setProperty("/GCODE" ,selectChange)
 			sap.ui.getCore().getEventBus().publish(
 				"SomeChannel",

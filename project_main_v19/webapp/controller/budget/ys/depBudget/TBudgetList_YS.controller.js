@@ -67,9 +67,9 @@ sap.ui.define([
 				//콤보박스 초기 세팅
 				this.getView().getModel().setProperty("/comboData", statusData); // comboData에 All로 초기값 set
 				this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
-				var projectModel2 = this.getView().getModel();
+				var projectModel4 = this.getView().getModel();
 				var projectModel3 = this.getView().getModel();	
-				this.fragmentRfcFunction(projectModel2);
+				this.fragmentRfcFunction(projectModel4);
 				this.listRfcFunction(projectModel3, "", "", statusData);
 			 }
 		},
@@ -79,9 +79,9 @@ sap.ui.define([
 		 ******************************************************************************************************************************************************/
 		onAfterRendering : function(){
 			this.onFilterSearch(); //this(controller)안에 있는 onFilterSearch 함수를 작동한다.
-			var projectModel2 = this.getView().getModel();
+			var projectModel4 = this.getView().getModel();
 			var projectModel3 = this.getView().getModel();	
-			this.fragmentRfcFunction(projectModel2);
+			this.fragmentRfcFunction(projectModel4);
 			this.listRfcFunction(projectModel3);
 		},
 		/******************************************************************************************************************************************************
@@ -96,7 +96,6 @@ sap.ui.define([
 				I_GCODE : GCODE,
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData){	// RFC호출 완료
-				console.log(oResultData.TEAMTAB2)
 				oModel.setProperty("/teamBudgetRequest", oResultData.TEAMTAB2[0])
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
@@ -106,11 +105,12 @@ sap.ui.define([
 	 	* 함수 이름 : 예산증액 요청 리스트 rfc
 	 	* 작성자 : 노용석
 	 	******************************************************************************************************************************************************/
-		listRfcFunction : function(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData){
+		listRfcFunction : function(projectModel3, comboData, sStartDateInfo, sEndDateInfo, sData){
+			var oModel = this.getView().getModel();
 			var ZVEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
 			if(comboData === "All" || !comboData){
 				comboData = "";
-			}
+			};
 			this.getOwnerComponent().rfcCall("ZB_GET_TREQUEST_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_STATUS : comboData,
@@ -138,6 +138,7 @@ sap.ui.define([
 					}
 				}
 				projectModel3.setProperty("/teamBudgetList", oResultData3.TEAMTAB3)	
+				console.log(oResultData3.TEAMTAB3)
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
 			});
@@ -149,6 +150,7 @@ sap.ui.define([
 		fragmentRfcFunction : function(projectModel4, RTREQ, TREBUD, DEPEM, GCODE, TPICODE, REQDATE){
 			var ZVEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
 			var projectModel4 = this.getView().getModel();
+			console.log(GCODE)
 			this.getOwnerComponent().rfcCall("ZB_REQUEST_TBUDGET_03", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_RTREQ : RTREQ,
@@ -157,8 +159,7 @@ sap.ui.define([
 				I_GCODE : GCODE,
 				I_TPICODE : TPICODE,
 				I_REQDATE : REQDATE,
-				I_AUEMP : ZVEMPNO
-				// I_STATUS : "0", 반려상태에서 미결상태로 바꾸기 위함.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+				I_AUEMP : ZVEMPNO                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 			}).done(function(oResultData){	// RFC호출 완료
 				projectModel4.setProperty("/teamBudgetRequest", oResultData.TEAMTAB2[0]);
 			}).fail(function(sErrorMessage){// 호출 실패
@@ -198,6 +199,7 @@ sap.ui.define([
 			var projectModel3 = this.getView().getModel();
 			if (sData){
 				this.listRfcFunction(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData.text);
+				console.log(sData.text);
 			}else{
 				this.listRfcFunction(projectModel3, sStartDateInfo, sEndDateInfo, comboData);
 			}		
@@ -241,10 +243,11 @@ sap.ui.define([
 			var gPath = oEvent.getSource().oPropagatedProperties.oBindingContexts.undefined.sPath;
 			var tpicodeData = this.getView().getModel().getProperty(gPath+"/TPICODE");
 			this.getView().getModel().setProperty("/tpicode", tpicodeData);
+			var gcodeData = this.getView().getModel().getProperty(gPath+"/GCODE");
+			console.log(gcodeData);
 			var oEventData = gPath.replace("/teamBudgetList/", "");
 			parseInt(oEventData);
 			var tableData = this.getView().getModel().getProperty("/teamBudgetList");
-			console.log(tableData)
 			this.fragmentDataCall(tableData[oEventData].GCODE);
 			// create dialog lazily
 			if (!this.byId("openDialog1")) {
