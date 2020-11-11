@@ -404,7 +404,6 @@
 				"subTitle": "근태 현황"
 			},
 			"content": {
-				"date": "2020.09.01",
 				"maxLegendItems": 5,
 				"noItemsText": " ",
 				"specialDate": {
@@ -523,7 +522,7 @@
 						}
 					},
 					"title": {
-						"text": "8월 카테고리별 사용경비",
+						"text": "전월 카테고리별 사용경비",
 						"visible": true,
 						"alignment": "Center"
 					},
@@ -558,7 +557,7 @@
 			"type": "Analytical",
 			"header": {
 				"type": "Numeric",
-				"title": "전월 부서원 경비 사용현황"
+				"title": "부서원 경비 사용현황"
 			},
 			"content": {
 				"chartType": "StackedBar",
@@ -580,7 +579,8 @@
 					}
 				},
 				"title": {
-					"visible": false
+					"text" : "",
+					"visible": true
 				},
 				"measureAxis": "valueAxis",
 				"dimensionAxis": "categoryAxis",
@@ -639,7 +639,8 @@
 					}
 				},
 				"title": {
-					"visible": false
+					"text" : "asd",
+					"visible": true
 				},
 				"measureAxis": "valueAxis",
 				"dimensionAxis": "categoryAxis",
