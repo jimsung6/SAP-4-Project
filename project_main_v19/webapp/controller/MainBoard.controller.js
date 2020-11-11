@@ -793,6 +793,7 @@ sap.ui.define([
 			var legendItemArr = [];
 			var legendItemArr2 = [];
 			var specialDateArr = [];
+			var zv_date = new Date().toLocaleDateString();
 			var zvEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
 			this.getOwnerComponent().rfcCall("ZB_GET_TOWORK_AA", {   // 근태 현황 데이터 호출 rfc(ZB_GET_TOWORK_AA)를 사용
 			//RFC Import 데이터
@@ -851,6 +852,7 @@ sap.ui.define([
 			}
 			oCardModel.setProperty("/calendar/sap.card/data/json/specialDate", specialDateArr);
 			oCardModel.setProperty("/calendar/sap.card/data/json/legendItem", legendItemArr);
+			oCardModel.setProperty("/calendar/sap.card/content/date", zv_date);
 			oCard.refresh(); 
 			}).fail(function(sErrorMessage){  // 호출 실패
 			alert(sErrorMessage);
@@ -868,6 +870,7 @@ sap.ui.define([
 			var oTeamArray = [];
 			var oDEPPR = 0;
 			var oRemainder = 0;
+			var zv_month = new Date().getMonth();
 			var zvGCODE = this.getOwnerComponent().getCookiy("GCODE");
 			this.getOwnerComponent().rfcCall("ZB_GET_BUDGETTM_AB", {   // 부서 사용경비 현황 데이터 호출 rfc(ZB_GET_BUDGETTM_AB)를 사용
 			//RFC Import 데이터
@@ -909,6 +912,7 @@ sap.ui.define([
 						});
 				oCardModel.setProperty("/donut/sap.card/content/data/json/measures", oTeamArray);         
 			}
+			oCardModel.setProperty("/donut/sap.card/content/title/text", zv_month+"월 카테고리별 사용경비"); 
 			oCard.refresh(); 
 			}).fail(function(sErrorMessage){  // 호출 실패
 			alert(sErrorMessage);
@@ -926,6 +930,7 @@ sap.ui.define([
 			var oDEPPR = 0;
 			var oRemainder = 0;
 			var zvEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
+			var zv_pname = "";
 			this.getOwnerComponent().rfcCall("ZB_GET_BUDGETPO_AB", {   // 프로젝트 사용경비 현황 데이터 호출 rfc(ZB_GET_BUDGETTM_AB)를 사용
 			//RFC Import 데이터
 			I_EMPNO: zvEMPNO
@@ -966,6 +971,8 @@ sap.ui.define([
 						});
 				oCardModel.setProperty("/donut2/sap.card/content/data/json/measures", oTeamArray);         
 			}
+			zv_pname = oResultData.E_PNAME + " " +'카테고리별 사용경비';
+			oCardModel.setProperty("/donut2/sap.card/content/title/text", zv_pname); 
 			oCard.refresh(); 
 			}).fail(function(sErrorMessage){  // 호출 실패
 			alert(sErrorMessage);
@@ -981,6 +988,7 @@ sap.ui.define([
 			var oCardModel = this.getView().getModel("cardManifests");
 			var oCard = this.getView().byId("stackedColumn");
 			var oTeamArray = [];
+			var zv_month = new Date().getMonth();
 			var zvGCODE = this.getOwnerComponent().getCookiy("GCODE");
 			this.getOwnerComponent().rfcCall("ZB_GET_TEAMCOST_AB", {   // 부서원 사용경비 현황 데이터 호출 rfc(ZB_GET_TEAMCOST_AB)를 사용
 			//RFC Import 데이터
@@ -993,6 +1001,7 @@ sap.ui.define([
 						});
 			}
 			oCardModel.setProperty("/stackedColumn/sap.card/content/data/json/list", oTeamArray);
+			oCardModel.setProperty("/stackedColumn/sap.card/content/title/text", zv_month+"월 카테고리별 사용경비"); 
 			oCard.refresh(); 
 			}).fail(function(sErrorMessage){  // 호출 실패
 			alert(sErrorMessage);
@@ -1008,6 +1017,7 @@ sap.ui.define([
 			var oCardModel = this.getView().getModel("cardManifests");
 			var oCard = this.getView().byId("stackedColumn2");
 			var oTeamArray = [];
+			var zv_pname = "";
 			var zvEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
 			this.getOwnerComponent().rfcCall("ZB_GET_PROJCOST_AB", {   // 프로젝트 팀원 사용경비 현황 데이터 호출 rfc(ZB_GET_TEAMCOST_AB)를 사용
 			//RFC Import 데이터
@@ -1019,6 +1029,8 @@ sap.ui.define([
 						"expense": oResultData.T_TAB1[i].PROPR
 						});
 			}
+			zv_pname = oResultData.E_PNAME + " " + "팀원별 경비 현황";
+			oCardModel.setProperty("/stackedColumn2/sap.card/content/title/text", zv_pname);
 			oCardModel.setProperty("/stackedColumn2/sap.card/content/data/json/list", oTeamArray);
 			oCard.refresh(); 
 			}).fail(function(sErrorMessage){  // 호출 실패

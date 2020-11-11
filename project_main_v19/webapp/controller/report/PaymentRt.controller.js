@@ -361,6 +361,10 @@ sap.ui.define([
             }
          }
 
+         lineChartData.sort(function(a, b)  {
+            return a.CUMON - b.CUMON;
+         });
+
          oModel.setProperty("/reportLineChartData", lineChartData);
 
          var oDataset = new FlattenedDataset({

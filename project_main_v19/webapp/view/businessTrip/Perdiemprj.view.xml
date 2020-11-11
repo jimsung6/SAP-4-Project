@@ -55,7 +55,7 @@ height="100%">
                   </template>
                </Column>
                <Column width="80px"
-               sortOrder="Descending">
+               sortOrder="Descding">
                   <m:Label text="사원이름" />
                   <template>
                      <m:Text text="{Perdiem>ENAME}" />
@@ -68,7 +68,7 @@ height="100%">
                      <m:Text text="{Perdiem>WORKD}" />
                   </template>
                </Column>
-               <Column width="110px"
+               <Column width="90px"
                sortOrder="Descending">
                   <m:Label text="지급금액" />
                   <template>
@@ -91,7 +91,7 @@ height="100%">
                      <m:Text text="{Perdiem>ADATE}" />
                   </template>
                </Column>
-               <Column width="100px"
+               <!-- <Column width="100px"
                sortOrder="Descending">
                   <m:Label text="승인일" />
                   <template>
@@ -111,7 +111,7 @@ height="100%">
                   <template>
                      <m:Text text="{Perdiem>DDATE}" />
                   </template>
-               </Column>
+               </Column> -->
                <Column width="100px"
                sortOrder="Descending">
                   <m:Label text="근무연월" />
