@@ -14,10 +14,11 @@ sap.ui.define([
 			
 			var oModel = new JSONModel();
 			this.getView().setModel(oModel, "Perdiem");
+			var I_EMPNO = this.getOwnerComponent().getCookiy("EMPNO");
 			
 			this.getOwnerComponent().rfcCall("ZB_GET_POSNR", {	// 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
 				//RFC Import 데이터
-
+			I_IMPORT : I_EMPNO
 			}).done(function(oResultData){	// RFC호출 완료
 				for (var i=0; i<oResultData.T_TAB1.length; i++) {
 					var oTab = oResultData.T_TAB1;
