@@ -328,6 +328,7 @@ sap.ui.define([
 								this.fragmentRfcFunction(projectModel4, REQUEST, REBUD, DEPEM, PCODE, PICODE);
 								this.onCloseDialog();
 								MessageToast.show("접수 완료");
+								this.oApproveDialog.close();
 							}.bind(this)						
 						}),
 						endButton: new Button({
