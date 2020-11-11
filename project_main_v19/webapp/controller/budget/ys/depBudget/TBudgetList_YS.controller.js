@@ -329,11 +329,9 @@ sap.ui.define([
 							press: function () {
 								var projectModel4 = this.getView().getModel();
 								this.fragmentRfcFunction(projectModel4, RTREQ, TREBUD, DEPEM, GCODE, TPICODE, REQDATE);
+								this.onCloseDialog();
 								MessageToast.show("접수 완료");
 								this.oApproveDialog.close();
-								this.oApproveDialog.destroy();
-								delete this.oApproveDialog;
-								this.onCloseDialog();
 							}.bind(this)						
 						}),
 						endButton: new Button({
