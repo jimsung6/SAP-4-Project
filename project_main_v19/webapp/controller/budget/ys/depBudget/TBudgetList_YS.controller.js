@@ -91,11 +91,12 @@ sap.ui.define([
 		fragmentDataCall : function(GCODE){
 			var oModel = this.getView().getModel();
 			var ZVEMPNO = this.getOwnerComponent().getCookiy("EMPNO");
-			this.getOwnerComponent().rfcCall("ZB_REQUEST_TBUDGET_01", {	// 본인이 호출하고 싶은 RFC명 입력.
+			this.getOwnerComponent().rfcCall2("ZB_REQUEST_TBUDGET_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_GCODE : GCODE,
 				I_AUEMP : ZVEMPNO
 			}).done(function(oResultData){	// RFC호출 완료
+				console.log(oResultData.TEAMTAB2)
 				oModel.setProperty("/teamBudgetRequest", oResultData.TEAMTAB2[0])
 			}).fail(function(sErrorMessage){// 호출 실패
 				alert(sErrorMessage);
@@ -243,6 +244,7 @@ sap.ui.define([
 			var oEventData = gPath.replace("/teamBudgetList/", "");
 			parseInt(oEventData);
 			var tableData = this.getView().getModel().getProperty("/teamBudgetList");
+			console.log(tableData)
 			this.fragmentDataCall(tableData[oEventData].GCODE);
 			// create dialog lazily
 			if (!this.byId("openDialog1")) {
