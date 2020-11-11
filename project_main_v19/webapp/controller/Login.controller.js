@@ -18,9 +18,7 @@ sap.ui.define([
                password : ""
             }), "login");
             
-            this.getView().getModel("login").setProperty("/id", 20101200001);
-            this.getView().getModel("login").setProperty("/password", 1314);
-
+      
             console.log("app onInit");
 
          },
