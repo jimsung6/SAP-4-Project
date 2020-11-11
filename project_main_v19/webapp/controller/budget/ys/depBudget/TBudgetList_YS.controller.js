@@ -111,12 +111,6 @@ sap.ui.define([
 			if(comboData === "All" || !comboData){
 				comboData = "";
 			};
-
-			console.log(comboData+"/");
-			console.log(sStartDateInfo+"/");
-			console.log(sEndDateInfo+"/");
-			console.log(sData+"/");
-			console.log(ZVEMPNO+"/");
 			this.getOwnerComponent().rfcCall("ZB_GET_TREQUEST_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_STATUS : comboData,
@@ -254,6 +248,7 @@ sap.ui.define([
 			var oEventData = gPath.replace("/teamBudgetList/", "");
 			parseInt(oEventData);
 			var tableData = this.getView().getModel().getProperty("/teamBudgetList");
+			console.log(tableData);
 			this.fragmentDataCall(tableData[oEventData].GCODE);
 			// create dialog lazily
 			if (!this.byId("openDialog1")) {
@@ -276,9 +271,11 @@ sap.ui.define([
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
 		onCloseDialog : function (sData) {
+			this.byId("openDialog1").close();
+			this.byId("openDialog1").destroy();
+			delete this.byId("openDialog1");
 			var projectModel3 = this.getView().getModel();
 			this.listRfcFunction(projectModel3);
-			this.byId("openDialog1").close();
 		},
 		/******************************************************************************************************************************************************
 		 * 함수 이름 : 예산 증액 요청 FRAGMENT 요청 메소드
