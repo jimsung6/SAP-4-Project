@@ -356,7 +356,7 @@ sap.ui.define([
 			
 			var oModel = this.getView().getModel("TEST");
 			
-			this.getOwnerComponent().rfcCall("ZB_VIEW_91", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+			this.getOwnerComponent().rfcCall("ZB_VIEW_91", {
             //RFC Import 데이터
             I_FROMDATE : sFromDateInfo,
             I_TODATE : sToDateInfo,
@@ -368,22 +368,9 @@ sap.ui.define([
 			I_AUCODE : AUCODE,
 			I_AUEMPNO : AUEMPNO
 		 }).done(function(oResultData){   // RFC호출 완료
-			// for(var i = 0 ; i < oResultData.T_PAYTAB.length ; i++){
-			// 	if(oResultData.T_PAYTAB[i].STCOD === "C"){
-			// 		oResultData.T_PAYTAB[i].STCOD = "미결"
-			// 	}else if(oResultData.T_PAYTAB[i].STCOD === "E"){
-			// 		oResultData.T_PAYTAB[i].STCOD = "완결"
-			// 	}else{
-			// 		oResultData.T_PAYTAB[i].STCOD = "반려"
-			// 	}
-			// }
 			oModel.setProperty("/View", oResultData.T_PAYTAB); //TEST라고 하는 모델에 view라고하는 빈 배열이 있고 거기에 setProperty로 지정
 				var sRetcode = oModel.setProperty("/sRetcode", null);
 				var sCacnr = oModel.setProperty("/sCacnr", null);
-				// for(var i = 0; i<sRetcode.length; i++){
-				// 	sRetcode[i] = "";
-				// 	sCacnr[i] = "";
-				// }
          }).fail(function(sErrorMessage){// 호출 실패
             MessageToast.show(sErrorMessage);
 		 });
@@ -527,7 +514,7 @@ sap.ui.define([
 				}  else{
 			var selectTable = payModel.getProperty("/test");
 					////   RFC호출
-				 that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+				 that.getOwnerComponent().rfcCall("ZB_GIV_PAY_90", {
 				 //RFC Import 데이터
 				 T_GIVTAB : selectTable
 			   }).done(function(oResultData){   // RFC호출 완료
@@ -564,7 +551,7 @@ sap.ui.define([
 				var oCodeData = that.getView().getModel("TEST").getProperty("/sRetcode");
 				var pRetcode = oCodeData.retcode;
 				////   RFC호출
-				   that.getOwnerComponent().rfcCall("ZB_REJ_PAY_92", {   // 본인이 호출하고 싶은 RFC명 입력. 여기서는 예제로 zbsfm20_03를 사용
+				   that.getOwnerComponent().rfcCall("ZB_REJ_PAY_92", {
 					  //RFC Import 데이터
 					  T_RETTAB : selectTable
 				   }).done(function(oResultData){   // RFC호출 완료
