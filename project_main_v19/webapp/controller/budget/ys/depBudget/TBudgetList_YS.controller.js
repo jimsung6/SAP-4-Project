@@ -111,6 +111,12 @@ sap.ui.define([
 			if(comboData === "All" || !comboData){
 				comboData = "";
 			};
+
+			console.log(comboData+"/");
+			console.log(sStartDateInfo+"/");
+			console.log(sEndDateInfo+"/");
+			console.log(sData+"/");
+			console.log(ZVEMPNO+"/");
 			this.getOwnerComponent().rfcCall("ZB_GET_TREQUEST_01", {	// 본인이 호출하고 싶은 RFC명 입력.
 				//RFC Import 데이터
 				I_STATUS : comboData,
@@ -171,6 +177,7 @@ sap.ui.define([
 		 * 작성자 : 노용석
 		 ******************************************************************************************************************************************************/
 		onFilterSearch : function(sChannelId, sEventId, sData) {
+			console.log(sData)
 			//캘린더 데이터 불러오기
 			var startDate = this.getView().getModel().getProperty("/startDate"); //startDate
 			var endDate = this.getView().getModel().getProperty("/endDate");
@@ -198,10 +205,9 @@ sap.ui.define([
 			//프로젝트 코드 데이터 불러오기
 			var projectModel3 = this.getView().getModel();
 			if (sData){
-				this.listRfcFunction(projectModel3, sStartDateInfo, sEndDateInfo, comboData, sData.text);
-				console.log(sData.text);
+				this.listRfcFunction(projectModel3, comboData, sStartDateInfo, sEndDateInfo, sData.text);
 			}else{
-				this.listRfcFunction(projectModel3, sStartDateInfo, sEndDateInfo, comboData);
+				this.listRfcFunction(projectModel3, comboData, sStartDateInfo, sEndDateInfo);
 			}		
 		},
 		/******************************************************************************************************************************************************
